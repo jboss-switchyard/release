@@ -95,7 +95,7 @@
           </listitem>
           <listitem>
             <para>
-              <code>port</code>
+              <code>wsdlPort</code>
               : port name in the WSDL to use.  If unspecified, the first port definition in the WSDL is used for the service endpoint
             </para>
           </listitem>
@@ -136,7 +136,7 @@
           </listitem>
           <listitem>
             <para>
-              <code>port</code>
+              <code>wsdlPort</code>
               : port name in the WSDL to use.  If unspecified, the first port definition in the WSDL is used for the service endpoint.
             </para>
           </listitem>
@@ -144,7 +144,9 @@
         <informalexample>
           <programlisting>&lt;sca:composite&gt;
     &lt;sca:reference name="WarehouseService" promote="OrderComponent/WarehouseService"&gt;
-        &lt;camel:binding.camel configURI="file://target/output"/&gt;
+        &lt;soap:binding.soap&gt;
+            &lt;soap:wsdl&gt;wsdl/OrderService.wsdl&lt;/soap:wsdl&gt;
+         &lt;/soap:binding.soap&gt;
     &lt;/sca:reference&gt;
 &lt;/sca:composite&gt;</programlisting>
         </informalexample>
