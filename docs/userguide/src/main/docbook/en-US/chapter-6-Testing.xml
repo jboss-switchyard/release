@@ -81,6 +81,12 @@ public class MyServiceTest extends SwitchYardTestCase  {   
         </listitem>
         <listitem>
           <para>
+            <code>BPMMixIn</code>
+            : utility methods for working with jBPM 5 Human Tasks (like starting/stoping a TaskServer).
+          </para>
+        </listitem>
+        <listitem>
+          <para>
             <code>SmooksMixIn</code>
             : stand-alone testing of any Smoooks transformers in your application.
           </para>
