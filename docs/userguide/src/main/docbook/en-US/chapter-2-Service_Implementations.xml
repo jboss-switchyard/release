@@ -137,12 +137,12 @@ public class JavaDSLBuilder extends RouteBuilder {
         </para>
         <informalexample>
           <programlisting>&lt;component name="JavaDSLBuilder"&gt;
-    &lt;service name="JavaDSL"&gt;
-        &lt;interface.java interface="org.switchyard.quickstarts.camel.service.JavaDSL"/&gt;
-    &lt;/service&gt;
     &lt;implementation.camel xmlns="urn:switchyard-component-camel:config:1.0"&gt;
         &lt;java class="org.switchyard.quickstarts.camel.service.JavaDSLBuilder"/&gt;
     &lt;/implementation.camel&gt;
+    &lt;service name="JavaDSL"&gt;
+        &lt;interface.java interface="org.switchyard.quickstarts.camel.service.JavaDSL"/&gt;
+    &lt;/service&gt;
 &lt;/component&gt;</programlisting>
         </informalexample>
         <important>
@@ -162,21 +162,21 @@ public class JavaDSLBuilder extends RouteBuilder {
         </para>
         <informalexample>
           <programlisting>&lt;sca:component name="CamelComponent"&gt;
-    &lt;sca:service name="OrderService" &gt;
-        &lt;sca:interface.java interface="org.switchyard.component.camel.deploy.support.OrderService"/&gt;
-    &lt;/sca:service&gt;
-
-    &lt;sca:reference name="WarehouseService"&gt;
-        &lt;sca:interface.java interface="org.switchyard.component.camel.deploy.support.WarehouseService"/&gt;
-    &lt;/sca:reference&gt;
-
-    &lt;implementation.camel&gt;
+    &lt;implementation.camel xmlns="urn:switchyard-component-camel:config:1.0"&gt;
         &lt;route xmlns="http://camel.apache.org/schema/spring" id="Camel Test Route"&gt;
             &lt;log message="ItemId [${body}]"/&gt;
             &lt;to uri="switchyard://WarehouseService?operationName=hasItem"/&gt;
             &lt;log message="Title Name [${body}]"/&gt;
         &lt;/route&gt;
      &lt;/implementation.camel&gt;
+
+    &lt;sca:service name="OrderService" &gt;
+        &lt;sca:interface.java interface="org.switchyard.component.camel.deploy.support.OrderService"/&gt;
+    &lt;/sca:service&gt;
+
+    &lt;sca:reference name="WarehouseService" multiplicity="1..1"&gt;
+        &lt;sca:interface.java interface="org.switchyard.component.camel.deploy.support.WarehouseService"/&gt;
+    &lt;/sca:reference&gt;
 &lt;/sca:component&gt;</programlisting>
         </informalexample>
         <para>
