@@ -1,5 +1,5 @@
 
-Welcome to SwitchYard 0.1!  This doc contains some useful links to help you
+Welcome to SwitchYard 0.2!  This doc contains some useful links to help you
 get up and running with SwitchYard.
 
 Documentation
@@ -23,6 +23,9 @@ switchyard-users@lists.jboss.org
 
 Release Details
 ===============
+- 0.2.0
+https://issues.jboss.org/secure/ReleaseNote.jspa?projectId=12311104&version=12316147
+
 - 0.1.0
 https://issues.jboss.org/secure/ReleaseNote.jspa?projectId=12311104&version=12315709
 

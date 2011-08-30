@@ -59,6 +59,10 @@
     <dependencies>
         <dependency>
             <groupId>org.switchyard</groupId>
+            <artifactId>switchyard-release-distribution</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard</groupId>
             <artifactId>switchyard-release-testutil</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -184,6 +188,24 @@
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${staging.dir}</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stage-distribution-files</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.switchyard</groupId>
+                                    <artifactId>switchyard-release-distribution</artifactId>
+                                    <type>jar</type>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${staging.jboss.home}</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
