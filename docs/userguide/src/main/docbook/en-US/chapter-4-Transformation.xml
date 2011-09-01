@@ -146,12 +146,108 @@
       <para>
         The
         <ulink url="http://www.json.org">JSON</ulink>
-        transformer provides a basically mapping facility between POJOs and JSON using the popular Jackson processor.  Specification of the transformer requires one Java type and one named type.  The following example converts a JSON serialization of an order to the Order object.
+        transformer provides a basic mapping facility between POJOs and JSON  (JSON marshalling and unmarshalling). Just like the
+        <link linkend="sid-2654312_Transformation-JAXBTransformer">JAXB Transformer</link>
+        , specification of the transformer requires a
+        <code>to</code>
+        and
+        <code>from</code>
+        specification with one Java type and one QNamed JSON type, depending on whether you're performing a Java to JSON or JSON to Java transformation.
       </para>
+      <para>The following configuration illustrates a JSON to Java transformation.</para>
       <informalexample>
         <programlisting>&lt;trfm:transform.json
             from="{urn:switchyard-quickstart:transform-json:1.0}order"
             to="java:org.switchyard.quickstarts.transform.json.Order"/&gt;</programlisting>
       </informalexample>
+      <para>The following configuration illustrates a Java to JSON transformation of the same types as above.</para>
+      <informalexample>
+        <programlisting>&lt;trfm:transform.json
+            from="java:org.switchyard.quickstarts.transform.json.Order"
+            to="{urn:switchyard-quickstart:transform-json:1.0}order"/&gt;</programlisting>
+      </informalexample>
+    </section>
+    <section id="sid-2654312_Transformation-XSLTTransformer">
+      
+      <title>XSLT Transformer</title>
+      <para>
+        The
+        <ulink url="http://www.w3.org/TR/xslt">XSLT</ulink>
+        transformer allows you to perform a transformation between 2 types, using an
+        <ulink url="http://www.w3.org/TR/xslt">XSLT</ulink>
+        .  It is configured simply by specifying the
+        <code>to</code>
+        and
+        <code>from</code>
+        QNames, as well as the path to the XSLT to be applied.
+      </para>
+      <informalexample>
+        <programlisting>&lt;transform.xslt from="{http://acme/}A" to="{http://acme/}B" xsltFile="com/acme/xslt/A2B.xslt"/&gt;</programlisting>
+      </informalexample>
+    </section>
+    <section id="sid-2654312_Transformation-JAXBTransformer">
+      
+      <title>JAXB Transformer</title>
+      <para>
+        The
+        <ulink url="http://java.sun.com/xml/downloads/jaxb.html">JAXB</ulink>
+        transformer allows you to perform Java to XML (and XML to Java) transformations using
+        <ulink url="http://java.sun.com/xml/downloads/jaxb.html">JAXB</ulink>
+        (XML marshalling and unmarshalling).  It is exactly like the
+        <link linkend="sid-2654312_Transformation-JSONTransformer">JSON Transformer</link>
+        in terms of how it is configured i.e. a
+        <code>to</code>
+        and
+        <code>from</code>
+        configuration with one Java type and one QNamed XML type.
+      </para>
+      <section id="sid-2654312_Transformation-JAXBJavaModelCreation">
+        
+        <title>JAXB Java Model Creation</title>
+        <para>JAXB Java models can be generated from an XML Schema using XJC, or from a WSDL using tools like wsconsume (.sh/.bat), which is shipped with both SwitchYard AS6 and AS7 distros (in the bin directory).</para>
+      </section>
+      <section id="sid-2654312_Transformation-JAXBTransformerConfigurations">
+        
+        <title>JAXB Transformer Configurations</title>
+        <para>
+          Working out the available transformations is quite simple.  Just look in the
+          <code>ObjectFactory</code>
+          class source file (
+          <code>ObjectFactory.java</code>
+          ).  In this source file you will see factory methods representing the available marshallings/unmarshallings e.g.
+        </para>
+        <informalexample>
+          <programlisting>@XmlElementDecl(namespace = "http://com.acme/orders", name = "create")
+public JAXBElement&lt;CreateOrder&gt; createOrder(CreateOrder value) {
+    return new JAXBElement&lt;Order&gt;(_CreateOrder_QNAME, CreateOrder.class, null, value);
+}</programlisting>
+        </informalexample>
+        <para>
+          In the above example, the
+          <code>@XmlElementDecl</code>
+          annotation tells us that the XML QName associated with the
+          <code>com.acme.orders.CreateOrder</code>
+          type is "
+          <emphasis role="italics">
+            {
+            <ulink url="http://com.acme/orders"/>
+            }create
+          </emphasis>
+          ".  From this, we can deduce that we have the following possible SwitchYard JAXB Transformer configurations:
+        </para>
+        <informalexample>
+          <programlisting>&lt;transform.jaxb from="{http://com.acme/orders}create" to="java:com.acme.orders.CreateOrder" /&gt;
+&lt;transform.jaxb from="java:com.acme.orders.CreateOrder" to="{http://com.acme/orders}create" /&gt;</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-2654312_Transformation-AutomaticallyDetectedJAXBTransformations">
+        
+        <title>Automatically Detected JAXB Transformations</title>
+        <para>
+          One of the nice things about the JAXB Transformer integrations in SwitchYard is the fact that JAXB Transformations are automatically detected and automatically added, for your application deployment.  So, if for example, you develop a
+          <link linkend="sid-2654306">CDI Bean Service</link>
+          and use JAXB generated types in the Service Interface, you will not need to configure any of the transformations.  SwitchYard will automatically detect their availability for your application and will automatically apply them at the appropriate time during service invocation.
+        </para>
+      </section>
     </section>
   </chapter>

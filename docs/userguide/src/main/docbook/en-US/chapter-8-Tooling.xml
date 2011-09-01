@@ -46,6 +46,18 @@ Wrote /private/tmp/syApp/src/main/resources/META-INF/forge.xml
           </listitem>
           <listitem>
             <para>
+              <emphasis role="strong">switchyard.bpm</emphasis>
+              - commands and dependencies for BPM component services
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <emphasis role="strong">switchyard.rules</emphasis>
+              - commands and dependencies for Rules component services
+            </para>
+          </listitem>
+          <listitem>
+            <para>
               <emphasis role="strong">switchyard.soap</emphasis>
               - commands and dependencies for SOAP gateway bindings
             </para>
@@ -96,6 +108,27 @@ Wrote /private/tmp/syApp/src/main/resources/META-INF/forge.xml
               : promotes an internal application-scoped reference so that it can be mapped to services provided in other applications.
             </para>
           </listitem>
+          <listitem>
+            <para>
+              s
+              <code>witchyard create-service-test</code>
+              : create a new unit test for a service.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              s
+              <code>witchyard get-version</code>
+              : returns the version of SwitchYard used by the application.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              s
+              <code>witchyard trace-messages</code>
+              : enables message tracing at runtime - all messages will be logged.
+            </para>
+          </listitem>
         </itemizedlist>
         <para>
           <emphasis role="strong">
@@ -107,6 +140,32 @@ Wrote /private/tmp/syApp/src/main/resources/META-INF/forge.xml
             <para>
               <code>bean-service create</code>
               : creates a new CDI Bean service, consisting of a service interface and implementation class.
+            </para>
+          </listitem>
+        </itemizedlist>
+        <para>
+          <emphasis role="strong">
+            <emphasis role="italics">switchyard.bpm</emphasis>
+          </emphasis>
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>
+              <code>bpm-service create</code>
+              : creates a new BPM service, consisting of a service interface and implementation class.
+            </para>
+          </listitem>
+        </itemizedlist>
+        <para>
+          <emphasis role="strong">
+            <emphasis role="italics">switchyard.rules</emphasis>
+          </emphasis>
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>
+              <code>rules-service create</code>
+              : creates a new Rules service, consisting of a service interface and implementation class.
             </para>
           </listitem>
         </itemizedlist>
@@ -155,6 +214,205 @@ Wrote /private/tmp/syApp/src/main/resources/META-INF/forge.xml
             </para>
           </listitem>
         </itemizedlist>
+      </section>
+    </section>
+    <section id="sid-7307411">
+      
+      <title>Administration Console</title>
+      <section id="sid-7307411_AdministrationConsole-Overview">
+        
+        <title>Overview</title>
+        <para>A web based administration console is provided for viewing important aspects of a SwitchYard application.</para>
+        <para>Currently, the console provides a read-only view of the applications and services deployed to the SwitchYard runtime.  This functionality will be extended in the future to provide access for configuring and monitoring SwitchYard applications and services.</para>
+        <section id="sid-7307411_AdministrationConsole-SupportedEnvironments">
+          
+          <title>Supported Environments</title>
+          <para>Currently, the web console is only available for SwitchYard installations on AS7 and is included by default in the 0.2.0 SwitchYard AS7 release bundle.</para>
+        </section>
+        <section id="sid-7307411_AdministrationConsole-AccessingtheConsole">
+          
+          <title>Accessing the Console</title>
+          <para>
+            The console is exposed on the "/switchyard" path of the web server instance in which it is deployed (
+            <ulink url="http://localhost:8080/switchyard"/>
+            by default).  If you are using the SwitchYard AS7 release bundle, a link to the SwitchYard console is provided on the application server's welcome page (
+            <ulink url="http://localhost:8080"/>
+            by default).
+          </para>
+        </section>
+      </section>
+      <section id="sid-7307411_AdministrationConsole-ConsoleLayout">
+        
+        <title>Console Layout</title>
+        <para>The console consists of a navigation panel on the left side of the screen and a content panel on the right.  The navigation panel is divided into three sections:</para>
+        <itemizedlist>
+          <listitem>
+            <para>Applications - SwitchYard applications deployed on the system.</para>
+          </listitem>
+          <listitem>
+            <para>Services - Services exposed by SwitchYard applications.</para>
+          </listitem>
+          <listitem>
+            <para>System - System details.</para>
+          </listitem>
+        </itemizedlist>
+        <para>Clicking on one of the items listed under any section will cause its details to be displayed in the content panel to the right of the navigator.</para>
+      </section>
+      <section id="sid-7307411_AdministrationConsole-ApplicationDetails">
+        
+        <title>Application Details</title>
+        <para>
+          Clicking on an item under the
+          <emphasis role="italics">Applications</emphasis>
+          section in the navigator will open the application details in the content panel.  This panel displays a
+          <emphasis role="italics">Services</emphasis>
+          and
+          <emphasis role="italics">Transformers</emphasis>
+          tab.
+        </para>
+        <section id="sid-7307411_AdministrationConsole-Services">
+          
+          <title>Services</title>
+          <para>
+            The
+            <emphasis role="italics">Services</emphasis>
+            tab displays information about the services deployed by the application.  This information includes the services exported by the application and the components used to implement the services.
+          </para>
+          <para>
+            The
+            <emphasis role="italics">Services</emphasis>
+            table displays the services exported by the application.  The table provides the following details:
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>Name - The name of the service.</para>
+            </listitem>
+            <listitem>
+              <para>Promoted Service - The name of the component service providing the implementation for the service.</para>
+            </listitem>
+          </itemizedlist>
+          <para>
+            Clicking on an item in the
+            <emphasis role="italics">Name</emphasis>
+            column will load the service details for the selected service.  Clicking on an item in the
+            <emphasis role="italics">Promoted Service</emphasis>
+            column will highlight the component used to implement the service in the Component Services table.
+          </para>
+          <para>
+            The
+            <emphasis role="italics">Component Services</emphasis>
+            table displays the components of which the application is comprised.  This table provides the following details:
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>Name - The name of the component.</para>
+            </listitem>
+            <listitem>
+              <para>Interface - The interface implemented by the component.</para>
+            </listitem>
+            <listitem>
+              <para>Implementation - Provides a link for viewing the implementation details of the component.</para>
+            </listitem>
+          </itemizedlist>
+          <para>
+            Clicking on an item in the
+            <emphasis role="italics">Implementation</emphasis>
+            column will open a dialog detailing the component's implementation.
+          </para>
+          <para>
+            The
+            <emphasis role="italics">Implementation</emphasis>
+            dialog provides the following information:
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>The technology used to implement the component (e.g. Camel).</para>
+            </listitem>
+            <listitem>
+              <para>A list of references required by the component.</para>
+            </listitem>
+            <listitem>
+              <para>The raw configuration for the implementation.</para>
+            </listitem>
+          </itemizedlist>
+        </section>
+        <section id="sid-7307411_AdministrationConsole-Transformers">
+          
+          <title>Transformers</title>
+          <para>
+            The
+            <emphasis role="italics">Transformers</emphasis>
+            tab provides information about the transformers deployed by the application and is comprised of a table providing the following details:
+          </para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                From - The
+                <emphasis role="italics">from</emphasis>
+                type supported by the transformer.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                To - The
+                <emphasis role="italics">to</emphasis>
+                type supported by the transformer.
+              </para>
+            </listitem>
+            <listitem>
+              <para>Type - The implementation technology used by the transformer (e.g. Java, XSLT, etc.).</para>
+            </listitem>
+          </itemizedlist>
+        </section>
+      </section>
+      <section id="sid-7307411_AdministrationConsole-ServiceDetails">
+        
+        <title>Service Details</title>
+        <para>
+          Clicking on an item under the
+          <emphasis role="italics">Services</emphasis>
+          section in the navigator will open the service details in the content panel.  This panel displays details about the selected service.  This includes:
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>Application - The application providing the service.</para>
+          </listitem>
+          <listitem>
+            <para>Interface - The interface provided by the service.</para>
+          </listitem>
+          <listitem>
+            <para>Promoted Service - The component used to implement the service.</para>
+          </listitem>
+          <listitem>
+            <para>Gateway Details - Details about the gateways provided for accessing the service.</para>
+          </listitem>
+        </itemizedlist>
+        <para>
+          The
+          <emphasis role="italics">Gateway Details</emphasis>
+          table provides the following information for each of the gateways provided for the service:
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>Type - The type of gateway (e.g. SOAP, HornetQ, etc.).</para>
+          </listitem>
+          <listitem>
+            <para>Configuration - Provides a link for viewing the configuration details of the gateway.</para>
+          </listitem>
+        </itemizedlist>
+        <para>
+          Clicking on an item in the
+          <emphasis role="italics">Configuration</emphasis>
+          column of the
+          <emphasis role="italics">Gateways</emphasis>
+          table opens a dialog displaying the raw configuration for the gateway.
+        </para>
+      </section>
+      <section id="sid-7307411_AdministrationConsole-SystemDetails">
+        
+        <title>System Details</title>
+        <para>The system details page is the default page of the console.  This page displays information pertaining to the SwitchYard system.</para>
+        <para>Currently, this page simply displays the version of the SwitchYard runtime.</para>
       </section>
     </section>
   </chapter>

@@ -39,7 +39,7 @@
         </itemizedlist>
         <para>Here's an example of what a service binding looks like using a Camel component.</para>
         <informalexample>
-          <programlisting>&lt;sca:composite&gt;
+          <programlisting>&lt;sca:composite name="SimpleCamelService" targetNamespace="urn:userguide:simple-camel-service:0.1.0"&gt;
     &lt;sca:service name="SimpleCamelService" promote="SimpleComponent/SimpleCamelService"&gt;
         &lt;camel:binding.camel configURI="file://target/input?fileName=test.txt&amp;amp;initialDelay=50&amp;amp;delete=true"&gt;
             &lt;camel:operationSelector operationName="print"/&gt;
@@ -54,8 +54,8 @@
         <title>Binding References with Camel</title>
         <para>Binding a reference with Camel is very similar to binding a service.  The only significant difference is that specification of the operationSelector is not required on reference bindings.</para>
         <informalexample>
-          <programlisting>&lt;sca:composite&gt;
-    &lt;sca:reference name="WarehouseService" promote="OrderComponent/WarehouseService"&gt;
+          <programlisting>&lt;sca:composite name="orders" targetNamespace="urn:switchyard-quickstart-demo:orders:0.1.0"&gt;
+    &lt;sca:reference name="WarehouseService" promote="OrderComponent/WarehouseService" multiplicity="1..1"&gt;
         &lt;camel:binding.camel configURI="file://target/output"/&gt;
     &lt;/sca:reference&gt;
 &lt;/sca:composite&gt;</programlisting>
@@ -95,8 +95,20 @@
           </listitem>
           <listitem>
             <para>
-              <code>port</code>
+              <code>serverHost</code>
+              : host name or ip address that the HTTP service should bind to for the SOAP endpoint.  Defaults to localhost if unspecified.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>wsdlPort</code>
               : port name in the WSDL to use.  If unspecified, the first port definition in the WSDL is used for the service endpoint
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>contextPath</code>
+              : additional context path for the SOAP endpoint. Default is none.
             </para>
           </listitem>
         </itemizedlist>
@@ -105,7 +117,7 @@
         </important>
         <para>Here's an example of what a SOAP service binding looks like:</para>
         <informalexample>
-          <programlisting>&lt;sca:composite name="orderApp"&gt;
+          <programlisting>&lt;sca:composite name="orders" targetNamespace="urn:switchyard-quickstart-demo:orders:0.1.0"&gt;
     &lt;sca:service name="OrderService" promote="OrderService"&gt;
         &lt;soap:binding.soap&gt;
             &lt;soap:wsdl&gt;wsdl/OrderService.wsdl&lt;/soap:wsdl&gt;
@@ -136,15 +148,17 @@
           </listitem>
           <listitem>
             <para>
-              <code>port</code>
+              <code>wsdlPort</code>
               : port name in the WSDL to use.  If unspecified, the first port definition in the WSDL is used for the service endpoint.
             </para>
           </listitem>
         </itemizedlist>
         <informalexample>
-          <programlisting>&lt;sca:composite&gt;
-    &lt;sca:reference name="WarehouseService" promote="OrderComponent/WarehouseService"&gt;
-        &lt;camel:binding.camel configURI="file://target/output"/&gt;
+          <programlisting>&lt;sca:composite name="orders" targetNamespace="urn:switchyard-quickstart-demo:orders:0.1.0"&gt;
+    &lt;sca:reference name="WarehouseService" promote="OrderComponent/WarehouseService" multiplicity="1..1"&gt;
+         &lt;soap:binding.soap&gt;
+            &lt;soap:wsdl&gt;wsdl/OrderService.wsdl&lt;/soap:wsdl&gt;  
+         &lt;/soap:binding.soap&gt;
     &lt;/sca:reference&gt;
 &lt;/sca:composite&gt;</programlisting>
         </informalexample>

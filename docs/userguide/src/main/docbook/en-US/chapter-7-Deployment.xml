@@ -6,21 +6,23 @@
     <section id="sid-2654315_Deployment-AvailableRuntimes">
       
       <title>Available Runtimes</title>
-      <para>The 0.1 release of SwitchYard supports the following deployment options:</para>
-      <itemizedlist>
+      <para>The 0.2.0 release of SwitchYard supports the following deployment options:</para>
+      <orderedlist>
         <listitem>
-          <para>JBoss Application Server 6.0 Final</para>
+          <para>SwitchYard AS6 (JBoss AS6 with SwitchYard pre-installed)</para>
         </listitem>
         <listitem>
-          <para>JBoss Application Server 7.0 Beta 3</para>
+          <para>SwitchYard AS7 (JBoss AS7 with SwitchYard pre-installed)</para>
         </listitem>
-      </itemizedlist>
-      <para>At present, you must use the SwitchYard distribution of AS6 or AS7 with SwitchYard pre-installed.  Future releases of SwitchYard will add support for additional runtimes and the option for installing SwitchYard in an existing application server.</para>
+        <listitem>
+          <para>Servlet Container (.war) deployment.</para>
+        </listitem>
+      </orderedlist>
     </section>
-    <section id="sid-2654315_Deployment-JBossAS6.0">
+    <section id="sid-2654315_Deployment-SwitchYardAS6">
       
-      <title>JBoss AS 6.0</title>
-      <para>Deployment on JBoss AS6 is the same old, same old.  Simply copy your SwitchYard application to the the server's deploy directory and the SwitchYard deployer will take care of the rest.</para>
+      <title>SwitchYard AS6</title>
+      <para>Deployment on SwitchYard AS6 (based on JBoss AS6) is the same old, same old.  Simply copy your SwitchYard application to the the server's deploy directory and the SwitchYard deployer will take care of the rest.</para>
       <informalexample>
         <programlisting>cp myapp.jar $JBOSS_HOME/server/default/deploy/.</programlisting>
       </informalexample>
@@ -29,11 +31,11 @@
         <programlisting>rm $JBOSS_HOME/server/default/deploy/myapp.jar</programlisting>
       </informalexample>
     </section>
-    <section id="sid-2654315_Deployment-JBossAS7.0">
+    <section id="sid-2654315_Deployment-SwitchYardAS7">
       
-      <title>JBoss AS 7.0</title>
+      <title>SwitchYard AS7</title>
       <para>
-        Things are a bit different in JBoss AS7.  Auto-deploy still exists, but there are some subtle changes to the process.  Deploy is still just a matter of copying the archive to the server, but the target directory should be
+        Things are a bit different in SwitchYard AS7 (based on JBoss AS7).  Auto-deploy still exists, but there are some subtle changes to the process.  Deploy is still just a matter of copying the archive to the server, but the target directory should be
         <code>standalone/deployments</code>
         .
       </para>
@@ -53,5 +55,284 @@
         <code>README.txt</code>
         file contained in the standalone/deployments directory of the distribution.
       </para>
+      <section id="sid-2654315_Deployment-WebArchiveDeploymentsonSwitchYardAS7">
+        
+        <title>Web Archive Deployments on SwitchYard AS7</title>
+        <para>The following guidelines/tips apply when deploying Web Archive (.war) based SwitchYard deployments on a SwitchYard AS7 distribution.</para>
+        <para>
+          See the
+          <ulink url="https://docs.jboss.org/author/pages/viewpage.action?pageId=2883622">"orders" quickstart</ulink>
+          (in the demos folder) as an example of .war deployment on SwitchYard AS7.
+        </para>
+        <section id="sid-2654315_Deployment-ApplicationDependencies">
+          
+          <title>Application Dependencies</title>
+          <para>When running on SwitchYard AS7, remember that all the SwitchYard dependencies are provided by the container, so there's no need to bundle them inside your applications .war file.  If using maven to build your application, simply set &lt;scope&gt;provided&lt;/scope&gt; on all the SwitchYard dependencies.</para>
+        </section>
+        <section id="sid-2654315_Deployment-SwitchYardMavenPluginConfiguration">
+          
+          <title>SwitchYard Maven Plugin Configuration</title>
+          <para>
+            Some maven POM tweaks are required when using both the
+            <code>switchyard-plugin</code>
+            and
+            <code>maven-war-plugin</code>
+            plugins to build a SwitchYard deployable .war file.  By default, the
+            <code>switchyard-plugin</code>
+            expects the base
+            <code>switchyard.xml</code>
+            file to be located at
+            <code>src/main/resources/META-INF/</code>
+            within your maven project structure.  This results in the
+            <code>maven-war-plugin</code>
+            putting the generated
+            <code>switchyard.xml</code>
+            (base
+            <code>switchyard.xml</code>
+            + scanned additions) into
+            <code>WEB-INF/classes/META-INF/</code>
+            in the generated .war artifact.  This is fine when deploying a .war file on Tomcat (or other pure Servlet Container), but not when deploying on SwitchYard AS7, because the SwitchYard AS7 deployer is what's doing the SwitchYard deployment work.  When deploying a .war on SwitchYard AS7, we need the generated
+            <code>switchyard.xml</code>
+            to be in
+            <code>META-INF/</code>
+            , where it can be located by the SwitchYard AS7 deployer.
+          </para>
+          <para>
+            In order to do this we need to move away from the defaults a little bit.  We need to locate the base
+            <code>switchyard.xml</code>
+            somewhere other than in
+            <code>src/main/resources/META-INF/</code>
+            , and configure the
+            <code>switchyard-plugin</code>
+            and
+            <code>maven-war-plugin</code>
+            accordingly.  Lets assume we put the base
+            <code>switchyard.xml</code>
+            in
+            <code>src/main/webResources/META-INF/</code>
+            :
+          </para>
+          <para>
+            <figure>
+<title>TODO InformalFigure image title empty</title>
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="author/download/attachments/2654315/Screen+shot+2011-08-31+at+14.04.30.png"/>
+                </imageobject>
+              </mediaobject>
+            </figure>
+          </para>
+          <para>
+            The POM configuration changes (away from the default) to the
+            <code>switchyard-plugin</code>
+            and
+            <code>maven-war-plugin</code>
+            plugins would be as follows:
+          </para>
+          <informalexample>
+            <programlisting>&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    ...
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+ 
+            ...
+
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.switchyard&lt;/groupId&gt;
+                &lt;artifactId&gt;switchyard-plugin&lt;/artifactId&gt;
+                &lt;version&gt;0.3.0-SNAPSHOT&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;scannerClassNames&gt;
+                        &lt;param&gt;org.switchyard.component.bean.config.model.BeanSwitchYardScanner&lt;/param&gt;
+                        &lt;param&gt;org.switchyard.transform.config.model.TransformSwitchYardScanner&lt;/param&gt;
+                        ...
+                    &lt;/scannerClassNames&gt;
+                    &lt;!-- 
+                        Specify specific scan directories to reflect the new location of the
+                        base switchyard.xml ...
+                    --&gt;
+                    &lt;scanDirectories&gt;
+                        &lt;param&gt;target/classes&lt;/param&gt;
+                        &lt;param&gt;src/main/webResources&lt;/param&gt;
+                    &lt;/scanDirectories&gt;
+                    &lt;!-- 
+                        Specify different output directory for the generated switchyard.xml because we don't
+                        want it ending up in WEB-INF/classes/META-INF.  The maven-war-plugin is configured to
+                        pick up the generated switchyard.xml from this new location...
+                    --&gt;
+                    &lt;outputDirectory&gt;target/switchyard_xml&lt;/outputDirectory&gt;
+                &lt;/configuration&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;configure&lt;/goal&gt;
+                        &lt;/goals&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.1.1&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! --&gt;
+                    &lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;
+                    &lt;webResources&gt;
+                        &lt;resource&gt;
+                            &lt;!-- 
+                                Pick up the generated switchyard.xml from location specified by 
+                                the switchyard-plugin...
+                            --&gt;
+                            &lt;directory&gt;target/switchyard_xml&lt;/directory&gt;
+                        &lt;/resource&gt;
+                    &lt;/webResources&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+
+            ...
+
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</programlisting>
+          </informalexample>
+          <para>
+            See the
+            <ulink url="https://docs.jboss.org/author/pages/viewpage.action?pageId=2883622">"orders" quickstart</ulink>
+            (in the demos folder) as an example of .war deployment on SwitchYard AS7.
+          </para>
+        </section>
+      </section>
+    </section>
+    <section id="sid-2654315_Deployment-ServletContainerDeployment">
+      
+      <title>Servlet Container Deployment</title>
+      <para>
+        SwitchYard provides a Servlet &lt;listener-class&gt; in support for deploying SwitchYard applications in a Java EE Web Application Container such as Tomcat or Jetty.  To use this component, you simply need to include the
+        <code>switchyard-deploy-webapp</code>
+        artifact as a dependency on your web application project.
+      </para>
+      <informalexample>
+        <programlisting>&lt;dependency&gt;
+    &lt;groupId&gt;org.switchyard&lt;/groupId&gt;
+    &lt;artifactId&gt;switchyard-deploy-webapp&lt;/artifactId&gt;
+    &lt;version&gt;XXX&lt;/version&gt; &lt;!-- SwitchYard release version e.g. 0.2.0 --&gt;
+&lt;/dependency&gt;</programlisting>
+      </informalexample>
+      <para>
+        You then need to add the
+        <code>WebApplicationDeployer</code>
+        class as a Servlet &lt;listener-class&gt; in your application's web.xml file.
+      </para>
+      <informalexample>
+        <programlisting>&lt;web-app id="WebApp_9" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"&gt;
+
+    &lt;listener&gt;
+        &lt;listener-class&gt;org.switchyard.deployment.WebApplicationDeployer&lt;/listener-class&gt;
+    &lt;/listener&gt;
+
+    &lt;!-- etc... --&gt;
+
+&lt;/web-app&gt;</programlisting>
+      </informalexample>
+      <para>
+        The
+        <code>WebApplicationDeployer</code>
+        class looks for a
+        <code>switchyard.xml</code>
+        file at
+        <emphasis role="italics">WEB-INF/classes/META-INF/switchyard.xml</emphasis>
+        , so if you are using maven to build your Web Application, you need to put your
+        <code>switchyard.xml</code>
+        in the
+        <emphasis role="italics">resources/META-INF</emphasis>
+        folder (i.e. not in
+        <emphasis role="italics">webapp/META-INF</emphasis>
+        ).  Your basic project structure should look as follows.
+      </para>
+      <para>
+        <figure>
+<title>TODO InformalFigure image title empty</title>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="author/download/attachments/2654315/Screen+shot+2011-08-30+at+15.21.21.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </para>
+      <para>Once you've made these configurations, the process of creating the Web Application is no different to developing any other Web Application.  Note however that, since this is only a new feature in version 0.2.0, we have tested only a very limited set of use cases:</para>
+      <orderedlist>
+        <listitem>
+          <para>A Basic SwitchYard .war deployment:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <emphasis role="underline">With</emphasis>
+                all dependencies bundled in the application.
+              </para>
+            </listitem>
+            <listitem>
+              <para>Deployable on Tomcat (and, in theory, on Jetty).</para>
+            </listitem>
+            <listitem>
+              <para>CDI Bean Services.</para>
+            </listitem>
+            <listitem>
+              <para>SOAP binding on the CDI Bean Service.</para>
+            </listitem>
+            <listitem>
+              <para>
+                <emphasis role="underline">No</emphasis>
+                JSF web ui components.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                See the
+                <ulink url="https://docs.jboss.org/author/pages/viewpage.action?pageId=2883622">"webapp-deploy" quickstart</ulink>
+                (in the demos).
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>A more detailed SwitchYard .war deployment:</para>
+          <itemizedlist>
+            <listitem>
+              <para>
+                <emphasis role="underline">Without</emphasis>
+                any dependencies bundled in the application and structured to work on the SwitchYard AS7 distribution.
+              </para>
+            </listitem>
+            <listitem>
+              <para>Deployable on the SwitchYard AS7 distribution (Not deployable on Tomcat or Jetty).</para>
+            </listitem>
+            <listitem>
+              <para>More detailed CDI Bean Service.</para>
+            </listitem>
+            <listitem>
+              <para>SOAP binding on the CDI Bean Service.</para>
+            </listitem>
+            <listitem>
+              <para>
+                JSF web ui interface on the CDI Bean Service.  For more information on building a JSF interface on top of your SwitchYard CDI Bean Services, see the
+                <link linkend="sid-2654306">Bean Services documentation</link>
+                .
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                See the
+                <ulink url="https://docs.jboss.org/author/pages/viewpage.action?pageId=2883622">"orders" quickstart</ulink>
+                (in the demos).
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </orderedlist>
     </section>
   </chapter>

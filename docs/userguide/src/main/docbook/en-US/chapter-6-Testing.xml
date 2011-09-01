@@ -3,18 +3,42 @@
 <chapter id="sid-2654314">
     
     <title>Testing</title>
-    <para>Testing your applications is dead simple with the comprehensive unit test support provided in SwitchYard.  There are two primary elements to test support in SwitchYard:</para>
+    <para>Testing your applications is dead simple with the comprehensive unit test support provided in SwitchYard.  There are three primary elements to test support in SwitchYard:</para>
     <itemizedlist>
       <listitem>
         <para>
-          <code>SwitchYardTestCase</code>
-          - base unit test class which takes care of bootstrapping an embedded SwitchYard runtime and deploying the project as a SwitchYard application.
+          <code>SwitchYardRunner</code>
+          :
+          <ulink url="http://www.junit.org/">JUnit</ulink>
+          test
+          <code>
+            <ulink url="http://kentbeck.github.com/junit/javadoc/latest/org/junit/runner/Runner.html">Runner</ulink>
+          </code>
+          class which takes care of bootstrapping an embedded SwitchYard runtime and deploying a SwitchYard application for the test instance.  Its behavior is influenced heavily by the optional
+          <code>SwitchYardTestCaseConfig</code>
+          annotation.  Its runtime state is represented by the
+          <code>SwitchYardTestKit</code>
+          .
         </para>
       </listitem>
       <listitem>
         <para>
-          <code>TestMixIn</code>
-          s - composition-based method for adding specific testing tools to your test case.  Each MixIn provides customized testing tools for things like service implementations, gateway bindings, and transformers.
+          <code>SwitchYardTestKit</code>
+          :  represents the runtime state of the deployed SwitchYard application instance deployed by
+          <code>SwitchYardRunner</code>
+          .  Also provides access to a set of test utility methods for the test (e.g. assertion methods).  The
+          <code>SwitchYardTestKit</code>
+          is reflectively injected into the test instance, if a property of type
+          <code>SwitchYardTestKit</code>
+          is declared in the test.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <code>SwitchYardTestCaseConfig</code>
+          :  optional annotation allows additional information to be specified for controlling the behavior of the
+          <code>SwitchYardRunner</code>
+          .
         </para>
       </listitem>
     </itemizedlist>
@@ -26,65 +50,339 @@
         <programlisting>&lt;dependency&gt;
     &lt;groupId&gt;org.switchyard&lt;/groupId&gt;
     &lt;artifactId&gt;switchyard-test&lt;/artifactId&gt;
-    &lt;version&gt;[release-version]&lt;/version&gt; &lt;!-- e.g. "0.1.0" --&gt;
+    &lt;version&gt;[release-version]&lt;/version&gt; &lt;!-- e.g. "0.2.0" --&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;</programlisting>
       </informalexample>
     </section>
-    <section id="sid-2654314_Testing-SwitchYardTestCase">
+    <section id="sid-2654314_Testing-SwitchYardRunnerandSwitchYardTestKit">
       
-      <title>SwitchYardTestCase</title>
+      <title>SwitchYardRunner and SwitchYardTestKit</title>
       <para>
-        To take advantage of the test support in SwitchYard, your unit test should extend the base
-        <code>SwitchYardTestCase</code>
+        To take advantage of the test support in SwitchYard, your unit test should be annotated with the
+        <code>SwitchYardRunner</code>
+        <ulink url="http://www.junit.org/">JUnit</ulink>
+        test
+        <code>
+          <ulink url="http://kentbeck.github.com/junit/javadoc/latest/org/junit/runner/Runner.html">Runner</ulink>
+        </code>
         class.
-        <code>SwitchYardTestCase</code>
-        takes care of creating and starting an embedded runtime for each test method.  After the embedded runtime is started, the project containing the test is packaged as a SwitchYard application and deployed to it.  You can take advantage of various helper methods in the base test class to invoke your service and assert against the result.
+        <code>SwitchYardRunner</code>
+        takes care of creating and starting an embedded runtime for each test method.  After the embedded runtime is started, the project containing the test is packaged as a SwitchYard application and deployed to it.  The runtime state of the deployed SwitchYard test application is represented by an instance of the
+        <code>SwitchYardTestKit</code>
+        class, which is injected into the test when a property of type
+        <code>SwitchYardTestKit</code>
+        is declared in the test.
       </para>
       <informalexample>
-        <programlisting>@SwitchYardTestCaseConfig(config = "META-INF/switchyard.xml")
-public class MyServiceTest extends SwitchYardTestCase  {   
+        <programlisting>@RunWith(SwitchYardRunner.class)
+public class MyServiceTest  {
+
+    private SwitchYardTestKit testKit;
+
     @Test   
     public void testOperation() {
-        newInvoker("MyService")
-        .operation("acceptMessage")
-        .sendInOnly("Test message content");
+        MyTestServiceHandler service = new MyTestServiceHandler();
+
+        // register the service...
+        testKit.registerInOutService("MyService", service);
+        
+        // invoke the service and capture the response...
+        Message response = newInvoker("MyService")
+        .sendInOut("&lt;create&gt;A1234&lt;/create&gt;");
+
+        // test the response content by doing an XML comparison with a 
+        // file resource on the classpath...
+        testKit.compareXMLToResource(response.getContent(String.class), "/myservice/expected-create-response.xml");
     }
+
+    private class MyTestServiceHandler implements ExchangeHandler {
+        // implement methods....
+    }
 }</programlisting>
       </informalexample>
       <para>
-        The optional
-        <code>SwitchYardTestCaseConfig</code>
-        can be used if you would like to use a different application descriptor than the default META-INF/switchyard.xml to test your application.
+        The
+        <code>SwitchYardTestKit</code>
+        provides a set of utility methods for performing all sorts of deployment configuration and test operations.
       </para>
     </section>
-    <section id="sid-2654314_Testing-TestMixIns">
+    <section id="sid-2654314_Testing-SwitchYardTestCaseConfig">
       
-      <title>TestMixIns</title>
+      <title>SwitchYardTestCaseConfig</title>
       <para>
-        The
-        <code>TestMixIn</code>
-        feature allows you to selectively enable additional test functionality based on the capabilities of your application.  The following MixIn types are available in 0.1:
+        The optional
+        <code>SwitchYardTestCaseConfig</code>
+        annotation can be used control the behavior of the
+        <code>SwitchYardRunner</code>
+        :
       </para>
       <itemizedlist>
         <listitem>
           <para>
-            <code>CDIMixIn</code>
-            : boostraps a stand-alone CDI environment, automatically discovers CDI beans, registers bean services, and injects references to SwitchYard services.
+            <emphasis role="strong">config</emphasis>
+            :  allows the specification of a SwitchYard XML configuration file (switchyard.xml) for the test.  The
+            <code>SwitchYardRunner</code>
+            will attempt to load the specified configuration from the classpath.  If if fails to locate the config on the classpath, it will then attempt to locate it on the file system (e.g. within the project structure).
           </para>
         </listitem>
         <listitem>
           <para>
-            <code>HTTPMixIn</code>
-            : client methods for testing HTTP-based services.
+            <emphasis role="strong">mixins</emphasis>
+            :  composition-based method for adding specific testing tools to your test case.  Each
+            <code>TestMixIn</code>
+            provides customized testing tools for things like service implementations, gateway bindings, and transformers.  When a
+            <code>TestMixIn</code>
+            is annotated on a Test Class, the
+            <code>SwitchYardRunner</code>
+            handles all the initialization and cleanup (lifecycle) of the
+            <code>TestMixIn</code>
+            instance(s).  It's also possible to manually create and manage
+            <code>TestMixIn</code>
+            instance(s) within your test class if (for example) you are not using the
+            <code>SwitchYardRunner</code>
+            .
           </para>
         </listitem>
         <listitem>
           <para>
-            <code>SmooksMixIn</code>
-            : stand-alone testing of any Smoooks transformers in your application.
+            <emphasis role="strong">scanners</emphasis>
+            :  add classpath scanning as part of the test lifecycle.  This adds the same Scanner behavior as is available with the SwitchYard maven build plugin, but allows the scanning to take place as part of the test lifecycle.  You will often find that you need to add Scanners if you want your test to run inside your IDE.  This is because running your test inside your IDE bypasses the whole maven build process, which means the build plugin does not perform any scanning for you.
           </para>
         </listitem>
       </itemizedlist>
+      <informalexample>
+        <programlisting>@RunWith(SwitchYardRunner.class)
+@SwitchYardTestCaseConfig(config = "testconfigs/switchyard-01.xml", mixins = {CDIMixIn.class, BPMMixIn.class}, scanners = {BeanSwitchYardScanner.class, TransformSwitchYardScanner.class})
+public class MyServiceTest  {
+
+    @Test   
+    public void testOperation() {
+        newInvoker("OrderService")
+        .operation("createOrder")
+        .sendInOnly("&lt;order&gt;&lt;product&gt;AAA&lt;/product&gt;&lt;quantity&gt;2&lt;/quantity&gt;&lt;/order&gt;");
+    }
+}</programlisting>
+      </informalexample>
+      <section id="sid-2654314_Testing-TestMixIns">
+        
+        <title>TestMixIns</title>
+        <para>
+          The
+          <code>TestMixIn</code>
+          feature allows you to selectively enable additional test functionality based on the capabilities of your application.  The following MixIn types are available:
+        </para>
+        <itemizedlist>
+          <listitem>
+            <para>
+              <code>CDIMixIn</code>
+              : boostraps a stand-alone CDI environment, automatically discovers CDI beans, registers bean services, and injects references to SwitchYard services.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>HTTPMixIn</code>
+              : client methods for testing HTTP-based services.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>SmooksMixIn</code>
+              : stand-alone testing of any Smoooks transformers in your application.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>BPMMixIn</code>
+              : utility methods for working with jBPM 5 Human Tasks (like starting/stopping a TaskServer).
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+      <section id="sid-2654314_Testing-Scanners">
+        
+        <title>Scanners</title>
+        <para>Scanners add classpath scanning as part of the test lifecycle.  This adds the same Scanner behavior as is available with the SwitchYard maven build plugin, but allows the scanning to take place as part of the test lifecycle.  The following Scanners are available:</para>
+        <itemizedlist>
+          <listitem>
+            <para>
+              <code>BeanSwitchYardScanner</code>
+              :  Scans for CDI Bean Service implementations.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>TransformSwitchYardScanner</code>
+              : Scans for Transformers.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>BpmSwitchYardScanner</code>
+              :  Scans for @Process, @StartProcess, @SignalEvent and @AbortProcessInstance annotations.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>RouteScanner</code>
+              :  Scans for Camel Routes.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <code>RulesSwitchYardScanner</code>
+              : Scans for @Rule annotations.
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+    <section id="sid-2654314_Testing-MetadataandSupportClassInjections">
+      
+      <title>Metadata and Support Class Injections</title>
+      <para>
+        As shown above, injecting the
+        <code>SwitchYardTestKit</code>
+        instance into the test at runtime is simply a case of declaring a property of that type in the test class.
+      </para>
+      <informalexample>
+        <programlisting>@RunWith(SwitchYardRunner.class)
+public class MyServiceTest  {
+
+    private SwitchYardTestKit testKit;
+
+    // implement test methods...
+}</programlisting>
+      </informalexample>
+      <para>The SwitchYard test framework also injects other test support and metadata classes, which we outline in the following sections.</para>
+      <section id="sid-2654314_Testing-DeploymentInjection">
+        
+        <title>Deployment Injection</title>
+        <para>
+          The
+          <code>Deployment</code>
+          instance can be injected by declaring a property of type
+          <code>Deployment</code>
+          .
+        </para>
+        <informalexample>
+          <programlisting>@RunWith(SwitchYardRunner.class)
+public class MyServiceTest  {
+
+    private Deployment deployment;
+
+    // implement test methods...
+}</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-2654314_Testing-SwitchYardModelInjection">
+        
+        <title>SwitchYardModel Injection</title>
+        <para>
+          The
+          <code>SwitchYardModel</code>
+          instance can be injected by declaring a property of type
+          <code>SwitchYardModel</code>
+          .
+        </para>
+        <informalexample>
+          <programlisting>@RunWith(SwitchYardRunner.class)
+public class MyServiceTest  {
+
+    private SwitchYardModel model;
+
+    // implement test methods...
+}</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-2654314_Testing-ServiceDomainInjection">
+        
+        <title>ServiceDomain Injection</title>
+        <para>
+          The
+          <code>ServiceDomain</code>
+          instance can be injected by declaring a property of type
+          <code>ServiceDomain</code>
+          .
+        </para>
+        <informalexample>
+          <programlisting>@RunWith(SwitchYardRunner.class)
+public class MyServiceTest  {
+
+    private ServiceDomain serviceDomain;
+
+    // implement test methods...
+}</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-2654314_Testing-TransformerRegistryInjection">
+        
+        <title>TransformerRegistry Injection</title>
+        <para>
+          The
+          <code>TransformerRegistry</code>
+          instance can be injected by declaring a property of type
+          <code>TransformerRegistry</code>
+          .
+        </para>
+        <informalexample>
+          <programlisting>@RunWith(SwitchYardRunner.class)
+public class MyServiceTest  {
+
+    private TransformerRegistry transformRegistry;
+
+    // implement test methods...
+}</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-2654314_Testing-TestMixInInjection">
+        
+        <title>TestMixIn Injection</title>
+        <para>
+          <code>TestMixIn</code>
+          instance(s) can be injected by declaring properties of the specific type
+          <code>TestMixIn</code>
+          type.
+        </para>
+        <informalexample>
+          <programlisting>@RunWith(SwitchYardRunner.class)
+@SwitchYardTestCaseConfig(mixins = {CDIMixIn.class, HTTPMixIn.class})
+public class MyServiceTest  {
+
+    private CDIMixIn cdiMixIn;
+    private HTTPMixIn httpIn;
+
+    // implement test methods...
+}</programlisting>
+        </informalexample>
+      </section>
+      <section id="sid-2654314_Testing-InvokerInjection">
+        
+        <title>Invoker Injection</title>
+        <para>
+          Service
+          <code>Invoker</code>
+          instance(s) can be injected by declaring properties of type
+          <code>Invoker</code>
+          and annotating them with
+          <code>@ServiceOperation</code>
+          annotation.
+        </para>
+        <informalexample>
+          <programlisting>@RunWith(SwitchYardRunner.class)
+@SwitchYardTestCaseConfig(config = "testconfigs/switchyard-01.xml")
+public class MyServiceTest  {
+
+    @ServiceOperation("OrderService.createOrder")
+    private Invoker createOrderInvoker;
+
+    @Test   
+    public void test_createOrder() {
+        createOrderInvoker.sendInOnly("&lt;order&gt;&lt;product&gt;AAA&lt;/product&gt;&lt;quantity&gt;2&lt;/quantity&gt;&lt;/order&gt;");
+    }
+}</programlisting>
+        </informalexample>
+        <para>Note the annotation value is a dot-delimited Service Operation name of the form "service-name.operation-name".</para>
+      </section>
     </section>
   </chapter>

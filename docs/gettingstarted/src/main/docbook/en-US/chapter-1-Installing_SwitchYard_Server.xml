@@ -18,7 +18,7 @@
         </listitem>
         <listitem>
           <para>
-            SwitchYard AS7:  This distribution is based on the Version 7.0.0.Beta3 of the
+            SwitchYard AS7:  This distribution is based on the Version 7.0.0 Final of the
             <emphasis role="color:#1e3349">
               <ulink url="http://www.jboss.org/jbossas/">JBoss Application Server</ulink>
             </emphasis>
@@ -68,7 +68,7 @@
 <title>TODO InformalFigure image title empty</title>
           <mediaobject>
             <imageobject>
-              <imagedata fileref="author/download/attachments/2883612/Screen+shot+2011-06-10+at+11.00.51.png"/>
+              <imagedata fileref="author/download/attachments/2883612/install-as6.jpg"/>
             </imageobject>
           </mediaobject>
         </figure>
@@ -102,7 +102,7 @@
 <title>TODO InformalFigure image title empty</title>
           <mediaobject>
             <imageobject>
-              <imagedata fileref="author/download/attachments/2883612/Screen+shot+2011-06-10+at+11.01.41.png"/>
+              <imagedata fileref="author/download/attachments/2883612/install-as7.jpg"/>
             </imageobject>
           </mediaobject>
         </figure>

@@ -6,8 +6,10 @@
     <para>After installing SwitchYard and trying the Orders demo application, you are going to want to build your own SwitchYard applications.  The easiest way to get started with this is by using the Forge Tooling.  Before you can use the Forge tooling however, you need to install Forge and configure it with the SwitchYard plugins for Forge.</para>
     <para>
       The first step is to install Forge itself, which is covered nicely in the
-      <ulink url="http://docs.jboss.org/forge/1.0.0.Alpha3/reference/en-US/html_single/#forge.installation">Forge documentation</ulink>
-      .  Make sure you setup the $FORGE_HOME environment variable.
+      <ulink url="https://docs.jboss.org/author/display/SEAMFORGE/Installation">Forge documentation</ulink>
+      .  Please be sure to download Forge 1.0 Alpha 4, which can be found
+      <ulink url="https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&amp;g=org.jboss.forge&amp;a=forge-distribution&amp;v=1.0.0.Alpha4&amp;e=zip">here</ulink>
+      (support for Forge beta versions is coming in 0.3).  As part of installation, be sure to setup the $FORGE_HOME environment variable.
     </para>
     <para>
       Once Forge is installed it's time to install the SwitchYard extensions to Forge.  These are located in the forge directory within the SwitchYard distribution.  Simply copy these jars into the

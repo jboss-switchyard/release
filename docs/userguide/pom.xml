@@ -64,6 +64,7 @@
                         <directory>${basedir}/src/main/docbook/en-US</directory>
                         <includes>
                             <include>**/*.png</include>
+                            <include>**/*.jpg</include>
                         </includes>
                     </imageResource>
                     <targetDirectory>${basedir}/target/docbook/en-US</targetDirectory>

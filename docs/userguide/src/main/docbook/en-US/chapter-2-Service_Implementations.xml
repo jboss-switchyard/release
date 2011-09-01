@@ -46,6 +46,148 @@ public interface SimpleService {
           <emphasis role="italics">@Service</emphasis>
           beans and make them available to the application deployer (will depend on the container).  At this point, the service can be invoked from other services within SwitchYard or bound to a wire protocol via SwitchYard gateways.
         </para>
+        <section id="sid-2654306_BeanServices-ServiceOperations">
+          
+          <title>Service Operations</title>
+          <para>
+            All SwitchYard Services, no matter what the implementation type, are composed of one or more
+            <emphasis role="italics">Service Operations</emphasis>
+            .  As you might imagine, in the case of a Bean Service, the Service Operations are the set of Java methods exposed by the Service Interface.
+          </para>
+          <para>There are a few restrictions when it comes to defining Bean Service Operations:</para>
+          <orderedlist>
+            <listitem>
+              <para>
+                Declares
+                <emphasis role="strong">exactly one</emphasis>
+                <emphasis role="strong">
+                  <emphasis role="italics">Input</emphasis>
+                </emphasis>
+                type i.e. the Java method signature must have a maximum of one Java parameter.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Declares a
+                <emphasis role="strong">maximum of one</emphasis>
+                <emphasis role="strong">
+                  <emphasis role="italics">Output</emphasis>
+                </emphasis>
+                type.  This is obviously enforced by the Java language since you can only define one return type on a Java method.
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                Declares a
+                <emphasis role="strong">maximum of one</emphasis>
+                <emphasis role="strong">
+                  <emphasis role="italics">Fault</emphasis>
+                </emphasis>
+                (Exception) type.
+              </para>
+            </listitem>
+          </orderedlist>
+          <section id="sid-2654306_BeanServices-ServiceOperationTypes">
+            
+            <title>Service Operation Types</title>
+            <para>
+              All Service Operations on a SwitchYard Service can define an
+              <emphasis role="italics">Input</emphasis>
+              ,
+              <emphasis role="italics">Output</emphasis>
+              and
+              <emphasis role="italics">Fault</emphasis>
+              message.  These messages have a
+              <emphasis role="italics">type</emphasis>
+              associated with them, which is defined as a QName.  This type is used by the data transformation layer, when trying to work out which transformers to apply to a Message payload.
+            </para>
+            <para>
+              For bean Services, the default type QName for
+              <emphasis role="italics">Input</emphasis>
+              (input param),
+              <emphasis role="italics">Output</emphasis>
+              (return value) and
+              <emphasis role="italics">Fault</emphasis>
+              (Exception) are derived from the Java class name in each case (param, return, throws).  For some types however (e.g.
+              <emphasis role="italics">org.w3c.dom.Element</emphasis>
+              ), the Java type name alone does not tell you the real type of the data being held by that Java Object instance.  For this reason, Bean Service Operations (methods) can be annotated with the
+              <emphasis role="strong">
+                <emphasis role="italics">@OperationTypes</emphasis>
+              </emphasis>
+              annotation e.g.
+            </para>
+            <informalexample>
+              <programlisting>public interface OrderService {
+
+    @OperationTypes(
+        in = "{http://acme.com/orders}createOrder",
+        out = "{http://acme.com/orders}createOrderResult",
+        fault = "java:com.acme.exceptions.OrderManagementException"
+    )
+    Element createOrder(Element order) throws OrderCreateFailureException;
+
+}</programlisting>
+            </informalexample>
+            <para>
+              It's also possible to set the default data type for a Java type using the
+              <emphasis role="strong">
+                <emphasis role="italics">@DefaultType</emphasis>
+              </emphasis>
+              Type level annotation.  This is useful for setting the type for a hierarchy of Java types.  Note in the example code above how we changed the type for
+              <emphasis role="italics">OrderCreateFailureException</emphasis>
+              (to "java:com.acme.exceptions.OrderManagementException") by defining a
+              <emphasis role="italics">fault</emphasis>
+              type on the
+              <emphasis role="italics">@OperationTypes</emphasis>
+              .  It's type would otherwise default to "java:com.acme.exceptions.OrderCreateFailureException".  We could also do this by annotating the base
+              <emphasis role="italics">OrderManagementException</emphasis>
+              class with the
+              <emphasis role="italics">@DefaultType</emphasis>
+              annotation.  This would set the default type for the
+              <emphasis role="italics">OrderManagementException</emphasis>
+              class and all its sub-classes, including
+              <emphasis role="italics">OrderCreateFailureException</emphasis>
+              , which would mean not having to defining a
+              <emphasis role="italics">fault</emphasis>
+              type on the
+              <emphasis role="italics">@OperationTypes</emphasis>
+              wherever one of these exceptions is used on a Bean Service Operation.
+            </para>
+          </section>
+        </section>
+        <section id="sid-2654306_BeanServices-SwitchYardContextInjection">
+          
+          <title>SwitchYard Context Injection</title>
+          <para>
+            Sometimes you need access to the SwitchYard Exchange
+            <code>Context</code>
+            instance associated with a given Bean Service Operation invocation.  To access this, simply add a
+            <code>Context</code>
+            property to your bean and annotate it with the CDI
+            <code>@Inject</code>
+            annotation.
+          </para>
+          <informalexample>
+            <programlisting>@Service(SimpleService.class)
+public class SimpleServiceBean implements SimpleService {
+
+    @Inject
+    private Context context;
+
+    public String sayHello(String message) {
+        System.out.println("*** Funky Context Property Value: " + context.getPropertyValue("funkyContextProperty"));
+        return "Hi there!!";
+    }
+}</programlisting>
+          </informalexample>
+          <para>
+            Note that you can only make calls on the
+            <code>Context</code>
+            instance within the scope of one of the Service Operation methods.  Invoking it outside this scope will result in an
+            <code>UnsupportedOperationException</code>
+            being thrown.
+          </para>
+        </section>
       </section>
       <section id="sid-2654306_BeanServices-ConsumingaService">
         
@@ -104,6 +246,256 @@ private OrderService orders;</programlisting>
           facet.
         </para>
       </section>
+      <section id="sid-2654306_BeanServices-BeanServicesInaJavaEEWebApplicationContainer">
+        
+        <title>Bean Services In a Java EE Web Application Container</title>
+        <para>As of SwitchYard 0.2.0, applications can be deployed in a JEE Web Application Container such as Tomcat or Jetty i.e. you don't need to use the SwitchYard Application Servers (AS6 or AS7).</para>
+        <para>Two distinct tasks need to be performed in order to get your CDI based SwitchYard application working in your Web Application Container:</para>
+        <orderedlist>
+          <listitem>
+            <para>
+              Configure the
+              <link linkend="sid-2654315">
+                SwitchYard
+                <code>WebApplicationDeployer</code>
+                Servlet Listener in your Web Application
+              </link>
+              .
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              Configure
+              <ulink url="http://docs.jboss.org/weld/reference/1.0.0/en-US/html/environments.html#d0e4910">Weld into your Servlet Container</ulink>
+              .
+            </para>
+          </listitem>
+        </orderedlist>
+        <para>
+          See the
+          <ulink url="https://docs.jboss.org/author/pages/viewpage.action?pageId=2883622">"webapp-deploy" quickstart</ulink>
+          (in the demos folder) as an example of how to create a CDI Bean based SwitchYard application that can be deployed on Tomcat.
+        </para>
+      </section>
+      <section id="sid-2654306_BeanServices-JavaServerFaces">
+        
+        <title>JavaServer Faces</title>
+        <para>The JavaServer Faces (JSF) technology provides a server-side component framework that is designed to simplify the development of user interfaces (UIs) for Java EE applications.  JSF has very tight integration with CDI to provide the Object Model behind the JSF user interface components.</para>
+        <para>The fact that SwitchYard Bean Services are based on CDI means it's possible to have a really nice integration between SwitchYard Bean Services and a JSF based user interface.  This section is not an CDI or JSF reference, but does provide some tips/guidelines on using these technologies within the context of SwitchYard.  This list of tips will grow and be refined as more use cases are tested and verified.</para>
+        <section id="sid-2654306_BeanServices-JavaServerFacesGeneralGuidelines">
+          
+          <title>JavaServer Faces - General Guidelines</title>
+          <para>The following guidelines/tips should apply to any container when building a JSF user interface on top of a SwitchYard Service.</para>
+          <section id="sid-2654306_BeanServices-IndirectServiceInvocation">
+            
+            <title>Indirect Service Invocation</title>
+            <para>
+              As with any JSF based user interface, the JSF pages will contain EL tokens referencing scoped CDI beans (by name ala the
+              <code>@Named</code>
+              bean annotation).  It's possible to annotate your SwitchYard Service CDI beans with the
+              <code>@Named</code>
+              annotation and inject them directly into your application's JSF components, but that would result in your JSF pages making direct invocations on the Service implementation (i.e. the Service implementation bean would be injected directly into the JSF components).  What you really want to do is to invoke your SwitchYard Services through the SwitchYard
+              <code>Exchange</code>
+              mechanism.  This reduces the coupling between your JSF components and your SwitchYard Service implementations.
+            </para>
+            <para>
+              Currently, the only way to invoke a SwitchYard CDI Bean Service through the SwitchYard
+              <code>Exchange</code>
+              mechanism is to invoke them through a
+              <code>@Reference</code>
+              injected Service reference (other options may be available in future).  This provides a client side proxy bean that handles all the SwitchYard
+              <code>Exchange</code>
+              invocation magic for all the operations exposed by the Service in question.  The catch here is that these proxy beans are not available (through CDI) to the JSF components, so you need a bog standard named (
+              <code>@Named</code>
+              ) CDI bean containing an injected
+              <code>@Reference</code>
+              sitting between the JSF components and the SwitchYard CDI Bean Services.  This is not really a problem though, because your JSF components will likely have a more natural interaction with a business/model type value-object bean (getters/setters) than they will with a Service interface type bean (operations).  So, a layer of indirection will probably make sense anyway.
+            </para>
+            <para>
+              So if you consider an example of an
+              <code>OrderService</code>
+              (Service implementation not shown):
+            </para>
+            <informalexample>
+              <programlisting>public interface OrderService {
+    
+    OrderAck submitOrder(Order order);
+    
+}
+
+public class Order implements Serializable {
+
+    private String orderId;
+    private String itemId;
+    private int quantity = 1;
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+}</programlisting>
+            </informalexample>
+            <para>
+              Your JSF components will probably have a more natural interaction with the
+              <code>Order</code>
+              bean than with the
+              <code>OrderService</code>
+              e.g.:
+            </para>
+            <informalexample>
+              <programlisting>&lt;div id="content"&gt;
+    &lt;h1&gt;New Order&lt;/h1&gt;
+
+    &lt;div style="color: red"&gt;
+       &lt;h:messages id="messages" globalOnly="false" /&gt;
+    &lt;/div&gt;
+
+    &lt;h:form id="newOrder"&gt;
+        &lt;div&gt;
+            Order ID:
+            &lt;h:inputText id="orderID" value="#{order.orderId}" required="true"/&gt;
+            &lt;br/&gt;
+            Item ID:
+            &lt;h:inputText id="itemID" value="#{order.itemId}" required="true"/&gt;
+            &lt;br/&gt;
+            Quantity:
+            &lt;h:inputText id="quantity" value="#{order.quantity}" required="true"/&gt;
+            &lt;p/&gt;
+            &lt;h:commandButton id="createOrder" value="Create" action="#{order.create}"/&gt;
+        &lt;/div&gt;
+    &lt;/h:form&gt;
+
+&lt;/div&gt;</programlisting>
+            </informalexample>
+            <para>
+              However, in order to make this work, we need to make a few tweaks to the
+              <code>Order</code>
+              bean:
+            </para>
+            <orderedlist>
+              <listitem>
+                <para>
+                  Annotating it with
+                  <code>@Named</code>
+                  and
+                  <code>@RequestScoped</code>
+                  .
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Adding a
+                  <code>@Reference</code>
+                  to the
+                  <code>OrderService</code>
+                  .
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  Implementing the
+                  <code>create</code>
+                  method that invokes the
+                  <code>OrderService</code>
+                  reference (
+                  <code>Exchange</code>
+                  proxy).
+                </para>
+              </listitem>
+            </orderedlist>
+            <informalexample>
+              <programlisting>@Named
+@RequestScoped
+public class Order implements Serializable {
+
+    @Inject
+    @Reference
+    private OrderService orderService;
+
+    private String orderId;
+    private String itemId;
+    private int quantity = 1;
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void create() {
+        OrderAck serviceAck = orderService.submitOrder(this);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(serviceAck.toString()));
+    }
+}</programlisting>
+            </informalexample>
+            <para>
+              To reiterate, because of the
+              <code>@Reference</code>
+              annotation, the
+              <code>orderService</code>
+              property instance is not a reference to the actual Service implementation.  Instead, it is a SwitchYard
+              <code>Exchange</code>
+              proxy to that Service implementation.
+            </para>
+            <para>
+              Also note that by using
+              <code>@Reference</code>
+              injected Service references, your backend Service implementation can be a non CDI Bean Service implementation e.g. a Camel Routing Services.  This mechanism opens up all sorts of integration possibilities!
+            </para>
+            <para>
+              See the
+              <ulink url="https://docs.jboss.org/author/pages/viewpage.action?pageId=2883622">"orders" quickstart</ulink>
+              (in the demos folder) as an example of how to provide a JSF user interface on top of a SwitchYard CDI Bean Service deployed on SwitchYard AS7.
+            </para>
+          </section>
+        </section>
+        <section id="sid-2654306_BeanServices-JavaServerFacesSwitchYardAS7Guidelines">
+          
+          <title>JavaServer Faces - SwitchYard AS7 Guidelines</title>
+          <para>
+            See
+            <link linkend="sid-2654315_Deployment-WebArchiveDeploymentsonSwitchYardAS7">Web Archive Deployments on SwitchYard AS7</link>
+            .
+          </para>
+        </section>
+      </section>
     </section>
     <section id="sid-2654308">
       
@@ -137,12 +529,12 @@ public class JavaDSLBuilder extends RouteBuilder {
         </para>
         <informalexample>
           <programlisting>&lt;component name="JavaDSLBuilder"&gt;
+    &lt;implementation.camel xmlns="urn:switchyard-component-camel:config:1.0"&gt;
+        &lt;java class="org.switchyard.quickstarts.camel.service.JavaDSLBuilder"/&gt;
+    &lt;/implementation.camel&gt;
     &lt;service name="JavaDSL"&gt;
         &lt;interface.java interface="org.switchyard.quickstarts.camel.service.JavaDSL"/&gt;
     &lt;/service&gt;
-    &lt;implementation.camel xmlns="urn:switchyard-component-camel:config:1.0"&gt;
-        &lt;java class="org.switchyard.quickstarts.camel.service.JavaDSLBuilder"/&gt;
-    &lt;/implementation.camel&gt;
 &lt;/component&gt;</programlisting>
         </informalexample>
         <important>
@@ -162,21 +554,19 @@ public class JavaDSLBuilder extends RouteBuilder {
         </para>
         <informalexample>
           <programlisting>&lt;sca:component name="CamelComponent"&gt;
-    &lt;sca:service name="OrderService" &gt;
+   &lt;implementation.camel xmlns="urn:switchyard-component-camel:config:1.0"&gt;
+       &lt;route xmlns="http://camel.apache.org/schema/spring" id="Camel Test Route"&gt;
+           &lt;log message="ItemId [${body}]"/&gt;
+           &lt;to uri="switchyard://WarehouseService?operationName=hasItem"/&gt;
+           &lt;log message="Title Name [${body}]"/&gt;
+       &lt;/route&gt;
+    &lt;/implementation.camel&gt;
+    &lt;sca:service name="OrderService"&gt;
         &lt;sca:interface.java interface="org.switchyard.component.camel.deploy.support.OrderService"/&gt;
     &lt;/sca:service&gt;
-
     &lt;sca:reference name="WarehouseService"&gt;
         &lt;sca:interface.java interface="org.switchyard.component.camel.deploy.support.WarehouseService"/&gt;
     &lt;/sca:reference&gt;
-
-    &lt;implementation.camel&gt;
-        &lt;route xmlns="http://camel.apache.org/schema/spring" id="Camel Test Route"&gt;
-            &lt;log message="ItemId [${body}]"/&gt;
-            &lt;to uri="switchyard://WarehouseService?operationName=hasItem"/&gt;
-            &lt;log message="Title Name [${body}]"/&gt;
-        &lt;/route&gt;
-     &lt;/implementation.camel&gt;
 &lt;/sca:component&gt;</programlisting>
         </informalexample>
         <para>
@@ -227,6 +617,425 @@ public class JavaDSLBuilder extends RouteBuilder {
             </para>
           </listitem>
         </itemizedlist>
+      </section>
+      <section id="sid-2654308_CamelServices-CDIIntegration">
+        
+        <title>CDI Integration</title>
+        <para>
+          SwitchYard integrates the CDI Bean
+          <code>Registry</code>
+          with the SwitchYard Camel components.  This means that, within SwitchYard Camel Route definitions, you can reference named (@Named) CDI Beans.
+        </para>
+        <para>Consider an example of where you have the following CDI bean:</para>
+        <informalexample>
+          <programlisting>@Named
+@ApplicationScoped
+public class StringUtil {
+
+    public String trim(String string) {
+        return string.trim();
+    }
+
+    // Other utilities...
+
+}</programlisting>
+        </informalexample>
+        <para>This bean can be used inside your SwitchYard Camel Routes as follows:</para>
+        <informalexample>
+          <programlisting>@Route(JavaDSL.class)
+public class JavaDSLBuilder extends RouteBuilder {
+    
+    public void configure() {
+        from("switchyard://JavaDSL")
+            .split(body(String.class).tokenize("\n"))
+            .filter(body(String.class).startsWith("sally:"))
+            .bean(StringUtil.class, "trim(String)");
+    }
+}</programlisting>
+        </informalexample>
+        <para>
+          See
+          <ulink url="http://camel.apache.org/bean-binding.html">Camel's Bean Binding documentation</ulink>
+          for more details.
+        </para>
+      </section>
+    </section>
+    <section id="sid-7307362">
+      
+      <title>BPM Services</title>
+      <para>The BPM Component is a pluggable container in SwitchYard which allows a business process to be exposed as a service. One fronts their business process with a custom interface and, if desired, can easily annotate it's methods to define which should start a process, signal a process event, or abort a process.</para>
+      <section id="sid-7307362_BPMServices-">
+        
+        <title>Providing a Service</title>
+        <para>To provide a service with the BPM component, you will have to:</para>
+        <orderedlist>
+          <listitem>
+            <para>Define your process using BPMN2.</para>
+          </listitem>
+          <listitem>
+            <para>Create a java interface, fronting your BPMN2 process, which can be exposed to other services, and/or to your binding(s).</para>
+          </listitem>
+          <listitem>
+            <para>Add the component containing the implementation and service interface to the SwitchYard configuration. This step can be automated using annotations and the SwitchYard plugin, explained below.</para>
+          </listitem>
+        </orderedlist>
+        <para>Here is an example of the component section of the SwitchYard configuration:</para>
+        <informalexample>
+          <programlisting>&lt;component name="MyService"&gt;
+    &lt;implementation.bpm xmlns="urn:switchyard-component-bpm:config:1.0" processDefinition="META-INF/MyService.bpmn" processDefinitionType="BPMN2" processId="MyService"&gt;
+        &lt;taskHandler class="org.switchyard.component.bpm.task.SwitchYardServiceTaskHandler" name="SwitchYard Service"/&gt;
+    &lt;/implementation.bpm&gt;
+    &lt;service name="MyService"&gt;
+        &lt;interface.java interface="org.switchyard.userguide.MyService"/&gt;
+    &lt;/service&gt;
+&lt;/component&gt;</programlisting>
+        </informalexample>
+        <para>The MyService interface can be as simple as this, with no SwitchYard-specific imports:</para>
+        <informalexample>
+          <programlisting>package org.switchyard.userguide;
+public interface MyService {
+    public void start(String data);
+}</programlisting>
+        </informalexample>
+        <para>However, if you want to have the SwitchYard configuration for this section auto-generated for you, you can use annotations and the SwitchYard Maven Plugin.  To do this, you can either add SwitchYard-specific annotations to your interface directly, or (and this is the recommended approach) you can create a separate interface for this purpose. Let's do that:</para>
+        <informalexample>
+          <programlisting>package org.switchyard.userguide;
+import org.switchyard.component.bpm.Process;
+@Process(MyService.class)
+public interface MyServiceProcess {}</programlisting>
+        </informalexample>
+        <para>That's all you need to create the SwitchYard configuration you saw above! The values for the processDefinition, processDefinitionType and processId are all defaulted based on the name of the Process interface (the "value" to the Process annotation), however you can override these if you desire:</para>
+        <informalexample>
+          <programlisting>package org.switchyard.userguide;
+import org.switchyard.component.bpm.Process;
+@Process(value=MyService.class, definition="META-INF/MyService.bpmn", definitionType="BPMN2", id="MyService", resources={}, taskHandlers={})
+public interface MyServiceProcess {}</programlisting>
+        </informalexample>
+        <para>At this point you might be wondering what the resources and taskHandlers attributes of the Process annotation are, and how did the SwitchYardServiceTaskHandler is that got added automatically in the SwitchYard configuration above.</para>
+        <para>First, a Resource represents an additional artifact that is required by your BPM process. It could be anything you could think of, including a properties file, a Drools Rule Language file, or whatever.  But it needs to be available to the BPM component's runtime for that process. You can either add the resource to the XML yourself, which would like like this:</para>
+        <informalexample>
+          <programlisting>&lt;implementation.bpm ...&gt;
+    &lt;resource xmlns="urn:switchyard-config:switchyard:1.0" location="/META-INF/MyServiceRules.drl" type="DRL"/&gt;
+&lt;/implementation.bpm&gt;</programlisting>
+        </informalexample>
+        <para>, or you can add a class which represents the Resource, and reference that class in the resources attribute of the Process annotation, like this:</para>
+        <informalexample>
+          <programlisting>package org.switchyard.userguide;
+import org.switchyard.common.io.resource.SimpleResource;
+import org.switchyard.component.bpm.Process;
+@Process(value=MyService.class, resources={MyServiceRules.class})
+public interface MyServiceProcess {
+    public static final class MyServiceRules extends SimpleResource {
+        public MyServiceRules() {
+            super("/META-INF/MyServiceRules.drl", "DRL");
+        }
+    }
+}</programlisting>
+        </informalexample>
+        <para>
+          <emphasis role="color:#993300">
+            <emphasis role="strong">A note about Resources:</emphasis>
+          </emphasis>
+          <emphasis role="color:#993300">In SwitchYard 0.3, it is expected that the resources attribute of the Process annotation will change from a Class array to a String array, and the resource type (eg: "DRL") will be deduced from the file extension. This will make the annotated class a lot smaller. You can track the progress of this change via jira issue</emphasis>
+          <emphasis role="color:#993300">
+            <ulink url="https://issues.jboss.org/browse/SWITCHYARD-428">SWITCHYARD-428</ulink>
+          </emphasis>
+          <emphasis role="color:#993300">.</emphasis>
+        </para>
+        <para>
+          Next, a TaskHandler is a way for you to add your own code into the business process.  Simply implement the
+          <code>org.switchyard.component.bpm.task.TaskHandler</code>
+          interface, and add it to the SwitchYard configuration, either manually in XML, or by referencing your implementation via the taskHandlers attribute of the Process annotation, similarly to how we did with Resources above.  A BaseTaskHandler abstract class is available for you to extend, implementing all the boilerplate code, leaving you to just plug in your business logic.
+        </para>
+        <para>By default, the SwitchYardServiceTaskHandler is always added for you by the SwitchYard Maven plugin.  That handler allows you to easily call out to other SwitchYard services by name within your business process. Please see the section "Consuming a BPM Service" below for more information.</para>
+        <section id="sid-7307362_BPMServices-x">
+          
+          <title>Additional BPM Annotations</title>
+          <para>In addition to the interface-level Process annotation, there are also three method-level annotations available to you.  Here is an example:</para>
+          <informalexample>
+            <programlisting>package org.switchyard.userguide;
+public interface MyService {
+    public void start(String data);
+    public void signal(String data);
+    public void stop(String data);
+}
+
+package org.switchyard.userguide;
+import org.switchyard.component.bpm.AbortProcessInstance;
+import org.switchyard.component.bpm.Process;
+import org.switchyard.component.bpm.SignalEvent;
+import org.switchyard.component.bpm.StartProcess;
+@Process(MyService.class)
+public interface MyServiceProcess extends MyService {
+    @StartProcess @Override
+    public void start(String data);
+    @SignalEvent("myEvent") @Override
+    public void signal(String data);
+    @AbortProcessInstance @Override
+    public void stop(String data);
+}</programlisting>
+          </informalexample>
+          <para>
+            This will then create the following SwitchYard configuration (note that the default processAction type is
+            <code>START_PROCESS</code>
+            for a method, which is why in our original version of this example we didn't have to use the @StartProcess annotation):
+          </para>
+          <informalexample>
+            <programlisting>&lt;component name="MyService"&gt;
+    &lt;implementation.bpm xmlns="urn:switchyard-component-bpm:config:1.0" processDefinition="META-INF/MyService.bpmn" processDefinitionType="BPMN2" processId="MyService"&gt;
+        &lt;processAction name="start" type="START_PROCESS"/&gt;
+        &lt;processAction eventType="myEvent" name="signal" type="SIGNAL_EVENT"/&gt;
+        &lt;processAction name="stop" type="ABORT_PROCESS_INSTANCE"/&gt;
+        &lt;taskHandler class="org.switchyard.component.bpm.task.SwitchYardServiceTaskHandler" name="SwitchYard Service"/&gt;
+    &lt;/implementation.bpm&gt;
+    &lt;service name="MyService"&gt;
+        &lt;interface.java interface="org.switchyard.userguide.MyService"/&gt;
+    &lt;/service&gt;
+&lt;/component&gt;</programlisting>
+          </informalexample>
+        </section>
+      </section>
+      <section id="sid-7307362_BPMServices-xx">
+        
+        <title>Consuming a Service</title>
+        <para>There are two ways of consuming Services with the SwitchYard BPM component. The first way is to invoking the BPM implementation through a gateway binding, and the second is invoking other SwitchYard Services from within a BPM process itself.</para>
+        <para>
+          Since the BPM component exposes a java interface fronting the business process, you can use any of the bindings provided by SwitchYard.  This could be a
+          <link linkend="sid-2654311">SOAP Binding</link>
+          or a
+          <link linkend="sid-2654309">Camel Binding</link>
+          , for example. Please refer to those sections of this guide for more information.
+        </para>
+        <para>
+          To invoke a SwitchYard Service from
+          <emphasis role="italics">inside</emphasis>
+          a BPM process, we use the SwitchYardServiceTaskHandler (provided out-of-the-box) which we described above.  To make authoring BPMN2 processes easier, SwitchYard provides a new widget for the jBPM 5 Eclipse visual editor palette. Here is a screenshot from the "Help Desk" demo quickstart:
+        </para>
+        <para>
+          <figure>
+<title>TODO InformalFigure image title empty</title>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="author/download/attachments/7307362/helpdesk.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </para>
+        <para>
+          On the left hand side under "Service Tasks", you can see the SwitchYard Service widget. On the right hand side, you can see the various points of the business process where SwitchYard Services are being invoked. Once you have dropped a SwitchYard Service task in the main window, you can customize it via the Eclipse Properties Editor.  The two properties you will care about most are
+          <emphasis role="strong">ServiceName</emphasis>
+          and
+          <emphasis role="strong">ServiceOperationName</emphasis>
+          . In our example, we might have a different Service called "AnotherService", with a method called "doSomething".  To invoke that operation of that service, we would configure those properties respectively. That's all there is to it!
+        </para>
+        <para>
+          <emphasis role="italics">You can read a more detailed explanation of the Help Desk quickstart demo, as well as how to set up Eclipse to make use of new widget, on</emphasis>
+          <emphasis role="italics">
+            <ulink url="http://community.jboss.org/wiki/SwitchYardBPMComponent">this wiki page</ulink>
+          </emphasis>
+          <emphasis role="italics">.</emphasis>
+        </para>
+      </section>
+      <section id="sid-7307362_BPMServices-xxx">
+        
+        <title>Unit Testing</title>
+        <para>
+          Unit testing in SwitchYard is very easy. See the
+          <link linkend="sid-2654314">Testing SwitchYard Services</link>
+          documentation.
+        </para>
+      </section>
+      <section id="sid-7307362_BPMServices-xxxx">
+        
+        <title>Forge Tooling</title>
+        <para>
+          Easiest way to get started is to create a new application using the
+          <link linkend="sid-2654318">SwitchYard Forge Tooling</link>
+          and
+          <emphasis role="italics">switchyard.bpm</emphasis>
+          facet.
+        </para>
+      </section>
+    </section>
+    <section id="sid-7307380">
+      
+      <title>Rules Services</title>
+      <para>The Rules Component is a pluggable container in SwitchYard which allows business rules to be exposed as a service.  One fronts their rules with a custom interface and, if desired, can easily annotate it's methods to define which should execute the rules.</para>
+      <section id="sid-7307380_RulesServices-">
+        
+        <title>Providing a Service</title>
+        <para>To provide a service with the Rules component, you will have to:</para>
+        <orderedlist>
+          <listitem>
+            <para>
+              Define your rules. The Rules Component currently supports
+              <ulink url="http://www.jboss.org/drools/">Drools</ulink>
+              as the rule engine.  Even though it is quite simple to
+              <ulink url="http://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch05.html">write rules in Drools</ulink>
+              , that project's
+              <ulink url="http://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch08.html">developer tooling</ulink>
+              and
+              <ulink url="http://docs.jboss.org/drools/release/5.2.0.Final/drools-guvnor-docs/html/index.html">business analyst tooling</ulink>
+              are very mature.
+            </para>
+          </listitem>
+          <listitem>
+            <para>Create a java interface, fronting your rules, which can be exposed to other services, and/or to your binding(s).</para>
+          </listitem>
+          <listitem>
+            <para>Add the component containing the implementation and service interface to the SwitchYard configuration. This step can be automated using annotations and the SwitchYard plugin, explained below.</para>
+          </listitem>
+        </orderedlist>
+        <para>Here is an example of the component section of the SwitchYard configuration:</para>
+        <informalexample>
+          <programlisting>&lt;component name="MyService"&gt;
+    &lt;implementation.rules xmlns="urn:switchyard-component-rules:config:1.0" stateful="false"&gt;
+        &lt;rulesAction name="process" type="EXECUTE_RULES"/&gt;
+        &lt;resource xmlns="urn:switchyard-config:switchyard:1.0" location="/org/switchyard/userguide/MyService.drl" type="DRL"/&gt;
+    &lt;/implementation.rules&gt;
+    &lt;service name="MyService"&gt;
+        &lt;interface.java interface="org.switchyard.userguide.MyService"/&gt;
+    &lt;/service&gt;
+&lt;/component&gt;</programlisting>
+        </informalexample>
+        <para>The MyService interface can be as simple as this, with no SwitchYard-specific imports:</para>
+        <informalexample>
+          <programlisting>package org.switchyard.userguide;
+public interface MyService {
+    public void process(MyData data);
+}</programlisting>
+        </informalexample>
+        <para>However, if you want to have the SwitchYard configuration for this section auto-generated for you, you can use annotations and the SwitchYard Maven Plugin.  To do this, you can either add SwitchYard-specific annotations to your interface directly, or (and this is the recommended approach) you can create a separate interface for this purpose. Let's do that:</para>
+        <informalexample>
+          <programlisting>package org.switchyard.userguide;
+import org.switchyard.component.rules.ExecuteRules;
+import org.switchyard.component.rules.Rules;
+@Rules(value=MyService.class, stateful="false", resources={MyServiceDrl.class})
+public interface MyServiceRules extends MyService {
+    @ExecuteRules @Override
+    public void process(MyData data);
+    public static final class MyServiceDrl extends SimpleResource {
+        public MyServiceDrl() {
+          super("/org/switchyard/userguide/MyService.drl", "DRL");
+        }
+    }
+}</programlisting>
+        </informalexample>
+        <para>That will create the SwitchYard configuration you saw above!</para>
+        <para>A few important points:</para>
+        <orderedlist>
+          <listitem>
+            <para>In the original switchyard xml, the &lt;rulesAction/&gt; element is optional. If not specified, the behavior is to execute the rules. In the future, more rulesActions will be supported.</para>
+          </listitem>
+          <listitem>
+            <para>
+              You will have to configure the switchyard maven plugin with the
+              <code>RulesSwitchYardScanner</code>
+              .
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              The "stateful" attribute is not necessary. It defaults to "false" (stateless). Please visit the Drools documentation to learn more about
+              <ulink url="http://docs.jboss.org/drools/release/5.2.0.Final/drools-expert-docs/html/ch02.html#d0e251">stateless vs. stateful knowledge sessions</ulink>
+              .
+            </para>
+          </listitem>
+          <listitem>
+            <para>You can list as many resources as the Drools knowledge session requires.</para>
+          </listitem>
+          <listitem>
+            <para>You don't have to define the drl in java. You can create a switchyard.xml file with the drl defined (as shown in the first example), and the plugin will merge what it found via annotations with what you provided in a preliminary switchyard.xml file.</para>
+          </listitem>
+        </orderedlist>
+        <para>
+          <emphasis role="color:#993300">
+            <emphasis role="strong">A note about Resources:</emphasis>
+          </emphasis>
+          <emphasis role="color:#993300">In SwitchYard 0.3, it is expected that the resources attribute of the Rules annotation will change from a Class array to a String array, and the resource type (eg: "DRL") will be deduced from the file extension. This will make the annotated class a lot smaller. You can track the progress of this change via jira issue</emphasis>
+          <emphasis role="color:#993300">
+            <ulink url="https://issues.jboss.org/browse/SWITCHYARD-428">SWITCHYARD-428</ulink>
+          </emphasis>
+          <emphasis role="color:#993300">.</emphasis>
+        </para>
+        <section id="sid-7307380_RulesServices-x">
+          
+          <title>Stateful Rules Execution</title>
+          <para>
+            If
+            <code>stateful="false"</code>
+            , then each invocation of your service method will create a new Drools knowledge session, execute it given the passed-in domain data, and then be cleanly disposed.
+          </para>
+          <para>
+            However, if
+            <code>stateful="true"</code>
+            , then the intent is for the stateful knowledge session to stick around spanning multiple invocations.  The way you can continue a stateful session is to include the ﻿
+            <code>RulesConstants.CONTINUE</code>
+            variable in your SwitchYard Exchange context properties.  To dispose of a stateful session, include the
+            <code>RulesConstants.DISPOSE</code>
+            variable instead. (Note: if your binding is SOAP, then the SOAP headers come across as Exchange context properties.)
+          </para>
+        </section>
+        <section id="sid-7307380_RulesServices-xx">
+          
+          <title>Auditing Rules Execution</title>
+          <para>Sometimes it is helpful to audit the Drools rules execution (eg: for debugging).  You can add the following to your switchyard.xml file to accomplish this:</para>
+          <informalexample>
+            <programlisting>&lt;implementation.rules ...&gt;
+    &lt;rulesAudit interval="1000" log="event" type="THREADED_FILE"/&gt;
+&lt;/implementation.rules&gt;</programlisting>
+          </informalexample>
+          <para>
+            Without the above line, no auditing will be done. If you only have a
+            <code>&lt;rulesAudit/&gt;</code>
+            element, auditing will be done with the default values shown in the above example.  You can of course change these values as you see fit. The
+            <code>interval</code>
+            is how many milliseconds Drools waits in-between audit sampling, the
+            <code>log</code>
+            names a log file (dependent on
+            <code>type</code>
+            ), and
+            <code>type</code>
+            defines how the auditing is outputted.  Valid values are
+            <code>CONSOLE</code>
+            ,
+            <code>FILE</code>
+            and
+            <code>THREADED_FILE</code>
+            .
+          </para>
+        </section>
+      </section>
+      <section id="sid-7307380_RulesServices-xxx">
+        
+        <title>Consuming a Service</title>
+        <para>
+          Since the Rules component exposes a java interface fronting the rules, you can use any of the bindings provided by SwitchYard.  This could be a
+          <link linkend="sid-2654311">SOAP Binding</link>
+          or a
+          <link linkend="sid-2654309">Camel Binding</link>
+          , for example. Please refer to those sections of this guide for more information.
+        </para>
+      </section>
+      <section id="sid-7307380_RulesServices-xxxx">
+        
+        <title>Unit Testing</title>
+        <para>
+          Unit testing in SwitchYard is very easy. See the
+          <link linkend="sid-2654314">Testing SwitchYard Services</link>
+          documentation.
+        </para>
+      </section>
+      <section id="sid-7307380_RulesServices-xxxxx">
+        
+        <title>Forge Tooling</title>
+        <para>
+          Easiest way to get started is to create a new application using the
+          <link linkend="sid-2654318">SwitchYard Forge Tooling</link>
+          and
+          <emphasis role="italics">switchyard.rules</emphasis>
+          facet.
+        </para>
       </section>
     </section>
   </chapter>
