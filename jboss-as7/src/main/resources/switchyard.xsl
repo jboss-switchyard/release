@@ -60,6 +60,7 @@
                 <module identifier="org.switchyard.component.camel"/>
                 <module identifier="org.switchyard.component.rules"/>
                 <module identifier="org.switchyard.component.bpm"/>
+                <module identifier="org.switchyard.component.bpel"/>
             </modules>
         </subsystem>
     </xsl:copy>
