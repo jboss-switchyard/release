@@ -47,6 +47,19 @@
           <updatePolicy>always</updatePolicy>
         </snapshots>
       </repository>
+      <repository>
+        <id>jboss-deprecated-repository</id>
+          <name>Deprecated JBoss Repository</name>
+          <url>https://repository.jboss.org/nexus/content/repositories/deprecated/</url>
+          <releases>
+            <enabled>true</enabled>
+	        <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+	        <updatePolicy>never</updatePolicy>
+          </snapshots>
+      </repository>
     </repositories>
 
     <dependencyManagement>
