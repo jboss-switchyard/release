@@ -204,6 +204,12 @@
                                     <type>zip</type>
                                     <version>${project.version}</version>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.switchyard.components</groupId>
+                                    <artifactId>switchyard-component-bpel</artifactId>
+                                    <type>zip</type>
+                                    <version>${project.version}</version>
+                                </artifactItem>
                             </artifactItems>
                             <outputDirectory>${staging.jboss.dir}</outputDirectory>
                         </configuration>
