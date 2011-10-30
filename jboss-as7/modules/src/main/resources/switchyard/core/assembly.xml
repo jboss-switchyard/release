@@ -71,6 +71,11 @@
             <outputDirectory>/modules/org/switchyard/main</outputDirectory>
             <filtered>true</filtered>
         </file>
+        <file>
+            <source>src/main/resources/switchyard/core/integration/rules/module.xml</source>
+            <outputDirectory>/modules/org/switchyard/integration/rules/main</outputDirectory>
+            <filtered>true</filtered>
+        </file>
     </files>
     <dependencySets>
         <dependencySet>
@@ -151,6 +156,15 @@
                 <include>org.switchyard:switchyard-deploy-jboss-as7</include>
             </includes>
             <outputDirectory>/modules/org/switchyard/main</outputDirectory>
+            <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}
+            </outputFileNameMapping>
+        </dependencySet>
+        <dependencySet>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <includes>
+                <include>org.switchyard:switchyard-integration-rules</include>
+            </includes>
+            <outputDirectory>/modules/org/switchyard/integration/rules/main</outputDirectory>
             <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}
             </outputFileNameMapping>
         </dependencySet>
