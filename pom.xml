@@ -20,6 +20,7 @@
 
     <modules>
         <module>testutil</module>
+        <module>forge-module</module>
         <module>distribution</module>
         <module>plugins/mergeassembly</module>
         <!--<module>jboss-as6</module>-->
