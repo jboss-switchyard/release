@@ -58,7 +58,6 @@
         <unzip src="res/SwitchYard-AS7-Bundle.zip" dest="." overwrite="true">
             <patternset>
                 <include name="quickstarts/**" />
-                <include name="forge/**" />
             </patternset>
         </unzip>
     </target>

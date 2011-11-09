@@ -62,4 +62,14 @@
             <fileMode>644</fileMode>
         </fileSet>
     </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <outputDirectory>${distro.root.dir}</outputDirectory>
+            <includes>
+              <include>org.switchyard:switchyard-forge-module</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+
 </assembly>
