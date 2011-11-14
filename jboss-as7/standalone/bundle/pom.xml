@@ -103,6 +103,7 @@
                                     <type>war</type>
                                     <version>${project.version}</version>
                                 </artifactItem>
+                                <!-- Disabling jBPM console for 0.3 CR1 
                                 <artifactItem>
                                     <groupId>org.switchyard</groupId>
                                     <artifactId>switchyard-jbpm-gwt-console-server</artifactId>
@@ -115,6 +116,7 @@
                                     <type>war</type>
                                     <version>${version.jbpm}</version>
                                 </artifactItem>
+                                --> 
                             </artifactItems>
                             <outputDirectory>${staging.jboss.dir}/standalone/deployments</outputDirectory>
                             <stripVersion>true</stripVersion>
