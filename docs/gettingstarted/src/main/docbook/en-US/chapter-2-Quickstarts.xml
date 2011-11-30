@@ -4,7 +4,7 @@
     
     <title>Quickstarts</title>
     <para>
-      The easiest way to get started with testing an application on SwitchYard is to take one of the distribution's Quickstart examples and run it.  The AS6 and AS7 distributions both contain a
+      The easiest way to get started with testing an application on SwitchYard is to take one of the distribution's Quickstart examples and run it.  The AS7 distribution contains a
       <emphasis role="italics">quickstarts</emphasis>
       folder as follows.
     </para>

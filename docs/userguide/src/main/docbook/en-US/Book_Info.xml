@@ -2,9 +2,9 @@
 <!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <bookinfo id="booki-User_Guide">
   <title>User Guide</title>
-  <subtitle>User Guide for SwitchYard 0.1</subtitle>
+  <subtitle>User Guide for SwitchYard 0.3.0</subtitle>
   <productname>JBoss SwitchYard</productname>
-  <productnumber>0.1</productnumber>
+  <productnumber>0.3</productnumber>
   <edition>0.1</edition>
   <pubsnumber>0.1</pubsnumber>
   <!--<abstract>-->

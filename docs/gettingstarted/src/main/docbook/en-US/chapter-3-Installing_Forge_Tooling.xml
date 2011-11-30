@@ -10,12 +10,12 @@
       .  Make sure you setup the $FORGE_HOME environment variable.
     </para>
     <para>
-      Once Forge is installed it's time to install the SwitchYard extensions to Forge.  These are located in the forge directory within the SwitchYard distribution.  Simply copy these jars into the
-      <emphasis role="italics">$FORGE_HOME/lib</emphasis>
-      directory.
+      Once Forge is installed it's time to install the SwitchYard extensions to Forge.  Download the SwitchYard Installer distribution, and either :
+      <emphasis role="italics">ant install</emphasis>
+     which will install the SwitchYard AS7 distribution to your AS7 server and
+ask whether you want to install the SwitchYard Console. If you only want to 
+install the SwitchYard Forge tooling : 
+      <emphasis role="italics">ant install-forge</emphasis> 
     </para>
-    <informalexample>
-      <programlisting>cp forge/*.jar $FORGE_HOME/lib</programlisting>
-    </informalexample>
     <para>For more details on using the Forge tooling for SwitchYard, please see the User Guide.</para>
   </chapter>
