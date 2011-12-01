@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-release-tools</artifactId>
-        <version>0.3.0.CR1</version>
+        <version>0.3.0.Final</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
