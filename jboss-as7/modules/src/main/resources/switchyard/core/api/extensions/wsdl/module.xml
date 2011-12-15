@@ -22,7 +22,7 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
 
-<module xmlns="urn:jboss:module:1.0" name="org.switchyard.api.extensions.wsdl">
+<module xmlns="urn:jboss:module:1.1" name="org.switchyard.api.extensions.wsdl">
 
     <resources>
         <resource-root path="switchyard-extensions-wsdl-${project.version}.jar"/>

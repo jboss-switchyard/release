@@ -12,6 +12,7 @@
       <outputDirectory>modules</outputDirectory>
       <fileMode>755</fileMode>
     </fileSet>
+    <!--
     <fileSet>
       <directory>src/main/resources/jaxb</directory>
       <outputDirectory>modules/javax/xml/bind/api/main</outputDirectory>
@@ -43,6 +44,7 @@
       </includes>
       <fileMode>755</fileMode>
     </fileSet>
+    -->
     <fileSet>
       <directory>src/main/resources/hibernate-validator</directory>
       <outputDirectory>modules/org/hibernate/validator/main</outputDirectory>
