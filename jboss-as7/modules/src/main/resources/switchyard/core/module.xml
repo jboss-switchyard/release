@@ -22,7 +22,7 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
 
-<module xmlns="urn:jboss:module:1.0" name="org.switchyard">
+<module xmlns="urn:jboss:module:1.1" name="org.switchyard">
 
     <resources>
         <resource-root path="switchyard-deploy-jboss-as7-${project.version}.jar"/>

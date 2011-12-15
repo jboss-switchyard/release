@@ -19,7 +19,7 @@
   ~ MA  02110-1301, USA.
   -->
 
-<module xmlns="urn:jboss:module:1.0" name="org.clojure.clojure">
+<module xmlns="urn:jboss:module:1.1" name="org.clojure.clojure">
 
     <resources>
         <resource-root path="clojure-${version.clojure}.jar"/>
