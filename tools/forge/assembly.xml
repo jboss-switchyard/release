@@ -45,9 +45,7 @@
               <include>org.switchyard:switchyard-forge-bean-plugin</include>
               <include>org.switchyard:switchyard-forge-bpm-plugin</include>
               <include>org.switchyard:switchyard-forge-camel-plugin</include>
-              <!-- 
               <include>org.switchyard:switchyard-forge-clojure-plugin</include>
-              -->
               <include>org.switchyard:switchyard-forge-common</include>
               <include>org.switchyard:switchyard-forge-plugin</include>
               <include>org.switchyard:switchyard-forge-rules-plugin</include>
@@ -64,9 +62,11 @@
             <includes>
               <include>org.switchyard:switchyard-api</include>
               <include>org.switchyard:switchyard-common</include>
+              <include>org.switchyard.components:switchyard-component-clojure</include>
               <include>org.switchyard:switchyard-config</include>
               <include>org.switchyard:switchyard-deploy</include>
               <include>org.switchyard:switchyard-transform</include>
+              <include>org.switchyard:switchyard-validate</include>
             </includes>
         </dependencySet>
         <dependencySet>
