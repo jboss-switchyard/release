@@ -49,7 +49,6 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>${version.arquillian}</version>
         </dependency>
     </dependencies>
 
@@ -75,5 +74,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -243,7 +243,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${version.h2database}</version>
         </dependency>
 
         <!--
@@ -252,32 +251,26 @@
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>persistence-api</artifactId>
-            <version>${version.jpa}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>ejb3-persistence</artifactId>
-            <version>${version.hibernate.ejb3-persistence}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-commons-annotations</artifactId>
-            <version>${version.hibernate.commons-annotations}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${version.hibernate.core}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${version.hibernate.entitymanager}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>${version.hibernate.validator}</version>
         </dependency>
 
         <!--
@@ -286,82 +279,66 @@
 		<dependency>
 			<groupId>org.riftsaw</groupId>
 			<artifactId>engine</artifactId>
-			<version>${version.riftsaw.engine}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-agents</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-api</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-compiler</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-dao</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-epr</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-obj</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-ql</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-runtime</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-schemas</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-bpel-store</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-dao-jpa</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-dao-jpa-hibernate</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-jacob</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-scheduler-simple</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.soa.bpel</groupId>
 			<artifactId>riftsaw-utils</artifactId>
-			<version>${version.riftsaw.ode}</version>
 		</dependency>
 
         <!--
@@ -370,32 +347,26 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-asm</artifactId>
-			<version>${version.spring}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>${version.spring}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${version.spring}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${version.spring}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>${version.spring}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jms</artifactId>
-            <version>${version.spring}</version>
         </dependency>
 
         <!--
@@ -404,22 +375,18 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
-            <version>${version.camel}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring</artifactId>
-            <version>${version.camel}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jms</artifactId>
-            <version>${version.camel}</version>
         </dependency>
         <dependency>
             <groupId>org.fusesource.commonman</groupId>
             <artifactId>commons-management</artifactId>
-            <version>${version.fusesource.commonman}</version>
         </dependency>
 
         <!--
@@ -498,7 +465,6 @@
         <dependency>
             <groupId>org.clojure</groupId>
             <artifactId>clojure</artifactId>
-            <version>${version.clojure}</version>
         </dependency>
 
         <!-- misc external dependencies -->
@@ -513,7 +479,6 @@
         <dependency>
             <groupId>net.sourceforge.saxon</groupId>
             <artifactId>saxonhe</artifactId>
-            <version>${version.saxon}</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
@@ -523,13 +488,11 @@
         <dependency>
             <groupId>org.apache.mina</groupId>
             <artifactId>mina-core</artifactId>
-            <version>${version.mina}</version>
         </dependency>
-		<dependency>
-			<groupId>org.apache.xmlbeans</groupId>
-			<artifactId>xmlbeans</artifactId>
-			<version>${version.xmlbeans}</version>
-		</dependency>
+        <dependency>
+           <groupId>org.apache.xmlbeans</groupId>
+           <artifactId>xmlbeans</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.eclipse.jdt.core.compiler</groupId>
             <artifactId>ecj</artifactId>
