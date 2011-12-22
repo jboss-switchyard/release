@@ -58,6 +58,11 @@
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-forge-soap-plugin</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.switchyard</groupId>
+            <artifactId>switchyard-forge-clojure-plugin</artifactId>
+        </dependency>
+
 
         <!-- dependencies -->
         <dependency>
@@ -68,6 +73,12 @@
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.switchyard.components</groupId>
+            <artifactId>switchyard-component-clojure</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-config</artifactId>
@@ -83,6 +94,10 @@
         <dependency>
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-transform</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard</groupId>
+            <artifactId>switchyard-validate</artifactId>
         </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
