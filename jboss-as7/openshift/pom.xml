@@ -18,6 +18,10 @@
         <module>express</module>
     </modules>
 
+    <properties>
+        <version.arquillian>1.0.0.CR7</version.arquillian>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
