@@ -48,7 +48,6 @@
               <!--
               <include>org.switchyard:switchyard-forge-clojure-plugin</include>
               -->
-              <include>org.switchyard:switchyard-forge-common</include>
               <include>org.switchyard:switchyard-forge-plugin</include>
               <include>org.switchyard:switchyard-forge-rules-plugin</include>
               <include>org.switchyard:switchyard-forge-soap-plugin</include>
@@ -63,11 +62,15 @@
             </outputFileNameMapping>
             <includes>
               <include>org.switchyard:switchyard-api</include>
+              <include>org.switchyard:switchyard-forge-common</include>
               <include>org.switchyard:switchyard-common</include>
               <include>org.switchyard:switchyard-config</include>
               <include>org.switchyard:switchyard-deploy</include>
               <include>org.switchyard:switchyard-transform</include>
               <include>org.switchyard:switchyard-validate</include>
+  
+	      <include>org.switchyard.components:switchyard-component-common-rules</include>
+              <include>org.switchyard.components:switchyard-component-bpm</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -80,6 +83,8 @@
               <include>org.apache.xalan:serializer</include>
               <include>org.fusesource.commonman:commons-management</include>
               <include>org.jboss.spec.javax.xml.bind:jboss-jaxb-api_2.2_spec</include>
+	      <include>org.drools:knowledge-api</include>
+              <include>org.drools:drools-core</include>
             </includes>
         </dependencySet>
     </dependencySets>

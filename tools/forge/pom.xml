@@ -93,6 +93,18 @@
             <artifactId>switchyard-component-common-rules</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.switchyard.components</groupId>
+            <artifactId>switchyard-component-bpm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>knowledge-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.xalan</groupId>
             <artifactId>xalan</artifactId>
         </dependency>
