@@ -36,7 +36,7 @@ public class Installer {
      * @param slot the module slot 
      */
      public void install (String plugin, String slot) {
-		InstalledPluginRegistry.installPlugin(plugin, slot);	
+		InstalledPluginRegistry.install(plugin, "1.0.0.CR2", slot);	
      }
 
     /**
