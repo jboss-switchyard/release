@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.switchyard.test.ArquillianUtil;
+import org.switchyard.test.mixins.HTTPMixIn;
 
 /**
  *
@@ -40,7 +41,23 @@ public class RulesInterviewQuickstartTest {
 
     @Test
     public void testDeployment() {
-        Assert.assertNotNull("Dummy not null", "");
+        /* TODO enable this once SWITCHYARD-600/JBWS-3424 is resolved
+        
+        HTTPMixIn httpMixIn = new HTTPMixIn();
+        httpMixIn.initialize();
+        Assert.assertNull(httpMixIn.postString("http://localhost:18001/quickstart-rules-interview/Interview", SOAP_REQUEST));
+        
+        */
     }
 
+    private static final String SOAP_REQUEST =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+          + "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
+          + "    <soap:Body>\n"
+          + "        <interview:applicant xmlns:interview=\"urn:switchyard-quickstart:rules-interview:0.1.0\">\n"
+          + "            <name>David</name>\n"
+          + "            <age>39</age>\n"
+          + "        </interview:applicant>\n"
+          + "    </soap:Body>\n"
+          + "</soap:Envelope>";
 }

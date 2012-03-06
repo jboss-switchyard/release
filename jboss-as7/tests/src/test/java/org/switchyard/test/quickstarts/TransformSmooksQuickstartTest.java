@@ -18,13 +18,14 @@
  */
 package org.switchyard.test.quickstarts;
 
+import org.custommonkey.xmlunit.XMLAssert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.switchyard.test.ArquillianUtil;
+import org.switchyard.test.mixins.HTTPMixIn;
 
 /**
  *
@@ -39,8 +40,30 @@ public class TransformSmooksQuickstartTest {
     }
 
     @Test
-    public void testDeployment() {
-        Assert.assertNotNull("Dummy not null", "");
+    public void testDeployment() throws Exception {
+        HTTPMixIn httpMixIn = new HTTPMixIn();
+        httpMixIn.initialize();
+        try {
+            String response = httpMixIn.postString("http://localhost:18001/quickstart-transform-smooks/OrderService", SOAP_REQUEST);
+            XMLAssert.assertXpathEvaluatesTo("PO-19838-XYZ", "//orderAck/orderId", response);
+            XMLAssert.assertXpathEvaluatesTo("true", "//orderAck/accepted", response);
+            XMLAssert.assertXpathEvaluatesTo("Order Accepted", "//orderAck/status", response);
+        } finally {
+            httpMixIn.uninitialize();
+        }
     }
+
+    private static final String SOAP_REQUEST =
+            "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
+          + "    <soapenv:Body>\n"
+          + "        <orders:submitOrder xmlns:orders=\"urn:switchyard-quickstart:transform-smooks:1.0\">\n"
+          + "            <order>\n"
+          + "                <orderId>PO-19838-XYZ</orderId>\n"
+          + "                <itemId>BUTTER</itemId>\n"
+          + "                <quantity>200</quantity>\n"
+          + "            </order>\n"
+          + "        </orders:submitOrder>\n"
+          + "    </soapenv:Body>\n"
+          + "</soapenv:Envelope>";
 
 }
