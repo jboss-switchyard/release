@@ -26,6 +26,7 @@
     xmlns:fn="http://www.w3.org/2005/xpath-functions"
     xmlns:xdt="http://www.w3.org/2005/xpath-datatypes"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="urn:jboss:domain:1.2"
     exclude-result-prefixes="xs xsl xsi fn xdt">
     <!--
     https://issues.jboss.org/browse/SWITCHYARD-548
@@ -74,7 +75,11 @@ https://issues.jboss.org/browse/SWITCHYARD-548
                         <socketAddr>:18001</socketAddr>
                     </properties>
                 </module>
-                <module identifier="org.switchyard.component.camel" implClass="org.switchyard.component.camel.deploy.CamelComponent"/>
+                <module identifier="org.switchyard.component.camel" implClass="org.switchyard.component.camel.deploy.CamelComponent">
+                    <properties>
+                        <socketAddr>:18001</socketAddr>
+                    </properties>
+                </module>
                 <module identifier="org.switchyard.component.rules" implClass="org.switchyard.component.rules.deploy.RulesComponent"/>
                 <module identifier="org.switchyard.component.bpm" implClass="org.switchyard.component.bpm.deploy.BPMComponent"/>
                 <module identifier="org.switchyard.component.bpel" implClass="org.switchyard.component.bpel.deploy.BPELComponent"/>

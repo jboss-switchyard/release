@@ -35,9 +35,7 @@ import org.jboss.msc.service.ServiceController.Mode;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.ServiceTarget;
 import org.jboss.msc.value.ImmediateValue;
-import org.switchyard.admin.SwitchYard;
 import org.switchyard.as7.extension.SwitchYardDeploymentMarker;
-import org.switchyard.as7.extension.services.SwitchYardAdminService;
 import org.switchyard.as7.extension.services.SwitchYardComponentService;
 import org.switchyard.as7.extension.services.SwitchYardService;
 import org.switchyard.as7.extension.services.SwitchYardServiceDomainManagerService;
@@ -76,7 +74,6 @@ public class SwitchYardDeploymentProcessor implements DeploymentUnitProcessor {
         final ServiceName switchyardServiceName = deploymentUnit.getServiceName().append(SwitchYardService.SERVICE_NAME);
         final ServiceBuilder<SwitchYardDeployment> switchyardServiceBuilder = serviceTarget.addService(switchyardServiceName, container);
         switchyardServiceBuilder.addDependency(SwitchYardComponentService.SERVICE_NAME, List.class, container.getComponents());
-        switchyardServiceBuilder.addDependency(SwitchYardAdminService.SERVICE_NAME, SwitchYard.class, container.getSwitchYard());
         // ensure naming context is fully initialized before we start
         switchyardServiceBuilder.addDependency(JndiNamingDependencyProcessor.serviceName(deploymentUnit));
 

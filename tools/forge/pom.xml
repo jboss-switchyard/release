@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-release-tools</artifactId>
-        <version>0.4.0-SNAPSHOT</version>
+        <version>0.4.0.Final</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -31,6 +31,13 @@
     <packaging>pom</packaging>
     <name>SwitchYard: Forge Plugin Distribution</name>
     <description>SwitchYard Forge Plugin Distribution</description>
+    
+    <properties>
+        <!-- These properties are not available from the AS7 Parent POM -->
+        <version.jaxb.api>1.0.3.Final</version.jaxb.api>
+        <version.jaxb.impl>2.2.4</version.jaxb.impl>
+    </properties>
+    
 
     <dependencies>
  	<!-- module resources -->

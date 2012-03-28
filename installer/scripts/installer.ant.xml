@@ -22,6 +22,7 @@
 	<!--  The following -D properties can be used to control install behavior:
 	         o AS7_PATH = path to AS7 install - prevents input prompt
 	         o SKIP_CONSOLE = do not install console
+			 o SKIP_BPEL_CONSOLE = do not install BPEL console
 	         o SKIP_FORGE = do not install forge
                  o SKIP_AS7 = do not install SwitchYard to AS7 
 	 -->
@@ -74,6 +75,12 @@
         </unzip>
     </target>
 
+    <target name="extract-sy-tools-bpel-console" depends="download-sy-tools" if="installBPELConsole">
+        <unzip src="res/switchyard-tools.zip" dest="res/" overwrite="true">
+            <mapper type="flatten"/>
+        </unzip>
+    </target>
+
     <target name="download-as7-zip" depends="download-as7-check" if="as7.not.available">
         <echo>Downloading AS7 ...</echo>	
         <get src="${as7.dist.url}" dest="res/jboss-as-${as7.version}.zip"/> 
@@ -82,6 +89,7 @@
     <target name="download-as7" depends="download-as7-zip">
 	<echo>Installing AS7 ...</echo>
         <unzip src="res/jboss-as-${as7.version}.zip" dest="${basedir}" overwrite="true"/>
+    	<chmod dir="${basedir}/jboss-as-${as7.version}/bin" perm="ugo+rx" includes="**/*.sh"/>
     </target>
 
     <target name="download-sy-as7" depends="download-sy-as7-check" if="sy.as7.not.available">
@@ -114,6 +122,20 @@
     <target name="download-sy-console" depends="download-sy-console-check, extract-sy-tools-console" if="sy.console.not.available">
     </target>
 
+    <target name="download-bpel-console-check">
+        <condition property="bpel.console.not.available">
+           <and>
+             <not>
+               <available file="res/switchyard-bpel-console.war"/>
+             </not>
+             <isset property="installBPELConsole"/>
+           </and>
+        </condition>
+    </target>
+
+    <target name="download-bpel-console" depends="download-bpel-console-check, extract-sy-tools-bpel-console" if="bpel.console.not.available">
+    </target>
+
     <target name="request-forge-install" unless="SKIP_FORGE">
         <input message="Would you like to install the SwitchYard Forge Module (y/n)?" addproperty="install.forge.question" validargs="y,n" defaultvalue="y" />
 
@@ -132,6 +154,17 @@
            <and>
               <isset property="install.sy.console.question" />
               <equals arg1="${install.sy.console.question}" arg2="y" />
+           </and>
+        </condition>
+    </target>
+
+    <target name="request-bpel-console-install" unless="BPELConsoleAlreadyInstalled">
+        <input message="Would you like to install the BPEL Console (y/n)?" addproperty="install.bpel.console.question" validargs="y,n" defaultvalue="y" />
+
+        <condition property="installBPELConsole">
+           <and>
+              <isset property="install.bpel.console.question" />
+              <equals arg1="${install.bpel.console.question}" arg2="y" />
            </and>
         </condition>
     </target>
@@ -214,6 +247,12 @@
             <isset property="SKIP_CONSOLE"/>
           </or>
         </condition>
+        <condition property="BPELConsoleAlreadyInstalled">
+          <or>
+            <available file="switchyard-bpel-console.war" filepath="${AS7_PATH}/standalone/deployments" />
+            <isset property="SKIP_BPEL_CONSOLE"/>
+          </or>
+        </condition>
 
         <antcall target="unzipSwitchyardResources">
             <param name="AS7_PATH" value="${AS7_PATH}"/>
@@ -225,6 +264,9 @@
             <param name="AS7_PATH" value="${AS7_PATH}"/> 
 	</antcall>
         <antcall target="install-sy-console">
+            <param name="AS7_PATH" value="${AS7_PATH}"/> 
+	</antcall>
+		<antcall target="install-bpel-console">
             <param name="AS7_PATH" value="${AS7_PATH}"/> 
 	</antcall>
     </target>	
@@ -255,7 +297,7 @@
           </filelist>
           <mapper type="regexp" from="^(.*)\.html$$" to="\1.xml"/>
         </move>
-
+		<antcall target="transform-console-module" />
     </target>
 
     <target name="unzipQuickstartResources" unless="quickstartResourcesAlreadyInstalled">
@@ -298,7 +340,7 @@
         </condition>	
     </target>
 
-    <target name="request-forge-home" unless="forge.home.set" depends="check-forge-home">
+    <target name="request-forge-home" if="installForge" unless="forge.home.set" depends="check-forge-home">
         <input message="Please enter the path to the root folder of your Forge installation: " addproperty="FORGE_PATH_ENTERED" />
         <pathconvert targetos="unix" property="FORGE_PATH">
             <path>
@@ -307,7 +349,7 @@
         </pathconvert>
     </target>
 
-    <target name="validate-forge-home-version">
+    <target name="validate-forge-home-version" if="installForge">
         <!-- Check that a SNAPSHOT version isn't being used -->
 	<condition property="forge.home.check">
            <and>
@@ -329,6 +371,10 @@
 
     <target name="install-sy-console" if="installSYConsole" depends="request-sy-console-install, download-sy-console">
     	<copy todir="${AS7_PATH}/modules/org/jboss/as/console/main" overwrite="true" file="res/switchyard-console-application.war"/>
+		<antcall target="transform-console-module" />
+	</target>
+
+	<target name="transform-console-module" depends="download-sy-tools">
         <xslt style="res/console_module.xsl"
               basedir="${AS7_PATH}/modules/org/jboss/as/console/main"
               destdir="${AS7_PATH}/modules/org/jboss/as/console/main"
@@ -339,6 +385,11 @@
           </filelist>
           <mapper type="regexp" from="^(.*)\.html$$" to="\1.xml"/>
         </move>
+    </target>
+
+    <target name="install-bpel-console" if="installBPELConsole" depends="request-bpel-console-install, download-bpel-console">
+    	<copy todir="${AS7_PATH}/standalone/deployments" overwrite="true" file="res/switchyard-bpel-console-server.war"/>
+        <copy todir="${AS7_PATH}/standalone/deployments" overwrite="true" file="res/switchyard-bpel-console.war"/>
     </target>
 
     <target name="install-forge" if="installForge" depends="request-forge-install, request-forge-home, set-forge-home, validate-forge-home-version, download-sy-forge-module" unless="SKIP_FORGE">
