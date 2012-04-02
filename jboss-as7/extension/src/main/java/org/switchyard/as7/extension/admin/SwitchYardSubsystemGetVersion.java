@@ -62,7 +62,7 @@ public final class SwitchYardSubsystemGetVersion implements OperationStepHandler
                         SwitchYardAdminService.SERVICE_NAME);
 
                 SwitchYard switchYard = SwitchYard.class.cast(controller.getService().getValue());
-                context.getResult().get("version").set(switchYard.getVersion());
+                context.getResult().get("version").set(switchYard.getRuntimeVersion().getImplementation().getVersion());
                 context.completeStep();
             }
         }, OperationContext.Stage.RUNTIME);
