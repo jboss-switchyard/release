@@ -26,6 +26,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.switchyard.test.ArquillianUtil;
+import org.switchyard.test.mixins.BPMMixIn;
+import org.switchyard.test.mixins.HTTPMixIn;
 
 /**
  * The helpdesk demo quickstart test.
@@ -42,7 +44,7 @@ public class HelpDeskDemoQuickstartTest {
 
     @Test
     public void test() throws Exception {
-        // Have to do this until we reconcile the hibernate/jpa version in AS7.
+        // jBPM TaskServer is run externally
         Assert.assertTrue(true);
         /*
         HTTPMixIn http = new HTTPMixIn();
@@ -50,9 +52,11 @@ public class HelpDeskDemoQuickstartTest {
         http.initialize();
         bpm.initialize();
         try {
-            http.postResourceAndTestXML("http://localhost:18001/HelpDeskService", "/xml/soap-request.xml", "/xml/soap-response.xml");
+            http.postResourceAndTestXML("http://localhost:8080/HelpDeskService/HelpDeskService", "/xml/soap-request.xml", "/xml/soap-response.xml");
+            bpm.connectTaskClient();
             bpm.completeHumanTasks();
         } finally {
+            bpm.disconnectTaskClient();
             bpm.uninitialize();
             http.uninitialize();
         }

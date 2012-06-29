@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-as7-openshift-express-parent</artifactId>
-        <version>0.4.0.Final</version>
+        <version>0.5.0.Beta1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -116,7 +116,7 @@
                                     <version>${project.version}</version>
                                 </artifactItem>
                             </artifactItems>
-                            <excludes>**/*/CamelJMSBindingQuickstartTest.class, **/*/HornetqBindingQuickstartTest.class, **/*/BpelServiceJmsBindingQuickstartTest.class</excludes>
+                            <excludes>**/*/CamelJMSBindingQuickstartTest.class, **/*/HornetqBindingQuickstartTest.class, **/*/BpelServiceJmsBindingQuickstartTest.class, **/*/JCAInflowHornetQQuickstartTest.class</excludes>
                             <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
                         </configuration>
                     </execution>

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-release</artifactId>
-        <version>0.4.0.Final</version>
+        <version>0.5.0.Beta1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -15,7 +15,6 @@
     <description>SwitchYard AS7 Parent</description>
 
     <modules>
-        <module>jbpm</module>
         <module>modules</module>
         <module>tests</module>
         <module>extension</module>
@@ -32,6 +31,10 @@
             <groupId>org.jboss.as</groupId>
             <artifactId>jboss-as-dist</artifactId>
             <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.as</groupId>
+            <artifactId>jboss-as-connector</artifactId>
         </dependency>
 
         <!--
@@ -81,6 +84,16 @@
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-quickstart-transform-jaxb</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-quickstart-transform-xslt</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-service</artifactId>
             <scope>test</scope>
         </dependency>
@@ -97,6 +110,26 @@
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-jms-binding</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-quickstart-camel-ftp-binding</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-quickstart-camel-netty-binding</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-quickstart-camel-quartz-binding</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-quickstart-camel-sql-binding</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -155,6 +188,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-quickstart-jca-inflow-hornetq</artifactId>
+            <scope>test</scope>
+        </dependency>
+         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-orders</artifactId>
             <type>war</type>
@@ -169,6 +207,11 @@
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-helpdesk-webapp</artifactId>
             <type>war</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts.demos</groupId>
+            <artifactId>switchyard-quickstart-demo-policy-security</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

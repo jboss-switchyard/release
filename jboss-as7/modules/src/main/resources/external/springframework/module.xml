@@ -29,6 +29,7 @@
         <resource-root path="spring-core-${version.spring}.jar"/>
         <resource-root path="spring-context-${version.spring}.jar"/>
         <resource-root path="spring-jms-${version.spring}.jar"/>
+        <resource-root path="spring-jdbc-${version.spring}.jar"/>
         <resource-root path="spring-tx-${version.spring}.jar"/>
     </resources>
 

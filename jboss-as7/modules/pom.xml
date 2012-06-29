@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-as7-parent</artifactId>
-        <version>0.4.0.Final</version>
+        <version>0.5.0.Beta1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -51,10 +51,11 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack-jbpm-xsds</id>
+                        <id>unpack-jbpm-switchyard</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>unpack</goal>
@@ -67,9 +68,15 @@
                                     <version>${version.jbpm}</version>
                                     <type>jar</type>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.switchyard.components</groupId>
+                                    <artifactId>switchyard-component-bpm</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                </artifactItem>
                             </artifactItems>
-                            <includes>META-INF/*.xsd</includes>
-                            <outputDirectory>${project.build.directory}/jbpm-xsds</outputDirectory>
+                            <includes>META-INF/*.xsd,META-INF/*orm-JPA2.xml</includes>
+                            <outputDirectory>${project.build.directory}/jbpm-switchyard</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -82,7 +89,9 @@
                     <execution>
                         <id>merge-assemblies</id>
                         <phase>generate-sources</phase>
-                        <goals><goal>mergeassembly</goal></goals>
+                        <goals>
+                            <goal>mergeassembly</goal>
+                        </goals>
                         <configuration>
                             <baseAssembly>${basedir}/assembly.xml</baseAssembly>
                             <finalAssembly>${basedir}/target/merged-assembly.xml</finalAssembly>
@@ -95,15 +104,15 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>make-jbpm-xsds-assembly</id>
+                        <id>make-jbpm-switchyard-assembly</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>attached</goal>
                         </goals>
                         <configuration>
-                            <finalName>jbpm-bpmn2</finalName>
+                            <finalName>jbpm-switchyard</finalName>
                             <descriptors>
-                                <descriptor>${basedir}/src/main/resources/switchyard/components/bpm/jbpm-xsds-assembly.xml</descriptor>
+                                <descriptor>${basedir}/src/main/resources/external/jbpm/jbpm-switchyard-assembly.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>
@@ -209,6 +218,10 @@
         <!--</dependency>-->
         <dependency>
             <groupId>org.switchyard.components</groupId>
+            <artifactId>switchyard-component-common-composer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-common-rules</artifactId>
         </dependency>
         <dependency>
@@ -224,6 +237,10 @@
             <artifactId>switchyard-component-hornetq</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.switchyard.components</groupId>
+            <artifactId>switchyard-component-jca</artifactId>
+        </dependency>
+         <dependency>
             <groupId>org.switchyard.console</groupId>
             <artifactId>switchyard-console-application</artifactId>
             <type>war</type>
@@ -238,185 +255,165 @@
         </dependency>
 
         <!--
-        Hibernate...
+        MySQL...
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
         -->
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>ejb3-persistence</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-commons-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
 
         <!--
         Riftsaw...
         -->
-		<dependency>
-			<groupId>org.riftsaw</groupId>
-			<artifactId>engine</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-agents</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-compiler</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-dao</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-epr</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-obj</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-ql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-runtime</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-schemas</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-bpel-store</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-dao-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-dao-jpa-hibernate</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-jacob</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-scheduler-simple</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.soa.bpel</groupId>
-			<artifactId>riftsaw-utils</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.riftsaw</groupId>
+            <artifactId>engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-agents</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-compiler</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-dao</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-epr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-obj</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-ql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-schemas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-bpel-store</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-dao-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-dao-jpa-hibernate</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-jacob</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-scheduler-simple</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.soa.bpel</groupId>
+            <artifactId>riftsaw-utils</artifactId>
+        </dependency>
 
         <!--
         Batik ... (Required by BPEL console)
          -->
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-dom</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-svg-dom</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-svggen</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-css</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-ext</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-xml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-transcoder</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-bridge</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-gvt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-script</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-awt-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-parser</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-anim</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>batik</groupId>
-			<artifactId>batik-codec</artifactId>
-		</dependency>
         <dependency>
-			<groupId>org.apache.ws.commons.axiom</groupId>
-			<artifactId>axiom-impl</artifactId>
-		</dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-dom</artifactId>
+        </dependency>
         <dependency>
-			<groupId>org.apache.ws.commons.axiom</groupId>
-			<artifactId>axiom-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis-ext</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-		</dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-svg-dom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-svggen</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-css</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-ext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-transcoder</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-bridge</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-gvt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-script</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-awt-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-parser</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-anim</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.axiom</groupId>
+            <artifactId>axiom-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis-ext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+        </dependency>
 
-		<!--
-		BPM Console...
-		-->
-		<dependency>
+        <!--
+        BPM Console...
+        -->
+        <dependency>
             <groupId>org.riftsaw.console</groupId>
             <artifactId>riftsaw-bpel2svg</artifactId>
         </dependency>      
@@ -444,22 +441,22 @@
         <!--
         Spring...
         -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-asm</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-asm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -467,6 +464,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
         </dependency>
 
         <!--
@@ -486,24 +487,37 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
+            <artifactId>camel-ftp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-netty</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-sql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
             <artifactId>camel-cxf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.fusesource.commonman</groupId>
-            <artifactId>commons-management</artifactId>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
         </dependency>
 
         <!--
         Drools/jBPM...
         -->
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>knowledge-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>drools-core</artifactId>
@@ -517,6 +531,18 @@
             <artifactId>drools-persistence-jpa</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>knowledge-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>knowledge-internal-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-bpmn2</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm-flow</artifactId>
         </dependency>
@@ -526,19 +552,19 @@
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-human-task-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-human-task-mina</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
             <artifactId>jbpm-persistence-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-bpmn2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
             <artifactId>jbpm-workitems</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jbpm</groupId>
-            <artifactId>jbpm-human-task</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.bpm</groupId>
@@ -554,6 +580,10 @@
         </dependency>
 
         <!-- misc external dependencies -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
@@ -600,6 +630,18 @@
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core</artifactId>
             <version>${version.weld.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
         </dependency>
     </dependencies>
 </project>

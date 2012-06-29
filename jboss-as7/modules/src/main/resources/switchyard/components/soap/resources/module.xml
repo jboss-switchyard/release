@@ -26,13 +26,19 @@
     </resources>
 
     <dependencies>
+        <!-- Needed for @Resource annotations -->
+        <module name="javax.annotation.api"/>
         <module name="javax.api"/>
+        <module name="javax.servlet.api"/>
         <module name="javax.wsdl4j.api"/>
         <module name="org.apache.log4j"/>
+        <module name="org.jboss.as.webservices" export="true"/>
+        <module name="org.jboss.ws.spi" services="import" export="true"/>
         <module name="org.switchyard.api"/>
         <module name="org.switchyard.common"/>
         <module name="org.switchyard.config"/>
         <module name="org.switchyard.deploy"/>
+        <module name="org.switchyard.component.common.composer"/>
         <module name="org.switchyard.component.soap.ws-impl"/>
         <module name="org.switchyard.component.soap.saaj-impl"/>
     </dependencies>

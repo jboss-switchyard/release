@@ -18,10 +18,10 @@
  */
 package org.switchyard.as7.extension.services;
 
+import static org.switchyard.as7.extension.CommonAttributes.DOLLAR;
 import static org.switchyard.as7.extension.CommonAttributes.IMPLCLASS;
 import static org.switchyard.as7.extension.CommonAttributes.MODULES;
 import static org.switchyard.as7.extension.CommonAttributes.PROPERTIES;
-import static org.switchyard.as7.extension.CommonAttributes.DOLLAR;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +31,12 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.jboss.dmr.ModelNode;
+import org.jboss.jca.core.spi.rar.ResourceAdapterRepository;
 import org.jboss.logging.Logger;
 import org.jboss.modules.Module;
 import org.jboss.modules.ModuleIdentifier;
 import org.jboss.modules.ModuleLoadException;
+import org.jboss.msc.inject.Injector;
 import org.jboss.msc.service.Service;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartContext;
@@ -61,7 +63,8 @@ public class SwitchYardComponentService implements Service<List<Component>> {
     public static final ServiceName SERVICE_NAME = ServiceName.of("SwitchYardComponentService");
 
     private final InjectedValue<Map> _injectedValues = new InjectedValue<Map>();
-
+    private final InjectedValue<ResourceAdapterRepository> _resourceAdapterRepository = new InjectedValue<ResourceAdapterRepository>();
+    
     private ModelNode _operation;
     private List<Component> _components = new ArrayList<Component>();
 
@@ -96,11 +99,10 @@ public class SwitchYardComponentService implements Service<List<Component>> {
                         try {
                             component = (Component) componentClass.newInstance();
                             ModelNode opmodule = opmodules.get(current);
+                            ModelNode properties = opmodule.has(PROPERTIES) ? opmodule.get(PROPERTIES) : null;
+                            component.init(createEnvironmentConfig(properties));
                             LOG.debug("Initialized component " + component);
-                            if (opmodule.has(PROPERTIES)) {
-                                ModelNode properties = opmodule.get(PROPERTIES);
-                                component.init(createEnvironmentConfig(properties));
-                            }
+                            component.addResourceDependency(_resourceAdapterRepository.getValue());
                             _components.add(component);
                         } catch (InstantiationException ie) {
                             LOG.error("Unable to instantiate class " + className);
@@ -119,21 +121,23 @@ public class SwitchYardComponentService implements Service<List<Component>> {
 
     private Configuration createEnvironmentConfig(ModelNode properties) {
         Configuration envConfig = Configurations.emptyConfig();
-        Set<String> propertyNames = properties.keys();
-        if (propertyNames != null) {
-            for (String propertyName : propertyNames) {
-                Configuration propConfig = new ConfigurationPuller().pull(new QName(propertyName));
-                String value = properties.get(propertyName).asString();
-                if (value.startsWith(DOLLAR)) {
-                    String key = value.substring(1);
-                    String injectedValue = (String) _injectedValues.getValue().get(key);
-                    if (injectedValue != null) {
-                        propConfig.setValue(injectedValue);
+        if (properties != null) {
+            Set<String> propertyNames = properties.keys();
+            if (propertyNames != null) {
+                for (String propertyName : propertyNames) {
+                    Configuration propConfig = new ConfigurationPuller().pull(new QName(propertyName));
+                    String value = properties.get(propertyName).asString();
+                    if (value.startsWith(DOLLAR)) {
+                        String key = value.substring(1);
+                        String injectedValue = (String) _injectedValues.getValue().get(key);
+                        if (injectedValue != null) {
+                            propConfig.setValue(injectedValue);
+                            envConfig.addChild(propConfig);
+                        }
+                    } else {
+                        propConfig.setValue(value);
                         envConfig.addChild(propConfig);
                     }
-                } else {
-                    propConfig.setValue(value);
-                    envConfig.addChild(propConfig);
                 }
             }
         }
@@ -142,7 +146,14 @@ public class SwitchYardComponentService implements Service<List<Component>> {
 
     @Override
     public void stop(StopContext context) {
-
+        for (Component component : _components) {
+            LOG.info("Stopping SwitchYard component " + component.getName());
+            try {
+                component.destroy();
+            }  catch (Exception e) {
+                LOG.error("Unable to stop " + component.getName(), e);
+            }
+        }
     }
 
     /**
@@ -152,6 +163,14 @@ public class SwitchYardComponentService implements Service<List<Component>> {
      */
     public InjectedValue<Map> getInjectedValues() {
         return _injectedValues;
+    }
+
+    /**
+     * Injection point for ResourceAdapterRepository.
+     * @return ResourceAdapterRepository
+     */
+    public Injector<ResourceAdapterRepository> getResourceAdapterRepository() {
+        return _resourceAdapterRepository;
     }
 
 }

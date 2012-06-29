@@ -36,7 +36,14 @@
         <module name="javax.ws.rs.api"/>
         <module name="org.apache.log4j"/>
         <module name="org.apache.camel.core" services="export" export="true"/>
-        <module name="org.apache.camel.spring" services="export" export="true"/>
+        <module name="org.apache.camel.spring" services="export" export="true">
+            <imports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </imports>
+            <exports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </exports>
+        </module>
         <module name="org.apache.camel.jms" export="true" optional="true">
             <imports>
                 <include path="META-INF/services/org/apache/camel/component"/>
@@ -57,6 +64,40 @@
                 <include path="META-INF/services/org/apache/camel/component"/>
             </exports>
         </module>
+        <module name="org.apache.camel.ftp" services="export" export="true">
+            <imports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </imports>
+            <exports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </exports>
+        </module>
+        <module name="org.apache.camel.netty" services="export" export="true">
+            <imports>
+                <include path="META-INF/services/org/apache/camel"/>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </imports>
+            <exports>
+                <include path="META-INF/services/org/apache/camel"/>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </exports>
+        </module>
+        <module name="org.apache.camel.quartz" services="export" export="true">
+            <imports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </imports>
+            <exports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </exports>
+        </module>
+        <module name="org.apache.camel.sql" services="export" export="true">
+            <imports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </imports>
+            <exports>
+                <include path="META-INF/services/org/apache/camel/component"/>
+            </exports>
+        </module>
         <module name="org.jboss.as.naming" export="true"/>
         <module name="org.switchyard.api"/>
         <module name="org.switchyard.common"/>
@@ -64,6 +105,7 @@
         <module name="org.switchyard.deploy"/>
         <module name="org.switchyard.jaxb-impl"/>
         <module name="org.switchyard.component.bean" />
+        <module name="org.switchyard.component.common.composer" />
         <module name="org.springframework" />
     </dependencies>
 </module>

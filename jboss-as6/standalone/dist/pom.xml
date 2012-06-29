@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-as6-standalone-parent</artifactId>
-        <version>0.4.0.Final</version>
+        <version>0.5.0.Beta1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -250,15 +250,6 @@
                                     <version>${version.camel}</version>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.fusesource.commonman</groupId>
-                                    <artifactId>commons-management</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.drools</groupId>
-                                    <artifactId>knowledge-api</artifactId>
-                                    <version>${version.drools}</version>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>org.drools</groupId>
                                     <artifactId>drools-core</artifactId>
                                     <version>${version.drools}</version>
@@ -271,6 +262,16 @@
                                 <artifactItem>
                                     <groupId>org.drools</groupId>
                                     <artifactId>drools-persistence-jpa</artifactId>
+                                    <version>${version.drools}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.drools</groupId>
+                                    <artifactId>knowledge-api</artifactId>
+                                    <version>${version.drools}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.drools</groupId>
+                                    <artifactId>knowledge-internal-api</artifactId>
                                     <version>${version.drools}</version>
                                 </artifactItem>
                                 <artifactItem>
@@ -290,6 +291,11 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jbpm</groupId>
+                                    <artifactId>jbpm-bpmn2</artifactId>
+                                    <version>${version.jbpm}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jbpm</groupId>
                                     <artifactId>jbpm-flow</artifactId>
                                     <version>${version.jbpm}</version>
                                 </artifactItem>
@@ -300,22 +306,21 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jbpm</groupId>
-                                    <artifactId>jbpm-persistence-jpa</artifactId>
-                                    <version>${version.jbpm}</version>
+                                    <artifactId>jbpm-human-task-core</artifactId>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jbpm</groupId>
-                                    <artifactId>jbpm-bpmn2</artifactId>
+                                    <artifactId>jbpm-human-task-mina</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jbpm</groupId>
+                                    <artifactId>jbpm-persistence-jpa</artifactId>
                                     <version>${version.jbpm}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jbpm</groupId>
                                     <artifactId>jbpm-workitems</artifactId>
                                     <version>${version.jbpm}</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.jbpm</groupId>
-                                    <artifactId>jbpm-human-task</artifactId>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.mina</groupId>

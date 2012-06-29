@@ -29,5 +29,6 @@
     <include assembly="hornetq/assembly.xml" />
     <include assembly="rules/assembly.xml" />
     <include assembly="soap/assembly.xml" />
+    <include assembly="jca/assembly.xml" />
 
 </assembly>

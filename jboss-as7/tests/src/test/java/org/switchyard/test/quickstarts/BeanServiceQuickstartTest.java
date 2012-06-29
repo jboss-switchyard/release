@@ -41,7 +41,7 @@ public class BeanServiceQuickstartTest {
 
         httpMixIn.initialize();
         try {
-            String response = httpMixIn.postString("http://localhost:18001/quickstart-bean/OrderService", SOAP_REQUEST);
+            String response = httpMixIn.postString("http://localhost:8080/quickstart-bean/OrderService", SOAP_REQUEST);
             XMLAssert.assertXpathEvaluatesTo("PO-19838-XYZ", "//orderAck/orderId", response);
             XMLAssert.assertXpathEvaluatesTo("true", "//orderAck/accepted", response);
             XMLAssert.assertXpathEvaluatesTo("Order Accepted", "//orderAck/status", response);
@@ -50,7 +50,7 @@ public class BeanServiceQuickstartTest {
         }
     }
 
-    private static final String SOAP_REQUEST = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+    private static final String SOAP_REQUEST = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\">\n" +
             "    <soap:Body>\n" +
             "        <orders:submitOrder xmlns:orders=\"urn:switchyard-quickstart:bean-service:1.0\">\n" +
             "            <order>\n" +
