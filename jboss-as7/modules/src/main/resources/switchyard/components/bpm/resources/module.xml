@@ -30,6 +30,7 @@
         <module name="org.jbpm" export="true"/>
         <module name="org.switchyard.api"/>
         <module name="org.switchyard.common"/>
+        <module name="org.switchyard.component.common.bpm"/>
         <module name="org.switchyard.component.common.rules"/>
         <module name="org.switchyard.config"/>
         <module name="org.switchyard.deploy"/>
