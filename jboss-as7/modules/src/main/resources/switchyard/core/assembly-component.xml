@@ -16,10 +16,9 @@
   ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
   ~ MA  02110-1301, USA.
   -->
-<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
-
+<component xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2 http://maven.apache.org/xsd/component-1.1.2.xsd">
+  
     <files>
         <file>
             <source>src/main/resources/switchyard/core/api/module.xml</source>
@@ -69,11 +68,6 @@
         <file>
             <source>src/main/resources/switchyard/core/jaxb-impl/module.xml</source>
             <outputDirectory>/modules/org/switchyard/jaxb-impl/main</outputDirectory>
-            <filtered>true</filtered>
-        </file>
-        <file>
-            <source>src/main/resources/switchyard/core/bus/camel/module.xml</source>
-            <outputDirectory>/modules/org/switchyard/bus/camel/main</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
@@ -158,15 +152,6 @@
         <dependencySet>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <includes>
-                <include>org.switchyard:switchyard-bus-camel</include>
-            </includes>
-            <outputDirectory>/modules/org/switchyard/bus/camel/main</outputDirectory>
-            <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}
-            </outputFileNameMapping>
-        </dependencySet>
-        <dependencySet>
-            <useTransitiveDependencies>false</useTransitiveDependencies>
-            <includes>
                 <include>org.switchyard:switchyard-deploy</include>
             </includes>
             <outputDirectory>/modules/org/switchyard/deploy/main</outputDirectory>
@@ -183,4 +168,4 @@
             </outputFileNameMapping>
         </dependencySet>
     </dependencySets>
-</assembly>
+</component>
