@@ -82,24 +82,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.switchyard</groupId>
-                <artifactId>maven-mergeassembly-plugin</artifactId>
-                <version>${project.version}</version>
-                <executions>
-                    <execution>
-                        <id>merge-assemblies</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>mergeassembly</goal>
-                        </goals>
-                        <configuration>
-                            <baseAssembly>${basedir}/assembly.xml</baseAssembly>
-                            <finalAssembly>${basedir}/target/merged-assembly.xml</finalAssembly>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
@@ -107,7 +89,7 @@
                         <id>make-jbpm-switchyard-assembly</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>attached</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
                             <finalName>jbpm-switchyard</finalName>
@@ -120,13 +102,13 @@
                         <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>attached</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
                             <finalName>switchyard.deployer</finalName>
                             <descriptors>
-                                <descriptor>${basedir}/target/merged-assembly.xml</descriptor>
+                                <descriptor>${basedir}/assembly.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>
@@ -149,6 +131,10 @@
         <dependency>
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard</groupId>
+            <artifactId>switchyard-common-camel</artifactId>
         </dependency>
         <dependency>
             <groupId>org.switchyard</groupId>
@@ -206,15 +192,6 @@
             <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-camel</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-camel-as7</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-camel-cdi</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.switchyard.components</groupId>-->
             <!--<artifactId>switchyard-component-clojure</artifactId>-->
@@ -222,7 +199,7 @@
         <!--</dependency>-->
         <dependency>
             <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-common-composer</artifactId>
+            <artifactId>switchyard-component-common</artifactId>
         </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
@@ -495,6 +472,10 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
+            <artifactId>camel-cdi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring</artifactId>
         </dependency>
         <dependency>
@@ -531,6 +512,10 @@
             <artifactId>quartz</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.deltaspike.core</groupId>
+            <artifactId>deltaspike-core-api</artifactId>
+        </dependency>
         <!--
         Drools/jBPM...
         -->
@@ -553,6 +538,10 @@
         <dependency>
             <groupId>org.drools</groupId>
             <artifactId>knowledge-internal-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-bam</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jbpm</groupId>

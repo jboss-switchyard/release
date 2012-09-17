@@ -20,26 +20,16 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
-<module xmlns="urn:jboss:module:1.0" name="org.jbpm">
+<module xmlns="urn:jboss:module:1.0" name="org.switchyard.component.common">
     <resources>
-        <resource-root path="jbpm-bam-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-bpmn2-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-flow-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-flow-builder-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-human-task-core-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-human-task-mina-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-persistence-jpa-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-switchyard-${version.jbpm}.jar"/>
-        <resource-root path="jbpm-workitems-${version.jbpm}.jar"/>
+        <resource-root path="switchyard-component-common-${project.version}.jar"/>
     </resources>
     <dependencies>
-        <module name="com.google.protobuf"/>
         <module name="javax.api"/>
-        <module name="org.apache.mina.mina-core"/>
-        <module name="org.drools"/>
-        <module name="org.hibernate"/>
-        <module name="org.javassist"/>
-        <module name="org.mvel.mvel2"/>
-        <module name="org.slf4j"/>
+        <module name="org.apache.log4j"/>
+        <module name="org.switchyard.api"/>
+        <module name="org.switchyard.common"/>
+        <module name="org.switchyard.config"/>
+        <module name="org.switchyard.deploy"/>
     </dependencies>
 </module>

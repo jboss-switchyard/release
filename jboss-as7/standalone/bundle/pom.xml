@@ -117,11 +117,11 @@
                         <id>make-assembly</id>
                         <phase>generate-test-resources</phase>
                         <goals>
-                            <goal>attached</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
-                            <finalName>SwitchYard-AS7-Bundle</finalName>
+                            <finalName>switchyard-as7-bundle</finalName>
                             <descriptors>
                                 <descriptor>${basedir}/assembly.xml</descriptor>
                             </descriptors>
