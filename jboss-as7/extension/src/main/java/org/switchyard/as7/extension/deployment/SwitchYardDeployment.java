@@ -126,7 +126,7 @@ public class SwitchYardDeployment {
             }
             if (_deploymentState == SwitchYardDeploymentState.STARTING
                     || _deploymentState == SwitchYardDeploymentState.STOPPED) {
-                _deployment.destroy();
+                _deployment.shutdown();
                 setDeploymentState(SwitchYardDeploymentState.DESTROYED);
             }
         } finally {

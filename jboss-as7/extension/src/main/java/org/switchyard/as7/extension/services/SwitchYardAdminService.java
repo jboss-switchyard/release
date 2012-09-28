@@ -37,6 +37,7 @@ import org.switchyard.deploy.Component;
 import org.switchyard.deploy.ServiceDomainManager;
 import org.switchyard.deploy.event.ApplicationDeployedEvent;
 import org.switchyard.deploy.event.ApplicationUndeployedEvent;
+import org.switchyard.event.DomainShutdownEvent;
 import org.switchyard.runtime.event.ExchangeCompletionEvent;
 
 /**
@@ -78,7 +79,8 @@ public class SwitchYardAdminService implements Service<SwitchYard> {
         _serviceDomainManager.getValue().getEventManager()
             .addObserver(_adminObserver, ExchangeCompletionEvent.class)
             .addObserver(_adminObserver, ApplicationDeployedEvent.class)
-            .addObserver(_adminObserver, ApplicationUndeployedEvent.class);
+            .addObserver(_adminObserver, ApplicationUndeployedEvent.class)
+            .addObserver(_serviceDomainManager.getValue(), DomainShutdownEvent.class);
 
         // add in the configured socket bindings
         _switchYard.addSocketBindingNames(_socketBindings.getValue().keySet());
