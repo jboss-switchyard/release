@@ -293,6 +293,12 @@
           </filelist>
           <mapper type="regexp" from="^(.*)\.html$$" to="\1.xml"/>
         </move>
+        <move overwrite="true" todir="${AS7_PATH}/standalone/configuration">
+          <filelist dir="${AS7_PATH}/standalone/configuration">
+            <file name="standalone-full.html"/>
+          </filelist>
+          <mapper type="regexp" from="^(.*)\.html$$" to="\1.xml"/>
+        </move>
         <!-- Allow this move to fail without error in case of 7.1.0.Beta1 -->
         <move overwrite="true" todir="${AS7_PATH}/standalone/configuration"
           failonerror="false">
