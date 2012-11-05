@@ -50,9 +50,13 @@
     <target name="download-sy-tools-check">
         <condition property="sy.tools.not.available">
           <and>
-            <isset property="installForge"/>
+            <or>
+              <isset property="installForge"/>
+              <isset property="installSYConsole"/>
+              <isset property="installBPELConsole"/>
+            </or>
             <not>
-	      <available file="res/switchyard-tools.zip"/>
+              <available file="res/switchyard-tools.zip"/>
             </not>
           </and>
         </condition>
