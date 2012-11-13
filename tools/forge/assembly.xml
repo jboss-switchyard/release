@@ -71,6 +71,7 @@
               <include>org.switchyard:switchyard-forge-common</include>
               <include>org.switchyard:switchyard-transform</include>
               <include>org.switchyard:switchyard-validate</include>
+              <include>org.switchyard:switchyard-selector</include>
             </includes>
         </dependencySet>
         <dependencySet>

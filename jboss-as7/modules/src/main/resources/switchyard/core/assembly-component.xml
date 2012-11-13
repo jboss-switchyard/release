@@ -80,7 +80,12 @@
             <outputDirectory>/modules/org/switchyard/validate/main</outputDirectory>
             <filtered>true</filtered>
         </file>
-         <file>
+        <file>
+            <source>src/main/resources/switchyard/core/selector/module.xml</source>
+            <outputDirectory>/modules/org/switchyard/selector/main</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
             <source>src/main/resources/switchyard/core/deploy/module.xml</source>
             <outputDirectory>/modules/org/switchyard/deploy/main</outputDirectory>
             <filtered>true</filtered>
@@ -171,6 +176,15 @@
                 <include>org.switchyard:switchyard-validate</include>
             </includes>
             <outputDirectory>/modules/org/switchyard/validate/main</outputDirectory>
+            <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}
+            </outputFileNameMapping>
+        </dependencySet>
+        <dependencySet>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <includes>
+                <include>org.switchyard:switchyard-selector</include>
+            </includes>
+            <outputDirectory>/modules/org/switchyard/selector/main</outputDirectory>
             <outputFileNameMapping>${artifact.artifactId}-${project.version}.${artifact.extension}
             </outputFileNameMapping>
         </dependencySet>
