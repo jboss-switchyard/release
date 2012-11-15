@@ -102,6 +102,7 @@
         <module name="org.switchyard.common"/>
         <module name="org.switchyard.common-camel"/>
         <module name="org.switchyard.config"/>
+        <module name="org.switchyard.selector"/>
         <module name="org.switchyard.deploy"/>
         <module name="org.switchyard.jaxb-impl"/>
         <module name="org.switchyard.component.bean" />

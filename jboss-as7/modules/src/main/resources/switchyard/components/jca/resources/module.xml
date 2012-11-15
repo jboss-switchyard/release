@@ -36,6 +36,7 @@
         <module name="org.switchyard.common"/>
         <module name="org.switchyard.component.common"/>
         <module name="org.switchyard.config"/>
+        <module name="org.switchyard.selector"/>
         <module name="org.switchyard.deploy"/>
         <module name="org.slf4j"/>
     </dependencies>

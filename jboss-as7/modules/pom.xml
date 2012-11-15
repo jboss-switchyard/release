@@ -197,6 +197,10 @@
         </dependency>
         <dependency>
             <groupId>org.switchyard</groupId>
+            <artifactId>switchyard-selector</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard</groupId>
             <artifactId>switchyard-deploy-jboss-as7</artifactId>
         </dependency>
         <dependency>
