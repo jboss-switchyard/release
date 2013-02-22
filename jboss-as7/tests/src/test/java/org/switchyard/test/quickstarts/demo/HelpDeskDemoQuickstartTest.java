@@ -1,6 +1,6 @@
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2011 Red Hat Inc. and/or its affiliates and other contributors
+ * Copyright 2012 Red Hat Inc. and/or its affiliates and other contributors
  * as indicated by the @authors tag. All rights reserved.
  * See the copyright.txt in the distribution for a
  * full listing of individual contributors.
@@ -26,13 +26,13 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.switchyard.test.ArquillianUtil;
-import org.switchyard.test.mixins.BPMMixIn;
-import org.switchyard.test.mixins.HTTPMixIn;
+import org.switchyard.component.test.mixins.bpm.BPMMixIn;
+import org.switchyard.component.test.mixins.http.HTTPMixIn;
 
 /**
  * The helpdesk demo quickstart test.
  *
- * @author David Ward &lt;<a href="mailto:dward@jboss.org">dward@jboss.org</a>&gt; (C) 2011 Red Hat Inc.
+ * @author David Ward &lt;<a href="mailto:dward@jboss.org">dward@jboss.org</a>&gt; &copy; 2012 Red Hat Inc.
  */
 @RunWith(Arquillian.class)
 public class HelpDeskDemoQuickstartTest {
@@ -44,8 +44,9 @@ public class HelpDeskDemoQuickstartTest {
 
     @Test
     public void test() throws Exception {
-        // jBPM TaskServer is run externally
+        // Only testing that deployment is successful at this point.
         Assert.assertTrue(true);
+        // jBPM TaskServer is run externally
         /*
         HTTPMixIn http = new HTTPMixIn();
         BPMMixIn bpm = new BPMMixIn();

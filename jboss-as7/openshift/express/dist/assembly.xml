@@ -77,6 +77,20 @@
       </includes>
     </fileSet>
     <fileSet>
+      <directory>${staging.jboss.dir}/standalone</directory>
+      <outputDirectory>${distro.root.dir}standalone</outputDirectory>
+      <excludes>
+         <exclude>**/standalone*.xml</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <directory>${staging.jboss.dir}/standalone</directory>
+      <outputDirectory>${distro.root.dir}standalone</outputDirectory>
+      <excludes>
+         <exclude>**/standalone*.xml</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
       <directory>src/main/resources</directory>
       <outputDirectory>${distro.root.dir}bin</outputDirectory>
       <includes>

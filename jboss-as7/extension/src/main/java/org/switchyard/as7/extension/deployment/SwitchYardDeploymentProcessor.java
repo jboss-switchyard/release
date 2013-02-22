@@ -18,8 +18,7 @@
  */
 package org.switchyard.as7.extension.deployment;
 
-import java.util.List;
-
+import org.jboss.as.clustering.infinispan.subsystem.CacheService;
 import org.jboss.as.ee.component.EEModuleDescription;
 import org.jboss.as.naming.context.NamespaceContextSelector;
 import org.jboss.as.naming.deployment.JndiNamingDependencyProcessor;
@@ -31,14 +30,17 @@ import org.jboss.as.weld.WeldDeploymentMarker;
 import org.jboss.as.weld.services.BeanManagerService;
 import org.jboss.logging.Logger;
 import org.jboss.msc.service.ServiceBuilder;
+import org.jboss.msc.service.ServiceBuilder.DependencyType;
 import org.jboss.msc.service.ServiceController.Mode;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.ServiceTarget;
 import org.jboss.msc.value.ImmediateValue;
 import org.switchyard.as7.extension.SwitchYardDeploymentMarker;
+import org.switchyard.as7.extension.SwitchYardModuleAdd;
 import org.switchyard.as7.extension.services.SwitchYardComponentService;
 import org.switchyard.as7.extension.services.SwitchYardService;
 import org.switchyard.as7.extension.services.SwitchYardServiceDomainManagerService;
+import org.switchyard.deploy.Component;
 import org.switchyard.deploy.ServiceDomainManager;
 
 /**
@@ -67,13 +69,15 @@ public class SwitchYardDeploymentProcessor implements DeploymentUnitProcessor {
         ServiceDomainManager domainManager =
                 (ServiceDomainManager) phaseContext.getServiceRegistry().getRequiredService(SwitchYardServiceDomainManagerService.SERVICE_NAME).getService().getValue();
 
+        final ServiceTarget serviceTarget = phaseContext.getServiceTarget();
         SwitchYardMetaData metaData = deploymentUnit.getAttachment(SwitchYardMetaData.ATTACHMENT_KEY);
         SwitchYardDeployment deployment = new SwitchYardDeployment(deploymentUnit, metaData.getSwitchYardModel(), domainManager);
         SwitchYardService container = new SwitchYardService(deployment);
-        final ServiceTarget serviceTarget = phaseContext.getServiceTarget();
         final ServiceName switchyardServiceName = deploymentUnit.getServiceName().append(SwitchYardService.SERVICE_NAME);
         final ServiceBuilder<SwitchYardDeployment> switchyardServiceBuilder = serviceTarget.addService(switchyardServiceName, container);
-        switchyardServiceBuilder.addDependency(SwitchYardComponentService.SERVICE_NAME, List.class, container.getComponents());
+        for (String componentName : SwitchYardModuleAdd.getComponentNames()) {
+            switchyardServiceBuilder.addDependency(SwitchYardComponentService.SERVICE_NAME.append(componentName), Component.class, container.getComponent());
+        }
         // ensure naming context is fully initialized before we start
         switchyardServiceBuilder.addDependency(JndiNamingDependencyProcessor.serviceName(deploymentUnit));
 
@@ -87,6 +91,8 @@ public class SwitchYardDeploymentProcessor implements DeploymentUnitProcessor {
             final ServiceName beanManagerServiceName = deploymentUnit.getServiceName().append(BeanManagerService.NAME);
             switchyardServiceBuilder.addDependency(beanManagerServiceName);
         }
+        
+        switchyardServiceBuilder.addDependency(DependencyType.OPTIONAL, CacheService.getServiceName("cluster", null));
 
         switchyardServiceBuilder.setInitialMode(Mode.ACTIVE);
         switchyardServiceBuilder.install();

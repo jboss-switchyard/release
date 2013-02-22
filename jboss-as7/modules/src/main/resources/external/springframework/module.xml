@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2010, Red Hat, Inc., and individual contributors
@@ -21,7 +20,6 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
-
 <module xmlns="urn:jboss:module:1.0" name="org.springframework">
 
     <resources>
@@ -31,10 +29,13 @@
         <resource-root path="spring-jms-${version.spring}.jar"/>
         <resource-root path="spring-jdbc-${version.spring}.jar"/>
         <resource-root path="spring-tx-${version.spring}.jar"/>
+        <resource-root path="spring-orm-${version.spring}.jar"/>
+        <resource-root path="spring-jdbc-${version.spring}.jar"/>
     </resources>
 
     <dependencies>
         <module name="org.apache.commons.logging"/>
+        <module name="javax.persistence.api"/>
         <module name="javax.jms.api"/>
         <module name="javax.api"/>
     </dependencies>

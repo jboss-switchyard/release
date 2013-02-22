@@ -30,10 +30,12 @@
 
     <dependencies>
         <module name="javax.api"/>
+        <module name="javax.activation.api"/>
         <module name="javax.transaction.api"/>
         <module name="org.apache.log4j"/>
         <module name="org.switchyard.api"/>
         <module name="org.switchyard.common"/>
         <module name="org.switchyard.security" export="true"/>
+        <module name="org.switchyard.serial"/>
     </dependencies>
 </module>

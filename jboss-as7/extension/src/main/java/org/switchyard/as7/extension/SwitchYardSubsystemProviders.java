@@ -19,20 +19,25 @@
 package org.switchyard.as7.extension;
 
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.ADD;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.ATTRIBUTES;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.CHILDREN;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.DESCRIPTION;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.HEAD_COMMENT_ALLOWED;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.INTERFACE;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.MAX_OCCURS;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.MIN_OCCURS;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.MODEL_DESCRIPTION;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NAME;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NAMESPACE;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NILLABLE;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.OPERATION_NAME;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.PROPERTIES;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.REMOVE;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.REPLY_PROPERTIES;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.REQUEST_PROPERTIES;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.REQUIRED;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.TAIL_COMMENT_ALLOWED;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.TYPE;
 import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.VALUE_TYPE;
-import static org.switchyard.as7.extension.SwitchYardModelConstants.ACTIVATION_TYPES;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.APPLICATION;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.APPLICATION_NAME;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.ARTIFACTS;
@@ -46,13 +51,11 @@ import static org.switchyard.as7.extension.SwitchYardModelConstants.GET_VERSION;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.IMPLEMENTATION;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.IMPLEMENTATION_CONFIGURATION;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.LIST_APPLICATIONS;
-import static org.switchyard.as7.extension.SwitchYardModelConstants.LIST_COMPONENTS;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.LIST_SERVICES;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.MAX_TIME;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.MIN_TIME;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.PROMOTED_SERVICE;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.READ_APPLICATION;
-import static org.switchyard.as7.extension.SwitchYardModelConstants.READ_COMPONENT;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.READ_SERVICE;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.REFERENCES;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.SERVICES;
@@ -75,6 +78,7 @@ import org.jboss.as.controller.descriptions.common.CommonDescriptions;
 import org.jboss.dmr.ModelNode;
 import org.jboss.dmr.ModelType;
 
+
 /**
  * The SwitchYard subsystem providers.
  * 
@@ -94,10 +98,45 @@ final class SwitchYardSubsystemProviders {
         }
     };
 
-    static final DescriptionProvider SUBSYSTEM_ADD = new DescriptionProvider() {
+    static final DescriptionProvider SUBSYSTEM_ADD_DESCRIBE = new DescriptionProvider() {
 
         public ModelNode getModelDescription(final Locale locale) {
             return Descriptions.getSubsystemAdd(locale);
+        }
+    };
+
+    static final DescriptionProvider SUBSYSTEM_REMOVE_DESCRIBE = new DescriptionProvider() {
+
+        public ModelNode getModelDescription(final Locale locale) {
+            return Descriptions.getSubsystemRemove(locale);
+        }
+    };
+
+    static final DescriptionProvider SOCKET_BINDING_DESCRIBE = new DescriptionProvider() {
+
+        public ModelNode getModelDescription(final Locale locale) {
+            return Descriptions.getSocketBinding(locale);
+        }
+    };
+
+    static final DescriptionProvider MODULE_DESCRIBE = new DescriptionProvider() {
+
+        public ModelNode getModelDescription(final Locale locale) {
+            return Descriptions.getModule(locale);
+        }
+    };
+
+    static final DescriptionProvider MODULE_ADD_DESCRIBE = new DescriptionProvider() {
+
+        public ModelNode getModelDescription(final Locale locale) {
+            return Descriptions.getModuleAdd(locale);
+        }
+    };
+
+    static final DescriptionProvider MODULE_REMOVE_DESCRIBE = new DescriptionProvider() {
+
+        public ModelNode getModelDescription(final Locale locale) {
+            return Descriptions.getModuleRemove(locale);
         }
     };
 
@@ -122,13 +161,6 @@ final class SwitchYardSubsystemProviders {
         }
     };
 
-    static final DescriptionProvider SUBSYSTEM_LIST_COMPONENTS = new DescriptionProvider() {
-
-        public ModelNode getModelDescription(final Locale locale) {
-            return Descriptions.getSubsystemListComponents(locale);
-        }
-    };
-
     static final DescriptionProvider SUBSYSTEM_LIST_SERVICES = new DescriptionProvider() {
 
         public ModelNode getModelDescription(final Locale locale) {
@@ -140,13 +172,6 @@ final class SwitchYardSubsystemProviders {
 
         public ModelNode getModelDescription(final Locale locale) {
             return Descriptions.getSubsystemReadApplication(locale);
-        }
-    };
-
-    static final DescriptionProvider SUBSYSTEM_READ_COMPONENT = new DescriptionProvider() {
-
-        public ModelNode getModelDescription(final Locale locale) {
-            return Descriptions.getSubsystemReadComponent(locale);
         }
     };
 
@@ -192,6 +217,22 @@ final class SwitchYardSubsystemProviders {
             subsystem.get(TAIL_COMMENT_ALLOWED).set(true);
             subsystem.get(NAMESPACE).set(SwitchYardExtension.NAMESPACE);
 
+            subsystem.get(ATTRIBUTES, CommonAttributes.SOCKET_BINDING, DESCRIPTION).set(bundle.getString("switchyard.socket-binding"));
+            subsystem.get(ATTRIBUTES, CommonAttributes.SOCKET_BINDING, TYPE).set(ModelType.STRING);
+            subsystem.get(ATTRIBUTES, CommonAttributes.SOCKET_BINDING, REQUIRED).set(false);
+            subsystem.get(ATTRIBUTES, CommonAttributes.SOCKET_BINDING, NILLABLE).set(false);
+
+            subsystem.get(ATTRIBUTES, CommonAttributes.PROPERTIES, DESCRIPTION).set(bundle.getString("switchyard.properties"));
+            subsystem.get(ATTRIBUTES, CommonAttributes.PROPERTIES, TYPE).set(ModelType.STRING);
+            subsystem.get(ATTRIBUTES, CommonAttributes.PROPERTIES, REQUIRED).set(false);
+            subsystem.get(ATTRIBUTES, CommonAttributes.PROPERTIES, NILLABLE).set(false);
+
+            subsystem.get(CHILDREN, CommonAttributes.MODULE, DESCRIPTION).set(bundle.getString("switchyard.modules"));
+            subsystem.get(CHILDREN, CommonAttributes.MODULE, MIN_OCCURS).set(0);
+            subsystem.get(CHILDREN, CommonAttributes.MODULE, MAX_OCCURS).set(Integer.MAX_VALUE);
+            subsystem.get(CHILDREN, CommonAttributes.MODULE, MODEL_DESCRIPTION);
+
+
             return subsystem;
         }
 
@@ -206,6 +247,77 @@ final class SwitchYardSubsystemProviders {
             op.get(REPLY_PROPERTIES).setEmptyObject();
 
             return op;
+        }
+
+        static ModelNode getSubsystemRemove(Locale locale) {
+            final ResourceBundle bundle = getResourceBundle(locale);
+
+            final ModelNode op = new ModelNode();
+
+            op.get(OPERATION_NAME).set(REMOVE);
+            op.get(DESCRIPTION).set(bundle.getString("switchyard.remove"));
+
+            op.get(REPLY_PROPERTIES).setEmptyObject();
+
+            return op;
+        }
+
+        static ModelNode getSocketBinding(Locale locale) {
+            final ResourceBundle bundle = getResourceBundle(locale);
+
+            final ModelNode node = new ModelNode();
+
+            node.get(DESCRIPTION).set(bundle.getString("switchyard.socket-binding"));
+
+            return node;
+        }
+
+        static ModelNode getModule(Locale locale) {
+            final ResourceBundle bundle = getResourceBundle(locale);
+
+            final ModelNode node = new ModelNode();
+
+            node.get(DESCRIPTION).set(bundle.getString("switchyard.modules.module"));
+            node.get(HEAD_COMMENT_ALLOWED).set(true);
+            node.get(TAIL_COMMENT_ALLOWED).set(true);
+            node.get(ATTRIBUTES, CommonAttributes.IDENTIFIER, TYPE).set(ModelType.STRING);
+            node.get(ATTRIBUTES, CommonAttributes.IDENTIFIER, DESCRIPTION).set(bundle.getString("switchyard.modules.module.identifier"));
+            node.get(ATTRIBUTES, CommonAttributes.IDENTIFIER, REQUIRED).set(true);
+            node.get(ATTRIBUTES, CommonAttributes.IDENTIFIER, NILLABLE).set(false);
+            
+            node.get(ATTRIBUTES, CommonAttributes.IMPLCLASS, TYPE).set(ModelType.STRING);
+            node.get(ATTRIBUTES, CommonAttributes.IMPLCLASS, DESCRIPTION).set(bundle.getString("switchyard.modules.module.implclass"));
+            node.get(ATTRIBUTES, CommonAttributes.IMPLCLASS, REQUIRED).set(true);
+            node.get(ATTRIBUTES, CommonAttributes.IMPLCLASS, NILLABLE).set(false);
+
+            node.get(ATTRIBUTES, CommonAttributes.PROPERTIES, DESCRIPTION).set(bundle.getString("switchyard.modules.module.properties"));
+            node.get(ATTRIBUTES, CommonAttributes.PROPERTIES, TYPE).set(ModelType.STRING);
+            node.get(ATTRIBUTES, CommonAttributes.PROPERTIES, REQUIRED).set(false);
+            node.get(ATTRIBUTES, CommonAttributes.PROPERTIES, NILLABLE).set(false);
+
+            return node;
+        }
+
+        static ModelNode getModuleAdd(Locale locale) {
+            final ResourceBundle bundle = getResourceBundle(locale);
+
+            final ModelNode node = new ModelNode();
+
+            node.get(OPERATION_NAME).set(ADD);
+            node.get(DESCRIPTION).set(bundle.getString("switchyard.modules.module.add"));
+
+            return node;
+        }
+
+        static ModelNode getModuleRemove(Locale locale) {
+            final ResourceBundle bundle = getResourceBundle(locale);
+
+            final ModelNode node = new ModelNode();
+
+            node.get(OPERATION_NAME).set(REMOVE);
+            node.get(DESCRIPTION).set(bundle.getString("switchyard.modules.module.remove"));
+
+            return node;
         }
 
         static ModelNode getSubsystemGetVersion(Locale locale) {
@@ -235,21 +347,6 @@ final class SwitchYardSubsystemProviders {
             op.get(REPLY_PROPERTIES, VALUE_TYPE, NAME, TYPE).set(ModelType.STRING);
             op.get(REPLY_PROPERTIES, VALUE_TYPE, NAME, DESCRIPTION).set(
                     bundle.getString("switchyard.list-services.reply.name"));
-
-            return op;
-        }
-
-        static ModelNode getSubsystemListComponents(Locale locale) {
-            final ResourceBundle bundle = getResourceBundle(locale);
-
-            final ModelNode op = new ModelNode();
-
-            op.get(OPERATION_NAME).set(LIST_COMPONENTS);
-            op.get(DESCRIPTION).set(bundle.getString("switchyard.list-components"));
-
-            op.get(REPLY_PROPERTIES, TYPE).set(ModelType.LIST);
-            op.get(REPLY_PROPERTIES, DESCRIPTION).set(bundle.getString("switchyard.list-components.reply"));
-            op.get(REPLY_PROPERTIES, VALUE_TYPE).set(ModelType.STRING);
 
             return op;
         }
@@ -322,35 +419,6 @@ final class SwitchYardSubsystemProviders {
             op.get(REPLY_PROPERTIES, VALUE_TYPE, VALIDATORS, DESCRIPTION).set(
                     bundle.getString("switchyard.read-application.reply.validators"));
             populateValidatorValueTypeNode(op.get(REPLY_PROPERTIES, VALUE_TYPE, VALIDATORS), locale);
-
-            return op;
-        }
-
-        static ModelNode getSubsystemReadComponent(Locale locale) {
-            final ResourceBundle bundle = getResourceBundle(locale);
-
-            final ModelNode op = new ModelNode();
-
-            op.get(OPERATION_NAME).set(READ_COMPONENT);
-            op.get(DESCRIPTION).set(bundle.getString("switchyard.read-component"));
-
-            op.get(REQUEST_PROPERTIES, NAME, TYPE).set(ModelType.STRING);
-            op.get(REQUEST_PROPERTIES, NAME, DESCRIPTION).set(bundle.getString("switchyard.read-component.param.name"));
-            op.get(REQUEST_PROPERTIES, NAME, NILLABLE).set(true);
-
-            op.get(REPLY_PROPERTIES, TYPE).set(ModelType.LIST);
-            op.get(REPLY_PROPERTIES, DESCRIPTION).set(bundle.getString("switchyard.read-component.reply"));
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, NAME, TYPE).set(ModelType.STRING);
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, NAME, DESCRIPTION).set(
-                    bundle.getString("switchyard.read-component.reply.name"));
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, ACTIVATION_TYPES, TYPE).set(ModelType.LIST);
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, ACTIVATION_TYPES, DESCRIPTION).set(
-                    bundle.getString("switchyard.read-component.reply.types"));
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, ACTIVATION_TYPES, VALUE_TYPE, TYPE).set(ModelType.STRING);
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, PROPERTIES, TYPE).set(ModelType.LIST);
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, PROPERTIES, DESCRIPTION).set(
-                    bundle.getString("switchyard.read-component.reply.properties"));
-            op.get(REPLY_PROPERTIES, VALUE_TYPE, PROPERTIES, VALUE_TYPE, TYPE).set(ModelType.PROPERTY);
 
             return op;
         }
