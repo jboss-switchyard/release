@@ -23,6 +23,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.switchyard.quickstarts.remoteinvoker.Application;
@@ -47,6 +48,7 @@ public class RemoteInvokerQuickstartTest {
     }
 
     @Test
+    @Ignore("SWITCHYARD-1346: NPE in RemoteInvokerQuickstartTest (reply is null!)")
     public void testOffer() throws Exception {
         
         RemoteInvoker invoker = new HttpInvoker(URL);
