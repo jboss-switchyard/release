@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-as7-parent</artifactId>
-        <version>0.8.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -284,10 +284,6 @@
         </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-common-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-common-knowledge</artifactId>
         </dependency>
         <dependency>
@@ -317,7 +313,7 @@
         <dependency>
             <groupId>org.switchyard.console</groupId>
             <artifactId>switchyard-console-application</artifactId>
-            <type>war</type>
+            <classifier>resources</classifier>
         </dependency>
         <!--
         H2Database...
