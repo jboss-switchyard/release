@@ -143,7 +143,7 @@ final class SwitchYardSubsystemProviders {
     static final DescriptionProvider SUBSYSTEM_DESCRIBE = new DescriptionProvider() {
 
         public ModelNode getModelDescription(final Locale locale) {
-            return CommonDescriptions.getSubsystemDescribeOperation(locale);
+            return Descriptions.getSubsystem(locale);
         }
     };
 
