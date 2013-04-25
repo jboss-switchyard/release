@@ -27,6 +27,14 @@
         <format>zip</format>
     </formats>
 
+    <files>
+        <file>
+            <source>src/main/resources/layers.conf</source>
+            <outputDirectory>/modules</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+    </files>
+
     <componentDescriptors>
       <componentDescriptor>src/main/resources/switchyard/core/assembly-component.xml</componentDescriptor>
 
@@ -94,7 +102,6 @@
       <componentDescriptor>src/main/resources/external/jruby/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/milyn/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/mvel/mvel2/assembly-component.xml</componentDescriptor>
-      <componentDescriptor>src/main/resources/external/picketlink/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/protobuf/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/python/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/quartz/assembly-component.xml</componentDescriptor>
@@ -102,7 +109,6 @@
       <componentDescriptor>src/main/resources/external/saaj-impl/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/saxon/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/springframework/assembly-component.xml</componentDescriptor>
-      <componentDescriptor>src/main/resources/external/weld-core/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/ws-impl/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/xstream/assembly-component.xml</componentDescriptor>
     </componentDescriptors>

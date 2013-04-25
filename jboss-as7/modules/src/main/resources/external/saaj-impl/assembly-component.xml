@@ -26,7 +26,7 @@
   <files>
     <file>
       <source>src/main/resources/external/saaj-impl/module.xml</source>
-      <outputDirectory>/modules/org/switchyard/component/soap/saaj-impl/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/org/switchyard/component/soap/saaj-impl/main</outputDirectory>
       <filtered>true</filtered>
     </file>
   </files>
