@@ -247,7 +247,11 @@
         <xslt style="res/standalone.xsl"
               basedir="${AS7_PATH}/standalone/configuration"
               destdir="${AS7_PATH}/standalone/configuration"
-              includes="standalone.xml,standalone-full.xml,standalone-full-ha.xml,standalone-ha.xml"/>
+              includes="standalone.xml,standalone-full.xml"/>
+        <xslt style="res/standalone-ha.xsl"
+              basedir="${AS7_PATH}/standalone/configuration"
+              destdir="${AS7_PATH}/standalone/configuration"
+              includes="standalone-full-ha.xml,standalone-ha.xml"/>
         <xslt style="res/domain.xsl"
               basedir="${AS7_PATH}/domain/configuration"
               destdir="${AS7_PATH}/domain/configuration"
