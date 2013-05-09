@@ -34,7 +34,7 @@
     <description>SwitchYard AS7 Distribution</description>
     <properties>
         <staging.dir>${project.build.directory}/jboss-switchyard</staging.dir>
-        <redhat.eap6.dir> jboss-eap-${version.redhat.eap6}</redhat.eap6.dir>
+        <redhat.eap6.dir>jboss-eap-${version.redhat.eap6}</redhat.eap6.dir>
         <staging.jboss.dir>${staging.dir}/${redhat.eap6.dir}</staging.jboss.dir>
         <staging.configs.dir>${staging.dir}/configs</staging.configs.dir>
         <distro.file>switchyard-distribution-${project.version}</distro.file>
@@ -84,6 +84,52 @@
         <dependency>
             <groupId>org.jboss.as</groupId>
             <artifactId>jboss-as-arquillian-protocol-jmx</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- CXF client dependencies -->
+        <dependency>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-factories</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-transports-httpserver</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-simple</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-soap</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-xml</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-databinding-jaxb</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -137,7 +183,7 @@
                                     <overWrite>true</overWrite>
                                 </artifactItem>
                             </artifactItems>
-                            <includes>${redhat.eap6.dir}/standalone/configuration/standalone.xml, ${redhat.eap6.dir}/standalone/configuration/standalone-full.xml, ${redhat.eap6.dir}/domain/configuration/domain.xml</includes>
+                            <includes>${redhat.eap6.dir}/standalone/configuration/standalone.xml, ${redhat.eap6.dir}/standalone/configuration/standalone-full.xml, ${redhat.eap6.dir}/standalone/configuration/standalone.xml, ${redhat.eap6.dir}/standalone/configuration/standalone-ha.xml, ${redhat.eap6.dir}/standalone/configuration/standalone.xml, ${redhat.eap6.dir}/standalone/configuration/standalone-full-ha.xml,${redhat.eap6.dir}/domain/configuration/domain.xml</includes>
                             <outputDirectory>${staging.configs.dir}</outputDirectory>
                         </configuration>
                     </execution>
@@ -195,26 +241,46 @@
                         <transformationSet>
                             <dir>${staging.configs.dir}/${redhat.eap6.dir}/standalone/configuration</dir>
                             <includes>
-                                <include>standalone*.xml</include>
+                                <include>standalone.xml</include>
+                                <include>standalone-ha.xml</include>
+                                <include>standalone-full-ha.xml</include>
+                                <include>standalone-full.xml</include>
                             </includes>
                             <outputDir>${staging.jboss.dir}/standalone/configuration</outputDir>
                             <stylesheet>${staging.jboss.dir}/xsl/standalone.xsl</stylesheet>
                         </transformationSet>
                         <transformationSet>
+                            <dir>${staging.jboss.dir}/standalone/configuration</dir>
+                            <includes>
+                                <include>standalone-ha.xml</include>
+                                <include>standalone-full-ha.xml</include>
+                            </includes>
+                            <outputDir>${staging.jboss.dir}/standalone/configuration</outputDir>
+                            <stylesheet>${staging.jboss.dir}/xsl/standalone-ha.xsl</stylesheet>
+                        </transformationSet>
+                        <transformationSet>
                             <dir>${staging.configs.dir}/${redhat.eap6.dir}/domain/configuration</dir>
                             <includes>
-                                <include>domain*.xml</include>
+                                <include>domain.xml</include>
                             </includes>
                             <outputDir>${staging.jboss.dir}/domain/configuration</outputDir>
                             <stylesheet>${staging.jboss.dir}/xsl/domain.xsl</stylesheet>
                         </transformationSet>
                         <transformationSet>
-                            <dir>${staging.jboss.dir}/modules/org/jboss/as/console/main</dir>
+                            <dir>${staging.jboss.dir}/modules/system/layers/base/org/jboss/ws/spi/main</dir>
                             <includes>
                                 <include>module.xml</include>
                             </includes>
-                            <outputDir>${staging.jboss.dir}/modules/org/jboss/as/console/main</outputDir>
-                            <stylesheet>${staging.jboss.dir}/xsl/console_module.xsl</stylesheet>
+                            <outputDir>${staging.jboss.dir}/modules/system/layers/base/org/jboss/ws/spi/main</outputDir>
+                            <stylesheet>${staging.jboss.dir}/xsl/jbossws-spi_module.xsl</stylesheet>
+                        </transformationSet>
+                        <transformationSet>
+                            <dir>${staging.jboss.dir}/modules/system/layers/base/org/jboss/as/webservices/main</dir>
+                            <includes>
+                                <include>module.xml</include>
+                            </includes>
+                            <outputDir>${staging.jboss.dir}/modules/system/layers/base/org/jboss/as/webservices/main</outputDir>
+                            <stylesheet>${staging.jboss.dir}/xsl/jbossws-jboss720-server-integration_module.xsl</stylesheet>
                         </transformationSet>
                     </transformationSets>
                 </configuration>
@@ -244,6 +310,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <argLine>-Xms512m -Xmx512m</argLine>
                     <environmentVariables>
                         <JBOSS_HOME>${switchyard.jboss.home}</JBOSS_HOME>
                         <SWITCHYARD_VERSION>${project.version}</SWITCHYARD_VERSION>
