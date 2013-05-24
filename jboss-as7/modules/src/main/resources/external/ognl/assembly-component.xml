@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ JBoss, Home of Professional Open Source.
   ~ Copyright 2010, Red Hat, Inc., and individual contributors
@@ -21,22 +20,24 @@
   ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
-
-<module xmlns="urn:jboss:module:1.0" name="org.switchyard.bus.camel">
-
-    <resources>
-        <resource-root path="switchyard-bus-camel-${project.version}.jar"/>
-    </resources>
-
-    <dependencies>
-        <module name="javax.api"/>
-        <module name="javax.transaction.api"/>
-        <module name="org.slf4j"/>
-        <module name="org.apache.log4j"/>
-        <module name="org.apache.camel.core"/>
-        <module name="org.switchyard.api"/>
-        <module name="org.switchyard.runtime"/>
-        <module name="org.switchyard.common"/>
-        <module name="org.switchyard.common.camel"/>
-    </dependencies>
-</module>
+<component xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2 http://maven.apache.org/xsd/component-1.1.2.xsd"
+    xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <files>
+    <file>
+      <source>src/main/resources/external/ognl/module.xml</source>
+      <outputDirectory>/modules/system/layers/soa/ognl/main</outputDirectory>
+      <filtered>true</filtered>
+    </file>
+  </files>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/modules/system/layers/soa/ognl/main</outputDirectory>
+      <includes>
+        <include>ognl:ognl</include>
+      </includes>
+      <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
+      <useTransitiveDependencies>false</useTransitiveDependencies>
+    </dependencySet>
+  </dependencySets>
+</component>

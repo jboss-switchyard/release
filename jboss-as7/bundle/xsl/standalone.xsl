@@ -67,7 +67,6 @@
                         <socketAddr>:18001</socketAddr>
                     </properties>
                 </module>
-                <module identifier="org.switchyard.component.camel.amqp" implClass="org.switchyard.component.camel.amqp.deploy.CamelAmqpComponent"/>
                 <module identifier="org.switchyard.component.camel.atom" implClass="org.switchyard.component.camel.atom.deploy.CamelAtomComponent"/>
                 <module identifier="org.switchyard.component.camel.core" implClass="org.switchyard.component.camel.core.deploy.CamelCoreComponent"/>
                 <module identifier="org.switchyard.component.camel.file" implClass="org.switchyard.component.camel.file.deploy.CamelFileComponent"/>
@@ -90,6 +89,12 @@
                 </module>
                 <module identifier="org.switchyard.component.resteasy" implClass="org.switchyard.component.resteasy.deploy.RESTEasyComponent"/>
             </modules>
+            <extensions>
+                <extension identifier="org.apache.camel.mvel"/>
+                <extension identifier="org.apache.camel.ognl"/>
+                <extension identifier="org.apache.camel.jaxb"/>
+                <extension identifier="org.apache.camel.soap"/>
+            </extensions>
         </subsystem>
     </xsl:copy>
 </xsl:template>
