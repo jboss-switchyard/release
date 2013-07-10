@@ -63,13 +63,13 @@
 
     <target name="extract-sy-tools-forge" depends="download-sy-tools" if="installForge">
         <unzip src="res/switchyard-tools.zip" dest="res/" overwrite="true">
-            <mapper type="flatten"/>
+           <globmapper from="switchyard-tools-1.0/*" to="*"/>
         </unzip>
     </target>
 
     <target name="extract-sy-tools-bpel-console" depends="download-sy-tools" if="installBPELConsole">
         <unzip src="res/switchyard-tools.zip" dest="res/" overwrite="true">
-            <mapper type="flatten"/>
+           <globmapper from="switchyard-tools-1.0/*" to="*"/>
         </unzip>
     </target>
 
