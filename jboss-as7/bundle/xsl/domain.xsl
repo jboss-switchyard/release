@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ JBoss, Home of Professional Open Source.
-  ~ Copyright 2011, Red Hat, Inc., and individual contributors
-  ~ as indicated by the @author tags. See the copyright.txt file in the
-  ~ distribution for a full listing of individual contributors.
-  ~
-  ~ This is free software; you can redistribute it and/or modify it
-  ~ under the terms of the GNU Lesser General Public License as
-  ~ published by the Free Software Foundation; either version 2.1 of
-  ~ the License, or (at your option) any later version.
-  ~
-  ~ This software is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  ~ Lesser General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Lesser General Public
-  ~ License along with this software; if not, write to the Free
-  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-  -->
+ - Copyright 2013 Red Hat Inc. and/or its affiliates and other contributors.
+ - 
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ - http://www.apache.org/licenses/LICENSE-2.0
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+ -->
 <xsl:stylesheet version="2.0" 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -29,7 +21,8 @@
     xmlns:as="urn:jboss:domain:1.4"
     xmlns:inf="urn:jboss:domain:infinispan:1.4"
     xmlns:sy="urn:jboss:domain:switchyard:1.0"
-    exclude-result-prefixes="xs xsl xsi fn xdt as inf sy">
+    xmlns:log="urn:jboss:domain:logging:1.2"
+    exclude-result-prefixes="xs xsl xsi fn xdt as inf sy log">
 
 <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
 
@@ -182,6 +175,18 @@
     </xsl:copy>
 </xsl:template>
 -->
+
+<xsl:template match="log:subsystem">
+    <xsl:copy>
+        <xsl:apply-templates select="@*|node()"/>
+        <logger category="org.switchyard">
+            <level name="INFO"/>
+        </logger>
+        <logger category="org.apache.deltaspike.core.api.provider.BeanManagerProvider">
+            <level name="ERROR"/>
+        </logger>
+    </xsl:copy>
+</xsl:template>
 
 <xsl:template match="node()[name(.)='security-domains']">
     <xsl:copy>

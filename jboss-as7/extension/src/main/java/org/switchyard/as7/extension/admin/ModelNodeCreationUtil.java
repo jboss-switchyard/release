@@ -1,20 +1,15 @@
-/* 
- * JBoss, Home of Professional Open Source 
- * Copyright 2011 Red Hat Inc. and/or its affiliates and other contributors
- * as indicated by the @author tags. All rights reserved. 
- * See the copyright.txt in the distribution for a 
- * full listing of individual contributors.
+/*
+ * Copyright 2013 Red Hat Inc. and/or its affiliates and other contributors.
  *
- * This copyrighted material is made available to anyone wishing to use, 
- * modify, copy, or redistribute it subject to the terms and conditions 
- * of the GNU Lesser General Public License, v. 2.1. 
- * This program is distributed in the hope that it will be useful, but WITHOUT A 
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
- * PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details. 
- * You should have received a copy of the GNU Lesser General Public License, 
- * v.2.1 along with this distribution; if not, write to the Free Software 
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
- * MA  02110-1301, USA.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,  
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.switchyard.as7.extension.admin;
 
@@ -28,11 +23,13 @@ import static org.switchyard.as7.extension.SwitchYardModelConstants.ARTIFACTS;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.AVERAGE_TIME;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.COMPONENT_SERVICES;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.CONFIGURATION;
+import static org.switchyard.as7.extension.SwitchYardModelConstants.ENABLED;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.FAULT_COUNT;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.FROM;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.GATEWAYS;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.IMPLEMENTATION;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.IMPLEMENTATION_CONFIGURATION;
+import static org.switchyard.as7.extension.SwitchYardModelConstants.MAX_REQUESTS;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.MAX_TIME;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.MIN_TIME;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.OPERATIONS;
@@ -42,6 +39,8 @@ import static org.switchyard.as7.extension.SwitchYardModelConstants.REFERENCES;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.SERVICES;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.STATE;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.SUCCESS_COUNT;
+import static org.switchyard.as7.extension.SwitchYardModelConstants.THROTTLING;
+import static org.switchyard.as7.extension.SwitchYardModelConstants.TIME_PERIOD;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.TO;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.TOTAL_COUNT;
 import static org.switchyard.as7.extension.SwitchYardModelConstants.TOTAL_TIME;
@@ -61,6 +60,7 @@ import org.switchyard.admin.MessageMetrics;
 import org.switchyard.admin.Reference;
 import org.switchyard.admin.Service;
 import org.switchyard.admin.ServiceOperation;
+import org.switchyard.admin.Throttling;
 import org.switchyard.admin.Transformer;
 import org.switchyard.admin.Validator;
 import org.switchyard.config.model.switchyard.ArtifactModel;
@@ -284,7 +284,12 @@ final public class ModelNodeCreationUtil {
      *              "configuration" =&gt; "&lt;?binding.foo ..."
      *          },
      *          ...
-     *      ]
+     *      ],
+     *      "throttling" =&gt; {
+     *          "enabled" =&gt; "true",
+     *          "maxRequests" =&gt; "maxRequests",
+     *          "timePeriod" =&gt; "timePeriod"
+     *      }
      * </pre></code>
      * 
      * @param service the {@link Service} used to populate the node.
@@ -316,6 +321,8 @@ final public class ModelNodeCreationUtil {
             gatewaysNode.add(createGateway(gateway));
         }
         serviceNode.get(GATEWAYS).set(gatewaysNode);
+
+        serviceNode.get(THROTTLING).set(createThrottlingToNode(service.getThrottling()));
 
         return serviceNode;
     }
@@ -767,6 +774,30 @@ final public class ModelNodeCreationUtil {
         serviceNode.get(GATEWAYS).set(gatewaysNode);
 
         return serviceNode;
+    }
+
+    /**
+     * Creates a new node from the {@link Throttling}. The tree has the form: <br>
+     * <code><pre>
+     *      "throttling" =&gt; {
+     *          "enabled" =&gt; "true",
+     *          "maxRequests" =&gt; "maxRequests",
+     *          "timePeriod" =&gt; "timePeriod"
+     *      }
+     * </pre></code>
+     * 
+     * @param throttling the throttling configuration to add to the node
+     * @return a new {@link ModelNode}
+     */
+    public static ModelNode createThrottlingToNode(Throttling throttling) {
+        final ModelNode node = new ModelNode();
+        if (throttling == null) {
+            return node;
+        }
+        node.get(ENABLED).set(throttling.isEnabled());
+        node.get(MAX_REQUESTS).set(throttling.getMaxRequests());
+        node.get(TIME_PERIOD).set(throttling.getTimePeriod());
+        return node;
     }
 
     private ModelNodeCreationUtil() {
