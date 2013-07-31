@@ -34,7 +34,7 @@
 <xsl:template match="//inf:subsystem">
     <xsl:copy>
             <xsl:apply-templates select="node()|@*"/>
-            <cache-container name="switchyard" default-cache="default" start="EAGER">
+            <cache-container xmlns="urn:jboss:domain:infinispan:1.4" name="switchyard" default-cache="default" start="EAGER">
                 <transport lock-timeout="60000"/>
                 <replicated-cache name="default" mode="SYNC" batching="true" start="EAGER">
                     <locking isolation="REPEATABLE_READ"/>
