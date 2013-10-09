@@ -51,7 +51,7 @@ import org.jboss.staxmapper.XMLExtendedStreamReader;
 final class SwitchYardSubsystemReader implements XMLStreamConstants, XMLElementReader<List<ModelNode>> {
 
     private static final SwitchYardSubsystemReader INSTANCE = new SwitchYardSubsystemReader();
-
+    
     private SwitchYardSubsystemReader() {
         // forbidden instantiation
     }
@@ -227,6 +227,7 @@ final class SwitchYardSubsystemReader implements XMLStreamConstants, XMLElementR
 
     void parseExtensionElement(XMLExtendedStreamReader reader, List<ModelNode> list) throws XMLStreamException {
         String identifier = null;
+        String slot = null;
         final int count = reader.getAttributeCount();
         for (int i = 0; i < count; i++) {
             requireNoNamespaceAttribute(reader, i);
@@ -235,18 +236,30 @@ final class SwitchYardSubsystemReader implements XMLStreamConstants, XMLElementR
                 case IDENTIFIER:
                     identifier = reader.getAttributeValue(i);
                     break;
+                case SLOT:
+                    slot = reader.getAttributeValue(i);
+                    break;
                 default:
                     throw unexpectedAttribute(reader, i);
             }
         }
+        
+        String moduleIdentifier = null;
         if (identifier == null) {
             throw missingRequired(reader, Collections.singleton(Attribute.IDENTIFIER));
+        } else {
+            if (slot != null) {
+                moduleIdentifier = identifier + ":" + slot;
+            } else {
+                moduleIdentifier = identifier;
+            }
         }
 
         //Add the 'add' operation for each 'module' child
         ModelNode moduleAdd = new ModelNode();
         moduleAdd.get(OP).set(ModelDescriptionConstants.ADD);
-        PathAddress addr = PathAddress.pathAddress(PathElement.pathElement(SUBSYSTEM, SwitchYardExtension.SUBSYSTEM_NAME), PathElement.pathElement(EXTENSION, identifier));
+        
+        PathAddress addr = PathAddress.pathAddress(PathElement.pathElement(SUBSYSTEM, SwitchYardExtension.SUBSYSTEM_NAME), PathElement.pathElement(EXTENSION, moduleIdentifier));
         moduleAdd.get(OP_ADDR).set(addr.toModelNode());
 
         while (reader.hasNext() && reader.nextTag() != END_ELEMENT) {

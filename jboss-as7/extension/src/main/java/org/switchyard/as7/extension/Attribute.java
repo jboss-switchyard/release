@@ -39,7 +39,12 @@ public enum Attribute {
     /**
      * names attribute.
      */
-    NAMES("names");
+    NAMES("names"),
+    
+    /**
+     * slot attribute.
+     */
+    SLOT("slot");
 
     private final String _name;
 
