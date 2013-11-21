@@ -15,9 +15,6 @@ package org.switchyard.as7.extension.deployment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-
-import javax.enterprise.inject.spi.Extension;
 
 import org.apache.log4j.Logger;
 import org.jboss.as.server.deployment.Attachments;
@@ -26,9 +23,8 @@ import org.jboss.as.server.deployment.DeploymentUnit;
 import org.jboss.as.server.deployment.DeploymentUnitProcessingException;
 import org.jboss.as.server.deployment.DeploymentUnitProcessor;
 import org.jboss.as.weld.WeldDeploymentMarker;
-import org.jboss.as.weld.deployment.WeldAttachments;
 import org.jboss.modules.Module;
-import org.jboss.weld.bootstrap.spi.Metadata;
+import org.switchyard.as7.extension.ExtensionMessages;
 import org.switchyard.as7.extension.SwitchYardDeploymentMarker;
 
 /**
@@ -77,53 +73,14 @@ public class SwitchYardCdiIntegrationProcessor implements DeploymentUnitProcesso
             Method registerMethod = weldPortableExtensionsClass.getDeclaredMethod(TRY_REGISTER_EXTENSION, Class.class, DeploymentUnit.class);
             Object extensions = getExtensionMethod.invoke(null, deploymentUnit);
             Class<?> extensionClass = null;
-            try {
-                extensionClass = module.getClassLoader().loadClass(extensionName);
-            } catch (ClassNotFoundException cnfe) {
-                throw new DeploymentUnitProcessingException(cnfe);
-            }
+            extensionClass = module.getClassLoader().loadClass(extensionName);
             if (extensionClass != null) {
                 registerMethod.invoke(extensions, extensionClass, deploymentUnit);
+            } else {
+                throw ExtensionMessages.MESSAGES.extensionNotfound(extensionName);
             }
-        } catch (ClassNotFoundException wcnfe) {
-            final List<Metadata<Extension>> extensions = parent.getAttachmentList(WeldAttachments.PORTABLE_EXTENSIONS);
-
-            boolean found = false;
-            for (Metadata<Extension> extension : extensions) {
-                if (extension.getLocation().equals(extensionName)) {
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                _logger.debug("SwitchYard Application for deployment unit '" + deploymentUnit.getName() + "' contains CDI Beans.  "
-                        + "Attaching SwitchYard CDI Discovery (" + extensionName + ") to deployment.");
-
-                try {
-                    Class<?> extensionClass = module.getClassLoader().loadClass(extensionName);
-                    final Extension extensionInstance = (Extension) extensionClass.newInstance();
-
-                    Metadata<Extension> metadata = new Metadata<Extension>() {
-                        @Override
-                        public Extension getValue() {
-                            return extensionInstance;
-                        }
-
-                        @Override
-                        public String getLocation() {
-                            return extensionName;
-                        }
-                    };
-                    parent.addToAttachmentList(WeldAttachments.PORTABLE_EXTENSIONS, metadata);
-                } catch (InstantiationException ie) {
-                    throw new DeploymentUnitProcessingException(ie);
-                } catch (IllegalAccessException iae) {
-                    throw new DeploymentUnitProcessingException(iae);
-                } catch (ClassNotFoundException cnfe) {
-                    throw new DeploymentUnitProcessingException(cnfe);
-                }
-            }
+        } catch (ClassNotFoundException cnfe) {
+            throw new DeploymentUnitProcessingException(cnfe);
         } catch (IllegalAccessException iae) {
             throw new DeploymentUnitProcessingException(iae);
         } catch (NoSuchMethodException nsme) {
