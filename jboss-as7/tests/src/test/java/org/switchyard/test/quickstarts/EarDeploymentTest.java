@@ -69,8 +69,7 @@ public class EarDeploymentTest {
                 .addAsModule(ArquillianUtil.createJarQSDeployment("switchyard-camel-soap-proxy"))
                 .addAsModule(ArquillianUtil.createJarQSDeployment("switchyard-transform-jaxb"))
                 .addAsModule(ArquillianUtil.createJarQSDeployment("switchyard-transform-json"))
-                .addAsModule(ArquillianUtil.createJarQSDeployment("switchyard-transform-smooks"))
-                .addAsModule(ArquillianUtil.createJarQSDeployment("switchyard-transform-xslt"));
+                .addAsModule(ArquillianUtil.createJarQSDeployment("switchyard-transform-smooks"));
     }
 
     @Test
