@@ -3,6 +3,7 @@ package org.switchyard.as7.extension;
 import javax.xml.stream.XMLStreamException;
 
 import org.jboss.as.controller.OperationFailedException;
+import org.jboss.as.server.deployment.DeploymentUnitProcessingException;
 import org.jboss.logging.Cause;
 import org.jboss.logging.Messages;
 import org.jboss.logging.annotations.Message;
@@ -69,5 +70,21 @@ public interface ExtensionMessages {
      */
     @Message(id = 40405, value = "Could not instantiate interceptor class: %s")
     SwitchYardException couldNotInstantiateInterceptor(String interceptorClassName, @Cause Throwable t);
+
+    /**
+     * extensionNotfound method definition.
+     * @param extensionClassName extension class name
+     * @return DeploymentUnitProcessingException
+     */
+    @Message(id = 40406, value = "Could not find portable extension : %s")
+    DeploymentUnitProcessingException extensionNotfound(String extensionClassName);
+
+    /**
+     * unableToStartContext method definition.
+     * @param contextPath the context path
+     * @return RuntimeException
+     */
+    @Message(id = 40407, value = "Unable to start context : %s")
+    RuntimeException unableToStartContext(String contextPath);
 
 }
