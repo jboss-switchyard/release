@@ -105,6 +105,8 @@ public class SwitchYardDeployment {
             Thread.currentThread().setContextClassLoader(module.getClassLoader());
             setDeploymentState(SwitchYardDeploymentState.INITIALIZING);
 
+            _deployment.initName();
+
             _appServiceDomain = _domainManager.createDomain(_deployment.getName(), _deployment.getConfig());
 
             // Override the default Camel ThreadPoolFactory to allow for naming
