@@ -28,11 +28,12 @@ import org.jboss.wsf.spi.metadata.j2ee.serviceref.UnifiedHandlerMetaData;
 import org.jboss.wsf.spi.metadata.webservices.PortComponentMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebserviceDescriptionMetaData;
 import org.jboss.wsf.spi.metadata.webservices.WebservicesMetaData;
+import org.switchyard.ServiceDomain;
+import org.switchyard.component.common.Endpoint;
 import org.switchyard.component.soap.InboundHandler;
 import org.switchyard.component.soap.WebServicePublishException;
 import org.switchyard.component.soap.config.model.SOAPBindingModel;
 import org.switchyard.component.soap.endpoint.AbstractEndpointPublisher;
-import org.switchyard.component.soap.endpoint.WSEndpoint;
 
 /**
  * Handles publishing of Webservice Endpoints on JBossWS stack.
@@ -50,7 +51,7 @@ public class JBossWSEndpointPublisher extends AbstractEndpointPublisher {
     /**
      * {@inheritDoc}
      */
-    public synchronized WSEndpoint publish(final SOAPBindingModel config, final String bindingId, final InboundHandler handler, WebServiceFeature... features) {
+    public synchronized Endpoint publish(ServiceDomain domain, final SOAPBindingModel config, final String bindingId, final InboundHandler handler, WebServiceFeature... features) {
         JBossWSEndpoint wsEndpoint = null;
         try {
             initialize(config);
@@ -69,6 +70,7 @@ public class JBossWSEndpointPublisher extends AbstractEndpointPublisher {
             portComponent.setWsdlService(config.getPort().getServiceQName());
              // Should be the WSDL's service name and not the SwitchYard config's service name
             portComponent.setServletLink(config.getPort().getServiceQName().getLocalPart());
+            /*
             UnifiedHandlerChainsMetaData chains = new UnifiedHandlerChainsMetaData();
             UnifiedHandlerChainMetaData chainMetadata = new UnifiedHandlerChainMetaData();
             UnifiedHandlerMetaData handlerMetadata = new UnifiedHandlerMetaData();
@@ -77,6 +79,7 @@ public class JBossWSEndpointPublisher extends AbstractEndpointPublisher {
             chainMetadata.addHandler(handlerMetadata);
             chains.addHandlerChain(chainMetadata);
             portComponent.setHandlerChains(chains);
+             */
             for (WebServiceFeature feature : features) {
                 if (feature instanceof AddressingFeature) {
                     AddressingFeature addrFeature = (AddressingFeature)feature;

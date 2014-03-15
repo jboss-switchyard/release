@@ -54,7 +54,7 @@ public class SoapAddressingQuickstartTest {
             _httpMixIn.uninitialize();
         }
     }
-
+    
     @Test
     public void addressingReplyTo() throws Exception {
         _httpMixIn.initialize();
@@ -84,7 +84,7 @@ public class SoapAddressingQuickstartTest {
             _httpMixIn.uninitialize();
         }
     }
-
+    
     private static String REQUEST = "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns2=\"urn:switchyard-quickstart:soap-addressing:1.0\">"
                             + "    <S:Body>"
                             + "        <ns2:order>"

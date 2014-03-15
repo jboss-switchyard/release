@@ -20,10 +20,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>switchyard-as7-parent</artifactId>
+    <artifactId>switchyard-container-parent</artifactId>
     <packaging>pom</packaging>
-    <name>SwitchYard: AS7 Parent</name>
-    <description>SwitchYard AS7 Parent</description>
+    <name>SwitchYard: Container Parent</name>
+    <description>SwitchYard Container Parent</description>
     <modules>
         <module>kiedroolsjbpm</module>
         <module>modules</module>
@@ -48,6 +48,32 @@
             <groupId>org.switchyard</groupId>
             <artifactId>switchyard-release-testutil</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-impl-base</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-spi</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                    <artifactId>shrinkwrap-resolver-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-server</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -64,229 +90,502 @@
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-transform-json</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-transform-smooks</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-transform-jaxb</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-transform-xslt</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-service</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-bean-service</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-jms-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-jpa-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-ftp-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-mail-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-netty-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-quartz-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-sql-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-soap-proxy</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-ear-deployment-assembly</artifactId>
             <type>ear</type>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-http-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-remote-invoker</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-rest-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-rules-camel-cbr</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-rules-interview</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-rules-interview-container</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-rules-interview-dtable</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-soap-addressing</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-soap-attachment</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-soap-binding-rpc</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-soap-mtom</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-bpm-service</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-bpel-service-say-hello</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-bpel-service-loan-approval</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-bpel-service-jms-binding</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-validate-xml</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-jca-inflow-hornetq</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-connector</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-jca-outbound-hornetq</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-connector</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts</groupId>
             <artifactId>switchyard-quickstart-camel-bus-cdi</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-orders</artifactId>
             <type>war</type>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-policy-transaction</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-helpdesk</artifactId>
             <type>war</type>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-policy-security-basic</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-policy-security-basic-propagate</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-policy-security-cert</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-policy-security-saml</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-policy-security-wss-signencrypt</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
             <artifactId>switchyard-quickstart-demo-policy-security-wss-username</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <profiles>
         <profile>
-            <id>standalone</id>
+            <id>wildfly</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>wildfly</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>eap</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>

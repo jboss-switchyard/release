@@ -31,9 +31,10 @@ import org.jboss.as.server.ServerEnvironment;
 import org.jboss.as.web.deployment.WebCtxLoader;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.spi.Registry;
+import org.switchyard.ServiceDomain;
 import org.switchyard.as7.extension.ExtensionMessages;
 import org.switchyard.as7.extension.util.ServerUtil;
-import org.switchyard.component.resteasy.resource.Resource;
+import org.switchyard.component.common.Endpoint;
 import org.switchyard.component.resteasy.resource.ResourcePublisher;
 
 /**
@@ -52,7 +53,7 @@ public class RESTEasyResourcePublisher implements ResourcePublisher {
     /**
      * {@inheritDoc}
      */
-    public synchronized Resource publish(String context, List<Object> instances) throws Exception {
+    public synchronized Endpoint publish(ServiceDomain domain, String context, List<Object> instances) throws Exception {
         Host host = ServerUtil.getDefaultHost().getHost();
         StandardContext serverContext = (StandardContext) host.findChild("/" + context);
         if (serverContext == null) {
@@ -85,17 +86,31 @@ public class RESTEasyResourcePublisher implements ResourcePublisher {
             serverContext.start();
             LOG.info("Published RESTEasy context " + serverContext.getPath());
         }
-        Registry registry = (Registry)serverContext.getServletContext().getAttribute(Registry.class.getName());
-        List<Class<?>> classes = new ArrayList<Class<?>>();
-        // Add as singleton instance
-        for (Object instance : instances) {
-            registry.addSingletonResource(instance);
-            classes.add(instance.getClass());
+        while (serverContext.isStarting()) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ie) {
+                // Ignore
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Spent sometime to start context.");
+                }
+            }
         }
-        RESTEasyResource resource = new RESTEasyResource();
-        resource.setClasses(classes);
-        resource.setContext(serverContext);
-        return resource;
+        if (serverContext.isStarted()) {
+            Registry registry = (Registry)serverContext.getServletContext().getAttribute(Registry.class.getName());
+            List<Class<?>> classes = new ArrayList<Class<?>>();
+            // Add as singleton instance
+            for (Object instance : instances) {
+                registry.addSingletonResource(instance);
+                classes.add(instance.getClass());
+            }
+            RESTEasyResource resource = new RESTEasyResource();
+            resource.setClasses(classes);
+            resource.setContext(serverContext);
+            return resource;
+        } else {
+            throw ExtensionMessages.MESSAGES.unableToStartContext(context, new RuntimeException("Context not yet started"));
+        }
     }
 
     private static class LocalInstanceManager implements InstanceManager {
