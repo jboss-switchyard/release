@@ -207,6 +207,10 @@
             <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-camel-quartz</artifactId>
         </dependency>
+        <dependency> 
+            <groupId>org.switchyard.components</groupId>
+            <artifactId>switchyard-component-camel-rss</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-camel-sql</artifactId>
@@ -491,6 +495,10 @@
         -->
         <dependency>
             <groupId>org.apache.camel</groupId>
+            <artifactId>camel-atom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
         </dependency>
         <dependency>
@@ -532,6 +540,10 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-rss</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -578,6 +590,10 @@
             <artifactId>ognl</artifactId>
         </dependency>
         <!-- misc external dependencies -->
+	<dependency>
+            <groupId>org.apache.abdera</groupId>
+            <artifactId>abdera-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
@@ -615,6 +631,10 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
         </dependency>
+	<dependency>
+	    <groupId>rome</groupId>
+	    <artifactId>rome</artifactId>
+	</dependency>
         <dependency>
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
