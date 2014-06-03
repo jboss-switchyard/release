@@ -49,6 +49,11 @@ public final class SwitchYardModuleAdd extends AbstractAddStepHandler {
 
     private static final Logger LOG = Logger.getLogger("org.switchyard");
 
+    /**
+     * Global priority.
+     */
+    public static int _priority = 0x4005;
+    
     // TODO use ConnectorServices.RA_REPOSITORY_SERVICE instead once JBoss AS is updated to 7.1.1 or later
     //private static final ServiceName RA_REPOSITORY_SERVICE_NAME = ConnectorServices.RA_REPOSITORY_SERVICE;
     private static final ServiceName RA_REPOSITORY_SERVICE_NAME = ServiceName.JBOSS.append("rarepository");
@@ -59,8 +64,6 @@ public final class SwitchYardModuleAdd extends AbstractAddStepHandler {
      * Global component names.
      */
     private static List<String> _componentNames = new ArrayList<String>();
-
-    private static int _priority = 0x4005;
 
     private SwitchYardModuleAdd() {
 
