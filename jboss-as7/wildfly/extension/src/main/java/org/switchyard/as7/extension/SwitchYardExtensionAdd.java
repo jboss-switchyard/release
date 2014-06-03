@@ -25,8 +25,10 @@ import org.jboss.as.controller.descriptions.ModelDescriptionConstants;
 import org.jboss.as.controller.registry.Resource;
 import org.jboss.as.server.AbstractDeploymentChainStep;
 import org.jboss.as.server.DeploymentProcessorTarget;
+import org.jboss.as.server.deployment.Phase;
 import org.jboss.dmr.ModelNode;
 import org.jboss.msc.service.ServiceController;
+import org.switchyard.as7.extension.deployment.SwitchYardModuleDependencyProcessor;
 
 /**
  * The SwitchYard subsystem's extension add update handler.
@@ -72,7 +74,7 @@ public final class SwitchYardExtensionAdd extends AbstractAddStepHandler {
 
         context.addStep(new AbstractDeploymentChainStep() {
             protected void execute(DeploymentProcessorTarget processorTarget) {
-                //processorTarget.addDeploymentProcessor(SwitchYardExtension.SUBSYSTEM_NAME, Phase.DEPENDENCIES, 0x4006, new SwitchYardModuleDependencyProcessor(moduleId));
+                processorTarget.addDeploymentProcessor(SwitchYardExtension.SUBSYSTEM_NAME, Phase.DEPENDENCIES, SwitchYardModuleAdd._priority++, new SwitchYardModuleDependencyProcessor(moduleId));
             }
         }, OperationContext.Stage.RUNTIME);
     }
