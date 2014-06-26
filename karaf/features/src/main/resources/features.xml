@@ -57,6 +57,8 @@
     <feature name="switchyard-atom" version="${project.version}" resolver="(obr)">
         <feature version="${project.version}">switchyard-camel</feature>
         <feature version="${version.org.apache.camel}">camel-atom</feature>
+        <bundle>mvn:org.apache.james/apache-mime4j-core/${version.org.apache.james.mime4j.core}</bundle>
+        <bundle>mvn:org.apache.abdera/abdera-parser/${version.org.apache.abdera}</bundle>
         <bundle>mvn:org.switchyard.components/switchyard-component-camel-atom/${project.version}</bundle>
     </feature>
 
