@@ -37,6 +37,7 @@
         <feature dependency="true" version="${version.org.milyn}">smooks</feature>
         <feature>switchyard-sca</feature>
         <bundle>mvn:org.switchyard/switchyard-transform/${project.version}</bundle>
+        <bundle>mvn:org.osgi/org.osgi.compendium/4.3.1</bundle>
     </feature>
 
     <feature name="dozer" version="${version.net.sf.dozer}" resolver="(obr)">
