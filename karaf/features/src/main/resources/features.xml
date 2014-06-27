@@ -17,26 +17,15 @@
         <feature>http</feature>
         <feature>switchyard-common-camel</feature>
         <bundle dependency='true'>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xmlresolver/1.2_5</bundle>
-        <bundle>mvn:org.switchyard/switchyard-common/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-security/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-config/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-serial/${project.version}</bundle>
+        <feature>switchyard-sca</feature>
         <bundle>mvn:org.switchyard/switchyard-serial-jackson/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-runtime/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-extensions-java/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-extensions-wsdl/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-bus-camel/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-validate/${project.version}</bundle>
         <bundle>mvn:org.switchyard/switchyard-admin/${project.version}</bundle>
-        <bundle>mvn:org.switchyard/switchyard-deploy/${project.version}</bundle>
         <bundle>mvn:org.switchyard.karaf/switchyard-karaf-deploy/${project.version}</bundle>
         <bundle>mvn:org.switchyard.karaf/switchyard-karaf-commands/${project.version}</bundle>
         <bundle>mvn:org.codehaus.jackson/jackson-core-asl/${version.org.codehaus.jackson}</bundle>
         <bundle>mvn:org.codehaus.jackson/jackson-mapper-asl/${version.org.codehaus.jackson}</bundle>
         <feature dependency="true" version="${version.net.sf.dozer}">dozer</feature>
         <feature dependency="true" version="${version.org.milyn}">smooks</feature>
-        <feature>switchyard-sca</feature>
-        <bundle>mvn:org.switchyard/switchyard-transform/${project.version}</bundle>
     </feature>
 
     <feature name="dozer" version="${version.net.sf.dozer}" resolver="(obr)">
@@ -185,6 +174,19 @@
         <bundle dependency="true">wrap:mvn:org.jboss.jbossts.jts/jbossjts-jacorb/${version.org.jboss.jbossts.jbossxts}</bundle>
         <bundle dependency="true">wrap:mvn:org.jboss.jbossts.xts/jbossxts/${version.org.jboss.jbossts.jbossxts}</bundle>
         <bundle dependency="true">wrap:mvn:org.jboss.jbossts/jbosstxbridge/${version.org.jboss.jbossts.jbossxts}</bundle>
+     
+        <bundle dependency='true'>mvn:org.switchyard/switchyard-common/${project.version}</bundle>
+        <bundle dependency='true'>mvn:org.switchyard/switchyard-config/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-security/${project.version}</bundle>
+        <bundle dependency='true'>mvn:org.switchyard/switchyard-serial/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-runtime/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-bus-camel/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-validate/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-extensions-java/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-extensions-wsdl/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-transform/${project.version}</bundle>
+        <bundle>mvn:org.switchyard/switchyard-deploy/${project.version}</bundle>
+     
         <bundle>mvn:org.switchyard.components/switchyard-component-common/${project.version}</bundle>
         <bundle>mvn:org.apache.geronimo.specs/geronimo-servlet_3.0_spec/${version.org.apache.geronimo.specs.servlet}</bundle>
         <bundle>mvn:org.switchyard/switchyard-remote/${project.version}</bundle>
