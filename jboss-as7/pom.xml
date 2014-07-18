@@ -627,5 +627,14 @@
                 <module>openshift</module>
             </modules>
         </profile>
+        <profile>
+            <id>osgi</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>osgi</module>
+            </modules>
+        </profile>
     </profiles>
 </project>
