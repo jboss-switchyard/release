@@ -38,6 +38,7 @@ import org.ops4j.pax.exam.TestProbeBuilder;
 import org.ops4j.pax.exam.TestProbeProvider;
 import org.ops4j.pax.exam.karaf.options.LogLevelOption.LogLevel;
 import org.ops4j.pax.exam.spi.PaxExamRuntime;
+import org.osgi.framework.Constants;
 import org.switchyard.karaf.test.quickstarts.PhaseListener.Phase;
 
 public abstract class AbstractQuickstartTest {
@@ -90,6 +91,7 @@ public abstract class AbstractQuickstartTest {
             // install the probe
             TestProbeBuilder probeBuilder = system.createProbe();
             time = post(phaseListener, CREATE_PROBE, time);
+            probeBuilder.setHeader(Constants.DYNAMICIMPORT_PACKAGE, "*,org.apache.felix.service.*;status=provisional");
             probeBuilder.addTests(probeClass, probeClass.getMethods());
             time = post(phaseListener, ADD_TESTS, time);
             testProbe = probeBuilder.build();
@@ -152,6 +154,12 @@ public abstract class AbstractQuickstartTest {
                         "8181/cxf"),
                 editConfigurationFilePut("etc/system.properties", "org.switchyard.component.soap.standalone.port",
                         "8181"),
+                editConfigurationFilePut("etc/system.properties", "org.switchyard.component.camel.ftps.storefile",
+                        "../../../test-classes/quickstarts/camel-ftp-binding/ftpclient.jks"),
+                editConfigurationFilePut("etc/system.properties", "org.switchyard.component.camel.sftp.knownhosts",
+                        "../../../test-classes/quickstarts/camel-ftp-binding/known_hosts_sftp"),
+                editConfigurationFilePut("etc/system.properties", "org.switchyard.component.camel.sftp.keyfile",
+                        "../../../test-classes/quickstarts/camel-ftp-binding/id_sftp_rsa"),
                 editConfigurationFilePut(
                         "etc/org.ops4j.pax.url.mvn.cfg",
                         "org.ops4j.pax.url.mvn.repositories",
