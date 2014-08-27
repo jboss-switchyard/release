@@ -32,6 +32,7 @@ public class OsgiRESTEasyResourcePublisher implements ResourcePublisher {
 
     private static final String KEY_SERVLET_REGISTRY = "org.switchyard.deploy.osgi.internal.resteasy.RESTEasyServletRegistry";
     private static final String KEY_SERVLET_MAPPING_PREFIX = "resteasy.servlet.mapping.prefix";
+    private static final String KEY_SERVLET_RESTEASY_PROVIDERS = "resteasy.providers";
     private static final Logger _logger = Logger.getLogger(OsgiRESTEasyResourcePublisher.class);
 
     private HttpService _httpService;
@@ -45,7 +46,7 @@ public class OsgiRESTEasyResourcePublisher implements ResourcePublisher {
     }
 
     @Override
-    public Endpoint publish(ServiceDomain domain, String context, List<Object> instances) throws Exception {
+    public Endpoint publish(ServiceDomain domain, String context, List<Object> instances, String providers) throws Exception {
         OsgiRESTEasyServletRegistry servletRegistry = (OsgiRESTEasyServletRegistry) domain.getProperty(KEY_SERVLET_REGISTRY);
         if (servletRegistry == null) {
             if (_logger.isDebugEnabled()) {
@@ -64,6 +65,9 @@ public class OsgiRESTEasyResourcePublisher implements ResourcePublisher {
             servlet = new OsgiRESTEasyServletWrapper().setClassLoader(Classes.getTCCL());
             Dictionary<String,String> initparams = new Hashtable<String,String>();
             initparams.put(KEY_SERVLET_MAPPING_PREFIX, alias);
+            if (providers != null && !providers.isEmpty()) {
+                initparams.put(KEY_SERVLET_RESTEASY_PROVIDERS, providers);
+            }
             servletRegistry.registerRESTEasyServlet(alias, servlet, initparams, null);
 
             // A workaround for https://issues.jboss.org/browse/RESTEASY-640

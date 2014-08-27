@@ -30,6 +30,7 @@ import org.apache.tomcat.InstanceManager;
 import org.jboss.as.server.ServerEnvironment;
 import org.jboss.as.web.deployment.WebCtxLoader;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.plugins.server.servlet.ResteasyContextParameters;
 import org.jboss.resteasy.spi.Registry;
 import org.switchyard.ServiceDomain;
 import org.switchyard.as7.extension.ExtensionMessages;
@@ -53,7 +54,7 @@ public class RESTEasyResourcePublisher implements ResourcePublisher {
     /**
      * {@inheritDoc}
      */
-    public synchronized Endpoint publish(ServiceDomain domain, String context, List<Object> instances) throws Exception {
+    public synchronized Endpoint publish(ServiceDomain domain, String context, List<Object> instances, String providers) throws Exception {
         Host host = ServerUtil.getDefaultHost().getHost();
         StandardContext serverContext = (StandardContext) host.findChild("/" + context);
         if (serverContext == null) {
@@ -80,6 +81,9 @@ public class RESTEasyResourcePublisher implements ResourcePublisher {
             serverContext.addChild(wrapper);
             serverContext.addServletMapping("/*", SERVLET_NAME);
             serverContext.addApplicationListener(LISTENER_CLASS);
+            if (providers != null && !providers.isEmpty()) {
+                serverContext.addParameter(ResteasyContextParameters.RESTEASY_PROVIDERS, providers);
+            }
 
             host.addChild(serverContext);
             serverContext.create();
