@@ -24,6 +24,7 @@ import org.jboss.as.web.host.WebDeploymentBuilder;
 import org.jboss.as.web.host.WebDeploymentController;
 import org.jboss.as.web.host.WebHost;
 import org.jboss.logging.Logger;
+import org.jboss.resteasy.plugins.server.servlet.ResteasyContextParameters;
 import org.switchyard.ServiceDomain;
 import org.switchyard.as7.extension.ExtensionMessages;
 import org.switchyard.as7.extension.WebResource;
@@ -46,7 +47,7 @@ public class RESTEasyResourcePublisher implements ResourcePublisher {
     /**
      * {@inheritDoc}
      */
-    public synchronized Endpoint publish(ServiceDomain domain, String context, List<Object> instances) throws Exception {
+    public synchronized Endpoint publish(ServiceDomain domain, String context, List<Object> instances, String providers) throws Exception {
         WebResource resource = SwitchYardDeployment.getResource(domain, context);
         if (resource == null) {
             WebHost host = ServerUtil.getDefaultHost();
@@ -73,6 +74,9 @@ public class RESTEasyResourcePublisher implements ResourcePublisher {
                 servletBuilder.setServletClass(RESTEasyServlet.class);
                 servletBuilder.setForceInit(true);
                 servletBuilder.addInitParam("resteasy.servlet.context.deployment", "true");
+                if (providers != null && !providers.isEmpty()) {
+                    servletBuilder.addInitParam(ResteasyContextParameters.RESTEASY_PROVIDERS, providers);
+                }
                 servletBuilder.setServlet(servlet);
                 deployment.addServlet(servletBuilder);
 
