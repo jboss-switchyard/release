@@ -30,7 +30,7 @@ public class CamelBindingQuickstartTest {
 
     @Deployment(testable = false)
     public static JavaArchive createDeployment() {
-        return ArquillianUtil.createJarQSDeployment("switchyard-camel-binding");
+        return ArquillianUtil.createJarQSDeployment("switchyard-camel-file-binding");
     }
 
     @Test
