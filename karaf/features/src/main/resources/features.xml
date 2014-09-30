@@ -571,6 +571,10 @@
     <!--feature name="switchyard-quickstart-camel-soap-proxy" version="${project.version}" resolver="(obr)">
         <feature version="${project.version}">switchyard-camel</feature>
         <feature version="${project.version}">switchyard-soap</feature>
+        <config name="">
+            org.switchyard.component.soap.client.port=8181/cxf
+            org.switchyard.component.soap.standalone.port=8181
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-camel-soap-proxy/${project.version}</bundle>
     </feature-->
 
@@ -580,6 +584,9 @@
         <feature version="${project.version}">switchyard-quartz</feature>
         <feature version="${project.version}">switchyard-sql</feature>
         <bundle>mvn:com.h2database/h2/${version.com.h2database}</bundle>
+        <config name="org.switchyard.quickstarts.switchyard.camel.sql.binding">
+            org.switchyard.quickstarts.camel.sql.datasourceName=osgi:service/jboss/myDS
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-camel-sql-binding/${project.version}</bundle>
     </feature>
 
@@ -589,6 +596,11 @@
         <feature version="${project.version}">switchyard-camel</feature>
         <feature version="${project.version}">switchyard-file</feature>
         <feature version="${project.version}">switchyard-http</feature>
+        <config name="org.switchyard.quickstarts.switchyard.soap.addressing">
+            org.switchyard.component.soap.client.port=8181/cxf
+            org.switchyard.component.soap.standalone.port=8181
+            org.switchyard.component.http.standalone.port=8181
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-soap-addressing/${project.version}</bundle>
     </feature>
 
@@ -596,6 +608,10 @@
         <feature version="${project.version}">switchyard-soap</feature>
         <feature version="${project.version}">switchyard-bean</feature>
         <feature version="${project.version}">switchyard-camel</feature>
+        <config name="org.switchyard.quickstarts.switchyard.soap.attachment">
+            org.switchyard.component.soap.client.port=8181/cxf
+            org.switchyard.component.soap.standalone.port=8181
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-soap-attachment/${project.version}</bundle>
     </feature>
 
@@ -603,6 +619,10 @@
         <feature version="${project.version}">switchyard-soap</feature>
         <feature version="${project.version}">switchyard-bean</feature>
         <feature version="${project.version}">switchyard-camel</feature>
+        <config name="org.switchyard.quickstarts.switchyard.soap.binding.rpc">
+            org.switchyard.component.soap.client.port=8181/cxf
+            org.switchyard.component.soap.standalone.port=8181
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-soap-binding-rpc/${project.version}</bundle>
     </feature>
 
@@ -610,12 +630,19 @@
         <feature version="${project.version}">switchyard-soap</feature>
         <feature version="${project.version}">switchyard-bean</feature>
         <feature version="${project.version}">switchyard-camel</feature>
+        <config name="org.switchyard.quickstarts.switchyard.soap.mtom">
+            org.switchyard.component.soap.client.port=8181/cxf
+            org.switchyard.component.soap.standalone.port=8181
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-soap-mtom/${project.version}</bundle>
     </feature>
 
     <feature name="switchyard-quickstart-rest-binding" version="${project.version}" resolver="(obr)">
         <feature version="${project.version}">switchyard-bean</feature>
         <feature version="${project.version}">switchyard-rest</feature>
+        <config name="org.switchyard.quickstarts.switchyard.rest.binding">
+            org.switchyard.component.resteasy.standalone.port=8181
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-rest-binding/${project.version}</bundle>
     </feature>
 
@@ -665,6 +692,9 @@
     <feature name="switchyard-quickstart-http-binding" version="${project.version}" resolver="(obr)">
         <feature version="${project.version}">switchyard-bean</feature>
         <feature version="${project.version}">switchyard-http</feature>
+        <config name="org.switchyard.quickstarts.switchyard.http.binding">
+            org.switchyard.component.http.standalone.port=8181
+        </config>
         <bundle>mvn:org.switchyard.quickstarts/switchyard-http-binding/${project.version}</bundle>
     </feature>
 
