@@ -23,7 +23,7 @@
     <dependencies>
         <module name="javax.api" />
         <module name="javax.enterprise.api"/>
-        <module name="org.apache.deltaspike.core-api"/>
+        <module name="org.apache.deltaspike.core.api"/>
         <module name="org.jboss.logging"/>
     </dependencies>
 </module>

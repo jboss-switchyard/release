@@ -36,7 +36,7 @@
         <module name="org.switchyard.config"/>
         <module name="org.switchyard.deploy"/>
         <module name="org.apache.camel.core"/>
-        <module name="org.apache.camel.cxf" export="true">
+        <module name="org.apache.camel.component.cxf" export="true">
             <imports>
                 <include path="META-INF/"/>
                 <include path="META-INF/cxf"/>

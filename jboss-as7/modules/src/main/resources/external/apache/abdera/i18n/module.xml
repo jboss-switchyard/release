@@ -12,7 +12,7 @@
  - See the License for the specific language governing permissions and
  - limitations under the License.
  -->
-<module xmlns="urn:jboss:module:1.0" name="org.apache.abdera.abdera-i18n">
+<module xmlns="urn:jboss:module:1.0" name="org.apache.abdera.i18n">
 
     <resources>
         <resource-root path="abdera-i18n-${version.org.apache.abdera}.jar"/>
@@ -20,7 +20,7 @@
 
     <dependencies>
         <module name="javax.api" />
-	<module name="org.apache.abdera.abdera-core"/>
+	<module name="org.apache.abdera.core"/>
 	<module name="org.apache.commons.logging"/>
     </dependencies>
 

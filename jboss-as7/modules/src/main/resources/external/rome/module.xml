@@ -12,7 +12,7 @@
  - See the License for the specific language governing permissions and
  - limitations under the License.
  -->
-<module xmlns="urn:jboss:module:1.0" name="rome.rome" slot="1.0">
+<module xmlns="urn:jboss:module:1.0" name="io.github.rometools.rome">
 
     <resources>
         <resource-root path="rome-${version.rome}.jar"/>

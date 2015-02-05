@@ -28,7 +28,7 @@
         <module name="org.switchyard.deploy"/>
         <module name="org.switchyard.jaxb-impl"/>
         <module name="org.apache.camel.core"/>
-        <module name="org.apache.camel.jpa" export="true" optional="true">
+        <module name="org.apache.camel.component.jpa" export="true" optional="true">
             <imports>
                 <include path="META-INF/services/org/apache/camel/component"/>
             </imports>
