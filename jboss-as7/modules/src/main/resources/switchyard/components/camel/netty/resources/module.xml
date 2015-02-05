@@ -30,7 +30,7 @@
         <module name="org.switchyard.component.common"/>
         <module name="org.jboss.netty"/>
         <module name="org.apache.camel.core"/>
-        <module name="org.apache.camel.netty" export="true" optional="true">
+        <module name="org.apache.camel.component.netty" export="true" optional="true">
             <imports>
                 <include path="META-INF/services/org/apache/camel"/>
                 <include path="META-INF/services/org/apache/camel/component"/>

@@ -100,14 +100,14 @@
                 <module identifier="org.switchyard.component.resteasy" implClass="org.switchyard.component.resteasy.deploy.RESTEasyComponent"/>
             </modules>
             <extensions>
-                <extension identifier="org.apache.camel.bindy"/>
-                <extension identifier="org.apache.camel.hl7"/>
-                <extension identifier="org.apache.camel.mina2"/>
-                <extension identifier="org.apache.camel.mvel"/>
-                <extension identifier="org.apache.camel.ognl"/>
-                <extension identifier="org.apache.camel.jaxb"/>
-                <extension identifier="org.apache.camel.saxon"/>
-                <extension identifier="org.apache.camel.soap"/>
+                <extension identifier="org.apache.camel.component.bindy"/>
+                <extension identifier="org.apache.camel.component.hl7"/>
+                <extension identifier="org.apache.camel.component.mina2"/>
+                <extension identifier="org.apache.camel.component.mvel"/>
+                <extension identifier="org.apache.camel.component.ognl"/>
+                <extension identifier="org.apache.camel.component.jaxb"/>
+                <extension identifier="org.apache.camel.component.saxon"/>
+                <extension identifier="org.apache.camel.component.soap"/>
             </extensions>
         </subsystem>
     </xsl:copy>

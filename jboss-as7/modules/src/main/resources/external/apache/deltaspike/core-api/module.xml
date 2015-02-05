@@ -12,7 +12,7 @@
  - See the License for the specific language governing permissions and
  - limitations under the License.
  -->
-<module xmlns="urn:jboss:module:1.0" name="org.apache.deltaspike.core-api">
+<module xmlns="urn:jboss:module:1.0" name="org.apache.deltaspike.core.api">
 
     <resources>
         <resource-root path="deltaspike-core-api-${version.org.apache.deltaspike.core}.jar"/>

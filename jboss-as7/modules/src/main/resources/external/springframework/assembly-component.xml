@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- - Copyright 2013 Red Hat Inc. and/or its affiliates and other contributors.
+ - Copyright 2014 Red Hat Inc. and/or its affiliates and other contributors.
  - 
  - Licensed under the Apache License, Version 2.0 (the "License");
  - you may not use this file except in compliance with the License.
@@ -23,22 +23,5 @@
     </file>
   </files>
   <dependencySets>
-    <dependencySet>
-      <outputDirectory>/modules/system/layers/soa/org/springframework/main</outputDirectory>
-      <includes>
-        <include>org.springframework:spring-aop</include>
-        <include>org.springframework:spring-beans</include>
-        <include>org.springframework:spring-core</include>
-        <include>org.springframework:spring-context</include>
-        <include>org.springframework:spring-expression</include>
-        <include>org.springframework:spring-jms</include>
-        <include>org.springframework:spring-jdbc</include>
-        <include>org.springframework:spring-tx</include>
-        <include>org.springframework:spring-jdbc</include>
-        <include>org.springframework:spring-orm</include>
-      </includes>
-      <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
-      <useTransitiveDependencies>false</useTransitiveDependencies>
-    </dependencySet>
   </dependencySets>
 </component>
