@@ -1,0 +1,44 @@
+<!--
+ - Copyright 2013 Red Hat Inc. and/or its affiliates and other contributors.
+ - 
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ - http://www.apache.org/licenses/LICENSE-2.0
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+ -->
+
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+
+    <id>JBossAS7</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <files>
+        <file>
+            <source>src/main/resources/layers.conf</source>
+            <outputDirectory>/modules</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+    </files>
+
+    <componentDescriptors>
+
+      <!-- FROM: src/main/resources/switchyard/components/assembly.xml -->
+      <componentDescriptor>src/main/resources/switchyard/components/bpm/assembly-component.xml</componentDescriptor>
+      <componentDescriptor>src/main/resources/switchyard/components/rules/assembly-component.xml</componentDescriptor>
+
+      <!-- FROM: src/main/resources/switchyard/components/common/assembly.xml -->
+      <componentDescriptor>src/main/resources/switchyard/components/common/assembly-component.xml</componentDescriptor>
+      <componentDescriptor>src/main/resources/switchyard/components/common/knowledge/assembly-component.xml</componentDescriptor>
+    </componentDescriptors>
+
+</assembly>

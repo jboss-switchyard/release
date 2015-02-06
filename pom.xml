@@ -90,6 +90,17 @@
             </modules>
         </profile>
         <profile>
+            <id>brms</id>
+            <activation>
+                <property>
+                    <name>!skipBRMS</name>
+                </property>
+            </activation>
+            <modules>
+                <module>brms</module>
+            </modules>
+        </profile>
+        <profile>
             <id>wildfly</id>
             <activation>
                 <activeByDefault>false</activeByDefault>

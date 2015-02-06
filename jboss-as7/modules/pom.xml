@@ -161,10 +161,6 @@
         </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-bpm</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-camel</artifactId>
         </dependency>
         <dependency>
@@ -254,19 +250,11 @@
         </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-common-knowledge</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-resteasy</artifactId>
         </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
             <artifactId>switchyard-component-sca</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.switchyard.components</groupId>
-            <artifactId>switchyard-component-rules</artifactId>
         </dependency>
         <dependency>
             <groupId>org.switchyard.components</groupId>
@@ -699,6 +687,10 @@
         <dependency>
             <groupId>org.milyn</groupId>
             <artifactId>milyn-smooks-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mvel</groupId>
+            <artifactId>mvel2</artifactId>
         </dependency>
         <dependency>
             <groupId>net.sf.dozer</groupId>

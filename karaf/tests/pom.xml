@@ -173,6 +173,7 @@
                         <exclude>**/Abstract*.java</exclude>
                         <exclude>**/*$*</exclude>
                         <exclude>**/ClusterDemoQuickstartTest.java</exclude>
+                        <exclude>**/CamelNettyBindingQuickstartTest.java</exclude>
                         <!-- Fails in test kit, but not standalone -->
                         <exclude>**/CamelSAPBindingQuickstartTest.java</exclude>
                         <!-- Requires local SAP installation -->
@@ -202,7 +203,6 @@
                                 <feature version="${project.version}">switchyard-atom</feature>
                                 <feature version="${project.version}">switchyard-bpel</feature>
                                 <feature version="${project.version}">switchyard-bean</feature>
-                                <feature version="${project.version}">switchyard-bpm</feature>
                                 <feature version="${project.version}">switchyard-cdi</feature>
                                 <feature version="${project.version}">switchyard-camel</feature>
                                 <feature version="${project.version}">switchyard-file</feature>
@@ -213,7 +213,6 @@
                                 <feature version="${project.version}">switchyard-mqtt</feature>
                                 <feature version="${project.version}">switchyard-netty</feature>
                                 <feature version="${project.version}">switchyard-quartz</feature>
-                                <feature version="${project.version}">switchyard-rules</feature>
                                 <feature version="${project.version}">switchyard-rss</feature>
                                 <feature version="${project.version}">switchyard-sql</feature>
                                 <feature version="${project.version}">switchyard-soap</feature>

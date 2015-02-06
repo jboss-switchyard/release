@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+- Copyright 2014 Red Hat Inc. and/or its affiliates and other contributors.
+-
+- Licensed under the Apache License, Version 2.0 (the "License")
+- you may not use this file except in compliance with the License.
+- You may obtain a copy of the License at
+- http://www.apache.org/licenses/LICENSE-2.0
+- Unless required by applicable law or agreed to in writing, software
+- distributed under the License is distributed on an "AS IS" BASIS,
+- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- See the License for the specific language governing permissions and
+- limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.switchyard.brms</groupId>
+        <artifactId>switchyard-release</artifactId>
+        <version>2.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>switchyard-container-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>SwitchYard BRMS: Container Parent</name>
+    <description>SwitchYard BRMS JBoss EAP Container Parent</description>
+    <modules>
+        <module>tests</module>
+        <module>modules</module>
+        <module>bundle</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.switchyard</groupId>
+            <artifactId>switchyard-release-distribution</artifactId>
+        </dependency>
+        <!--
+        Test dependencies...
+        -->
+        <dependency>
+            <groupId>org.jvnet.mock-javamail</groupId>
+            <artifactId>mock-javamail</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard</groupId>
+            <artifactId>switchyard-release-testutil</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-impl-base</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap</groupId>
+                    <artifactId>shrinkwrap-spi</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                    <artifactId>shrinkwrap-resolver-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-server</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-mqtt</artifactId>
+        </dependency>
+        <!-- Quickstart dependencies -->
+      
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-rules-camel-cbr</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-rules-interview</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-rules-interview-container</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-rules-interview-dtable</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts</groupId>
+            <artifactId>switchyard-bpm-service</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+  
+        <dependency>
+            <groupId>org.switchyard.quickstarts.demos</groupId>
+            <artifactId>switchyard-demo-helpdesk</artifactId>
+            <type>war</type>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.switchyard.quickstarts.demos</groupId>
+            <artifactId>switchyard-demo-library</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>wildfly</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>wildfly</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>eap</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>standalone</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>openshift</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>openshift</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>

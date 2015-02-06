@@ -47,25 +47,6 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>install-as7-bpms-layer</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.kie</groupId>
-                                    <artifactId>kie-eap-distributions-bpms-layer</artifactId>
-                                    <version>${version.org.kie}</version>
-                                    <type>zip</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <excludes>modules/layers.conf</excludes>
-                            <outputDirectory>${staging.jboss.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>install-as7-modules</id>
                         <phase>generate-sources</phase>
                         <goals>
