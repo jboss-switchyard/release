@@ -18,13 +18,13 @@
   <files>
     <file>
       <source>src/main/resources/external/rome/module.xml</source>
-      <outputDirectory>/modules/system/layers/soa/rome/rome/1.0</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/io/github/rometools/rome/main</outputDirectory>
       <filtered>true</filtered>
     </file>
   </files>
   <dependencySets>
     <dependencySet>
-      <outputDirectory>/modules/system/layers/soa/rome/rome/1.0</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/io/github/rometools/rome/main</outputDirectory>
       <includes>
         <include>rome:rome</include>
       </includes>

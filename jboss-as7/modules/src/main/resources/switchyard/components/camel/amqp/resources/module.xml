@@ -27,8 +27,8 @@
         <module name="org.switchyard.deploy"/>
         <module name="org.switchyard.jaxb-impl"/>
         <module name="org.apache.camel.core"/>
-        <module name="org.apache.camel.jms"/>
-        <module name="org.apache.camel.amqp" export="true" optional="true">
+        <module name="org.apache.camel.component.jms"/>
+        <module name="org.apache.camel.component.amqp" export="true" optional="true">
             <imports>
                 <include path="META-INF/services/org/apache/camel/component"/>
             </imports>

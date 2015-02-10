@@ -18,13 +18,13 @@
   <files>
     <file>
       <source>src/main/resources/external/apache/abdera/i18n/module.xml</source>
-      <outputDirectory>/modules/system/layers/soa/org/apache/abdera/abdera-i18n/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/org/apache/abdera/i18n/main</outputDirectory>
       <filtered>true</filtered>
     </file>
   </files>
   <dependencySets>
     <dependencySet>
-      <outputDirectory>/modules/system/layers/soa/org/apache/abdera/abdera-i18n/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/org/apache/abdera/i18n/main</outputDirectory>
       <includes>
         <include>org.apache.abdera:abdera-i18n</include>
       </includes>

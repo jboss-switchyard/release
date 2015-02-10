@@ -12,7 +12,7 @@
  - See the License for the specific language governing permissions and
  - limitations under the License.
  -->
-<module xmlns="urn:jboss:module:1.0" name="org.apache.abdera.abdera-parser">
+<module xmlns="urn:jboss:module:1.0" name="org.apache.abdera.parser">
 
     <resources>
         <resource-root path="abdera-parser-${version.org.apache.abdera}.jar"/>
@@ -22,8 +22,8 @@
         <module name="javax.api"/>
 	<module name="javax.activation.api"/>
 	<module name="org.apache.commons.logging"/>
-	<module name="org.apache.abdera.abdera-i18n"/>
-	<module name="org.apache.abdera.abdera-core"/>
+	<module name="org.apache.abdera.i18n"/>
+	<module name="org.apache.abdera.core"/>
 	<module name="org.apache.ws.commons.axiom.axiom-api"/>
 	<module name="org.apache.ws.commons.axiom.axiom-impl"/>
     </dependencies>

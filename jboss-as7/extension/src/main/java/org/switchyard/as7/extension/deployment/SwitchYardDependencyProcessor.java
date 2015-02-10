@@ -44,7 +44,7 @@ public class SwitchYardDependencyProcessor implements DeploymentUnitProcessor {
     private static final ModuleIdentifier SWITCHYARD_RUNTIME_ID = ModuleIdentifier.create("org.switchyard.runtime");
     private static final ModuleIdentifier SWITCHYARD_TRANSFORM_ID = ModuleIdentifier.create("org.switchyard.transform");
     private static final ModuleIdentifier SWITCHYARD_VALIDATE_ID = ModuleIdentifier.create("org.switchyard.validate");
-    private static final ModuleIdentifier DELTASPIKE_ID = ModuleIdentifier.create("org.apache.deltaspike.core-api");
+    private static final ModuleIdentifier DELTASPIKE_ID = ModuleIdentifier.create("org.apache.deltaspike.core.api");
 
     /**
      * Construct SwitchYard dependency processor.
