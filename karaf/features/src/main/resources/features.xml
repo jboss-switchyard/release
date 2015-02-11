@@ -296,6 +296,8 @@
     <feature name="switchyard-soap" version="${project.version}" resolver="(obr)">
         <feature version="${project.version}">switchyard</feature>
         <feature version="${project.version}">switchyard-internal-soap</feature>
+        <bundle dependency='true'>mvn:org.apache.httpcomponents/httpcore-osgi/${version.org.apache.httpcomponents.httpcore}</bundle>
+        <bundle dependency='true'>mvn:org.apache.httpcomponents/httpclient-osgi/${version.org.apache.httpcomponents.httpclient}</bundle>
     </feature>
 
     <feature name="switchyard-internal-soap" version="${project.version}" resolver="(obr)">
