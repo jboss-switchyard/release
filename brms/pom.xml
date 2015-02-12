@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+	<?xml version="1.0" encoding="UTF-8"?>
 <!--
 - Copyright 2015 Red Hat Inc. and/or its affiliates and other contributors.
 -
@@ -36,4 +36,24 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>eap</id>
+            <activation>
+            <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                    <module>jboss-as7</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>karaf</id>
+            <activation>
+            <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                    <module>karaf</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
