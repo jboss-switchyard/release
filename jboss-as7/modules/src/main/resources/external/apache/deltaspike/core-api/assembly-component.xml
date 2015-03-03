@@ -18,13 +18,13 @@
   <files>
     <file>
       <source>src/main/resources/external/apache/deltaspike/core-api/module.xml</source>
-      <outputDirectory>/modules/system/layers/soa/org/apache/deltaspike/core-api/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/org/apache/deltaspike/core/api/main</outputDirectory>
       <filtered>true</filtered>
     </file>
   </files>
   <dependencySets>
     <dependencySet>
-      <outputDirectory>/modules/system/layers/soa/org/apache/deltaspike/core-api/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/org/apache/deltaspike/core/api/main</outputDirectory>
       <includes>
         <include>org.apache.deltaspike.core:deltaspike-core-api</include>
       </includes>

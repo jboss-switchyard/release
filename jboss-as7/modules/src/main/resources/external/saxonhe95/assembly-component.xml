@@ -18,13 +18,13 @@
   <files>
     <file>
       <source>src/main/resources/external/saxonhe95/module.xml</source>
-      <outputDirectory>/modules/system/layers/soa/net/sf/saxon/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/net/sf/saxon/he/main</outputDirectory>
       <filtered>true</filtered>
     </file>
   </files>
   <dependencySets>
     <dependencySet>
-      <outputDirectory>/modules/system/layers/soa/net/sf/saxon/main</outputDirectory>
+      <outputDirectory>/modules/system/layers/soa/net/sf/saxon/he/main</outputDirectory>
       <includes>
         <include>net.sf.saxon:Saxon-HE</include>
       </includes>
