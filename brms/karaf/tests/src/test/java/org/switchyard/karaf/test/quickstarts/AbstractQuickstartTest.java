@@ -168,7 +168,7 @@ public abstract class AbstractQuickstartTest {
                         "etc/org.ops4j.pax.url.mvn.cfg",
                         "org.ops4j.pax.url.mvn.repositories",
                         "https://repository.jboss.org/nexus/content/groups/public@id=jboss-public-repository-group,http://repo1.maven.org/maven2@id=central, http://svn.apache.org/repos/asf/servicemix/m2-repo@id=servicemix, http://repository.springsource.com/maven/bundles/release@id=springsource.release, http://repository.springsource.com/maven/bundles/external@id=springsource.external, https://repository.jboss.org/nexus/content/repositories/snapshots@snapshots@noreleases@id=jboss-snapshot, https://repository.jboss.org/nexus/content/repositories/fs-releases@id=fusesource.release"),
-                features(maven().groupId("org.switchyard.karaf").artifactId("switchyard").type("xml").classifier("features").versionAsInProject().getURL(), featureName),
+                features(maven().groupId("org.switchyard.brms.karaf").artifactId("switchyard").type("xml").classifier("features").versionAsInProject().getURL(), featureName),
                 systemProperty(DeploymentProbe.BUNDLE_NAME_KEY).value(bundleName),
                 vmOptions("-Xmx1G", "-XX:MaxPermSize=256M"),
                 when(localMavenRepo.length() > 0).useOptions(systemProperty("org.ops4j.pax.url.mvn.localRepository").value(localMavenRepo)));
