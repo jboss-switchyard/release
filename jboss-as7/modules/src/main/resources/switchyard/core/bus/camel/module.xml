@@ -22,6 +22,7 @@
 
     <dependencies>
         <module name="javax.api"/>
+        <module name="javax.activation.api"/>
         <module name="javax.transaction.api"/>
         <module name="org.slf4j"/>
         <module name="org.jboss.logging"/>

@@ -333,6 +333,29 @@
             <build>
                 <plugins>
                     <plugin>
+                      <artifactId>maven-dependency-plugin</artifactId>
+                      <executions>
+			<execution>
+                          <id>unpack-wildfly-camel-modules</id>
+                          <phase>process-test-classes</phase>
+                          <goals>
+                            <goal>unpack</goal>
+                          </goals>
+                          <configuration>
+                            <artifactItems>
+                              <artifactItem>
+                                <groupId>org.wildfly.camel</groupId>
+                                <artifactId>wildfly-camel-modules</artifactId>
+                                <type>tar.gz</type>
+                                <version>${version.org.wildfly.camel}</version>
+                              </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/wildfly-camel-modules</outputDirectory>
+                          </configuration>
+			</execution>
+                      </executions>
+		    </plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
@@ -344,6 +367,9 @@
                                         <unzip dest="${eap.home}" src="${project.build.directory}/${zip.file.name}"/>
                                         <copy file="${project.build.testOutputDirectory}/application-users.properties" todir="${eap.home}/standalone/configuration"/>
                                         <copy file="${project.build.testOutputDirectory}/application-roles.properties" todir="${eap.home}/standalone/configuration"/>
+                                        <copy todir="${eap.home}/modules/system/layers/fuse">
+                                            <fileset dir="${project.build.directory}/wildfly-camel-modules/modules/system/layers/fuse" includes="**/*"/>
+                                        </copy>
                                     </tasks>
                                 </configuration>
                                 <goals>
