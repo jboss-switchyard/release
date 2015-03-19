@@ -27,7 +27,7 @@
     <properties>
         <!-- These versions align with the Karaf container. -->
         <version.commons-beanutils>1.9.2</version.commons-beanutils>
-        <version.org.apache.deltaspike>1.0.0</version.org.apache.deltaspike>
+        <version.org.apache.deltaspike>1.2.1</version.org.apache.deltaspike>
         <version.org.apache.geronimo.specs.geronimo-annotation_1.0_spec>1.1.1</version.org.apache.geronimo.specs.geronimo-annotation_1.0_spec>
         <version.org.apache.geronimo.specs.geronimo-el_1.0_spec>1.0.1</version.org.apache.geronimo.specs.geronimo-el_1.0_spec>
         <version.org.apache.geronimo.specs.geronimo-jms_1.1_spec>1.1.1</version.org.apache.geronimo.specs.geronimo-jms_1.1_spec>
@@ -53,7 +53,7 @@
         <version.org.apache.xbean>3.18</version.org.apache.xbean>
         <version.org.eclipse.aether.aether-api>0.9.0.M3</version.org.eclipse.aether.aether-api>
         <version.org.jboss.marshalling.jboss-marshalling-osgi>1.4.5.Final</version.org.jboss.marshalling.jboss-marshalling-osgi>
-        <version.org.ops4j.pax.cdi>0.8.0</version.org.ops4j.pax.cdi>
+        <version.org.ops4j.pax.cdi>0.11.0</version.org.ops4j.pax.cdi>
         <!-- Version ranges for features allow more flexibility with dependencies, specifically when moving between community (Karaf) and product (Fuse). -->
         <version.org.apache.activemq.features>[5.9,6.0)</version.org.apache.activemq.features>
         <version.org.apache.camel.features>[2.14,3)</version.org.apache.camel.features>

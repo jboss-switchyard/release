@@ -23,12 +23,14 @@ import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
 import org.jboss.as.controller.OperationStepHandler;
 import org.jboss.dmr.ModelNode;
+import org.jboss.logging.Logger;
 import org.jboss.msc.service.ServiceController;
 import org.switchyard.admin.Application;
 import org.switchyard.admin.Binding;
 import org.switchyard.admin.Reference;
 import org.switchyard.admin.Service;
 import org.switchyard.admin.SwitchYard;
+import org.switchyard.as7.extension.ExtensionMessages;
 import org.switchyard.as7.extension.services.SwitchYardAdminService;
 
 /**
@@ -46,6 +48,8 @@ public final class SwitchYardSubsystemStartGateway implements OperationStepHandl
     private SwitchYardSubsystemStartGateway() {
         // forbidden inheritance
     }
+
+    private Logger _log = Logger.getLogger(SwitchYardSubsystemStartGateway.class);
 
     /*
      * (non-Javadoc)
@@ -89,8 +93,12 @@ public final class SwitchYardSubsystemStartGateway implements OperationStepHandl
                         binding.start();
                         context.stepCompleted();
                     } catch (Throwable e) {
-                        throw new OperationFailedException(new ModelNode().set("Error starting gateway: "
-                                + e.getMessage()));
+                        String err = ExtensionMessages.MESSAGES.errorStartingGateway() + e.getMessage();
+                        _log.error(err);
+                        if (_log.isDebugEnabled()) {
+                            _log.debug(err, e);
+                        }
+                        throw new OperationFailedException(new ModelNode().set(err));
                     }
                     return;
                 }

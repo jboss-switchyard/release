@@ -22,12 +22,5 @@
       <filtered>true</filtered>
     </file>
   </files>
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>/modules/system/layers/soa/org/apache/camel/main</outputDirectory>
-      <includes/>
-      <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
-      <useTransitiveDependencies>false</useTransitiveDependencies>
-    </dependencySet>
-  </dependencySets>
+  <dependencySets/>
 </component>
