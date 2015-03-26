@@ -107,17 +107,7 @@
                 <module>karaf</module>
             </modules>
         </profile>
-
-        <profile>
-            <id>brms</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>brms</module>
-            </modules>
-        </profile>
-
+      
         <profile>
             <id>openshift</id>
             <activation>
