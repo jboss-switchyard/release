@@ -75,6 +75,8 @@ public class JBoss7PackageScanClassResolver extends DefaultPackageScanClassResol
             String qn;
             if (fqn.indexOf("jar/") != -1) {
                 qn = fqn.substring(fqn.indexOf("jar/") + 4);
+            } else if (fqn.indexOf("war/WEB-INF/classes/") != -1) {
+                qn = fqn.substring(fqn.indexOf("war/WEB-INF/classes/") + 20);
             } else {
                 qn = fqn.substring(fqn.indexOf("/") + 1);
             }
