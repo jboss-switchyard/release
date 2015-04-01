@@ -18,6 +18,7 @@
     xmlns:fn="http://www.w3.org/2005/xpath-functions"
     xmlns:xdt="http://www.w3.org/2005/xpath-datatypes"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ns1="urn:jboss:domain:switchyard:1.0" 
     xmlns:as="urn:jboss:domain:1.6"
     xmlns:log="urn:jboss:domain:logging:1.4"
     exclude-result-prefixes="xs xsl xsi fn xdt as log">
@@ -29,11 +30,38 @@
         <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
 </xsl:template>
+
+
+
+
 <xsl:template match="//*[local-name()='subsystem' and contains(namespace-uri(),'urn:jboss:domain:switchyard')]/*[local-name()='modules']">
-    <xsl:copy>
-        <xsl:apply-templates select="@*|node()"/>
-                <module identifier="org.switchyard.component.rules" implClass="org.switchyard.component.rules.deploy.RulesComponent"/>
+    <xsl:choose>
+      <xsl:when test="not(ns1:module[@identifier='org.switchyard.component.bpm']) and not(ns1:module[@identifier='org.switchyard.component.rules'])">
+         <xsl:copy>
+		<xsl:apply-templates select="@*|node()"/>
                 <module identifier="org.switchyard.component.bpm" implClass="org.switchyard.component.bpm.deploy.BPMComponent"/>
-    </xsl:copy>
+		<module identifier="org.switchyard.component.rules" implClass="org.switchyard.component.rules.deploy.RulesComponent"/>
+        </xsl:copy> 
+      </xsl:when>
+       <xsl:when test="not(ns1:module[@identifier='org.switchyard.component.bpm'])">
+         <xsl:copy>
+		<xsl:apply-templates select="@*|node()"/>
+                <module identifier="org.switchyard.component.bpm" implClass="org.switchyard.component.bpm.deploy.BPMComponent"/>
+        </xsl:copy> 
+      </xsl:when>
+      <xsl:when test="not(ns1:module[@identifier='org.switchyard.component.rules'])">
+         <xsl:copy>
+		<xsl:apply-templates select="@*|node()"/>
+                <module identifier="org.switchyard.component.rules" implClass="org.switchyard.component.rules.deploy.RulesComponent"/>
+        </xsl:copy>      
+
+      </xsl:when>
+      <!-- Otherwise, we need to insert the jacc api dependency -->
+      <xsl:otherwise>
+        <xsl:copy>
+          <xsl:apply-templates select="@*|node()|text()" />
+        </xsl:copy>       
+      </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 </xsl:stylesheet>
