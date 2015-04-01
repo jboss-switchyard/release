@@ -185,7 +185,6 @@
                             <karafVersion>${version.org.apache.karaf}</karafVersion>
                             <descriptors>
                                 <descriptor>mvn:org.apache.karaf.assemblies.features/spring/${version.org.apache.karaf}/xml/features</descriptor>
-                                <descriptor>mvn:org.switchyard.karaf/switchyard/${project.version}/xml/features</descriptor>
                                 <descriptor>mvn:org.switchyard.brms.karaf/switchyard/${project.version}/xml/features</descriptor>
                             </descriptors>
                             <features>
