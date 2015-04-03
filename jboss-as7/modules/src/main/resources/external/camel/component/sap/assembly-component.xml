@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- - Copyright 2014 Red Hat Inc. and/or its affiliates and other contributors.
+ - Copyright 2013 Red Hat Inc. and/or its affiliates and other contributors.
  - 
  - Licensed under the Apache License, Version 2.0 (the "License");
  - you may not use this file except in compliance with the License.
@@ -17,10 +17,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <files>
     <file>
-      <source>src/main/resources/external/springframework/module.xml</source>
-      <outputDirectory>/modules/system/layers/soa/org/springframework/main</outputDirectory>
+      <source>src/main/resources/external/camel/component/sap/module.xml</source>
+      <outputDirectory>/modules/system/layers/soa/org/fusesource/camel/component/sap/main</outputDirectory>
       <filtered>true</filtered>
     </file>
   </files>
-  <dependencySets/>
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/modules/system/layers/soa/org/fusesource/camel/component/sap/main</outputDirectory>
+      <includes>
+        <include>org.fusesource:camel-sap</include>
+      </includes>
+      <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
+      <useTransitiveDependencies>false</useTransitiveDependencies>
+    </dependencySet>
+  </dependencySets>
 </component>

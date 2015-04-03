@@ -27,7 +27,7 @@
         <module name="org.switchyard.deploy"/>
         <module name="org.switchyard.jaxb-impl"/>
         <module name="org.apache.camel.core"/>
-        <module name="org.apache.camel.atom" export="true" optional="true">
+        <module name="org.apache.camel.component.atom" export="true" optional="true">
             <imports>
                 <include path="META-INF/services/org/apache/camel/component"/>
             </imports>
@@ -51,6 +51,6 @@
                 <include path="META-INF/services" />
             </exports>
         </module>
-        <module name="org.apache.abdera.abdera-parser" export="true"/>
+        <module name="org.apache.abdera.parser" export="true"/>
     </dependencies>
 </module>

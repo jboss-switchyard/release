@@ -8,6 +8,9 @@
         <configuration>
     	    <property name="startupTimeoutInSeconds">120</property>
 	        <property name="serverConfig">standalone-full.xml</property>
+<!-- Uncomment this to enable remote debug on server side
+                <property name="javaVmArguments">-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y</property>
+-->
         </configuration>
     </container>
 </arquillian>

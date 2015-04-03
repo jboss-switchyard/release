@@ -95,4 +95,11 @@ public interface ExtensionMessages {
     @Message(id = 40408, value = "Unable to start context : %s")
     RuntimeException unableToStartContext(String contextPath, @Cause Throwable t);
 
+    /**
+     * errorStoppingGateway method definition.
+     * @return String
+     */
+    @Message(id = 40409, value = "Error stopping gateway: ")
+    String errorStoppingGateway();
+
 }

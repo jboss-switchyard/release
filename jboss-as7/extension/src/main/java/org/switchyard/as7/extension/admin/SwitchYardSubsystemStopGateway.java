@@ -19,6 +19,7 @@ import static org.switchyard.as7.extension.SwitchYardModelConstants.SERVICE_NAME
 
 import javax.xml.namespace.QName;
 
+import org.apache.log4j.Logger;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
 import org.jboss.as.controller.OperationStepHandler;
@@ -43,6 +44,8 @@ public final class SwitchYardSubsystemStopGateway implements OperationStepHandle
      * The global instance for this operation.
      */
     public static final SwitchYardSubsystemStopGateway INSTANCE = new SwitchYardSubsystemStopGateway();
+
+    private Logger _log = Logger.getLogger(SwitchYardSubsystemStopGateway.class);
 
     private SwitchYardSubsystemStopGateway() {
         // forbidden inheritance
@@ -90,9 +93,12 @@ public final class SwitchYardSubsystemStopGateway implements OperationStepHandle
                         binding.stop();
                         context.stepCompleted();
                     } catch (Throwable e) {
-                        throw new OperationFailedException(new ModelNode().set(
-                                ExtensionMessages.MESSAGES.errorStartingGateway()
-                                + e.getMessage()));
+                        String err = ExtensionMessages.MESSAGES.errorStoppingGateway() + e.getMessage();
+                        _log.error(err);
+                        if (_log.isDebugEnabled()) {
+                            _log.debug(err, e);
+                        }
+                        throw new OperationFailedException(new ModelNode().set(err));
                     }
                     return;
                 }

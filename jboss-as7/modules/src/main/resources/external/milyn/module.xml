@@ -27,7 +27,7 @@
         <module name="org.apache.commons.logging" />
         <module name="org.freemarker" />
         <module name="org.jaxen" />
-        <module name="org.mvel" />
+        <module name="org.mvel.mvel2" />
 
         <!-- Add Support for CSV Parsing -->
         <module name="net.sf.opencsv" />

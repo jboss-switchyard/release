@@ -89,8 +89,6 @@
                 <module identifier="org.switchyard.component.camel.rss" implClass="org.switchyard.component.camel.rss.deploy.CamelRSSComponent"/>
                 <module identifier="org.switchyard.component.camel.sap" implClass="org.switchyard.component.camel.sap.deploy.CamelSapComponent"/>
                 <module identifier="org.switchyard.component.camel.sql" implClass="org.switchyard.component.camel.sql.deploy.CamelSqlComponent"/>
-                <module identifier="org.switchyard.component.rules" implClass="org.switchyard.component.rules.deploy.RulesComponent"/>
-                <module identifier="org.switchyard.component.bpm" implClass="org.switchyard.component.bpm.deploy.BPMComponent"/>
                 <module identifier="org.switchyard.component.bpel" implClass="org.switchyard.component.bpel.deploy.BPELComponent"/>
                 <module identifier="org.switchyard.component.http" implClass="org.switchyard.component.http.deploy.HttpComponent"/>
                 <module identifier="org.switchyard.component.jca" implClass="org.switchyard.component.jca.deploy.JCAComponent"/>
@@ -102,14 +100,14 @@
                 <module identifier="org.switchyard.component.resteasy" implClass="org.switchyard.component.resteasy.deploy.RESTEasyComponent"/>
             </modules>
             <extensions>
-                <extension identifier="org.apache.camel.bindy"/>
-                <extension identifier="org.apache.camel.hl7"/>
-                <extension identifier="org.apache.camel.mina2"/>
-                <extension identifier="org.apache.camel.mvel"/>
-                <extension identifier="org.apache.camel.ognl"/>
-                <extension identifier="org.apache.camel.jaxb"/>
-                <extension identifier="org.apache.camel.saxon"/>
-                <extension identifier="org.apache.camel.soap"/>
+                <extension identifier="org.apache.camel.component.bindy"/>
+                <extension identifier="org.apache.camel.component.hl7"/>
+                <extension identifier="org.apache.camel.component.mina2"/>
+                <extension identifier="org.apache.camel.component.mvel"/>
+                <extension identifier="org.apache.camel.component.ognl"/>
+                <extension identifier="org.apache.camel.component.jaxb"/>
+                <extension identifier="org.apache.camel.component.saxon"/>
+                <extension identifier="org.apache.camel.component.soap"/>
             </extensions>
         </subsystem>
     </xsl:copy>
