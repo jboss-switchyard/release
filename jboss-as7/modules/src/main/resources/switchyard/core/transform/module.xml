@@ -21,6 +21,7 @@
     </resources>
 
     <dependencies>
+        <module name="javaee.api"/>
         <module name="javax.api"/>
         <module name="net.sf.dozer" export="true"/>
         <module name="org.jboss.logging"/>
