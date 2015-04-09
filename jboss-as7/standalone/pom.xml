@@ -26,5 +26,6 @@
     <description>SwitchYard AS7 Standalone Parent</description>
     <modules>
         <module>dist</module>
+        <module>test</module>
     </modules>
 </project>

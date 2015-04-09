@@ -152,32 +152,26 @@
         </testResources>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
-                    <execution>
-                        <id>stage-jboss</id>
-                        <phase>generate-sources</phase>
-                        <goals>
+                   <execution>
+                          <id>unpack-wildfly-camel-modules</id>
+                          <phase>generate-sources</phase>
+                          <goals>
                             <goal>unpack</goal>
-                        </goals>
-                        <configuration>
+                          </goals>
+                          <configuration>
                             <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-dist</artifactId>
-                                    <type>zip</type>
-                                </artifactItem>
+                              <artifactItem>
+                                <groupId>org.wildfly.camel</groupId>
+                                <artifactId>wildfly-camel-modules</artifactId>
+                                <type>tar.gz</type>
+                                <version>${version.org.wildfly.camel}</version>
+                              </artifactItem>
                             </artifactItems>
-                            <outputDirectory>${staging.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
+                            <outputDirectory>${staging.jboss.dir}</outputDirectory>
+                          </configuration>
+			</execution>
                     <execution>
                         <id>stage-jboss-configs</id>
                         <phase>generate-sources</phase>
@@ -213,44 +207,6 @@
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${staging.jboss.dir}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-tests</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.switchyard</groupId>
-                                    <artifactId>switchyard-as7-tests</artifactId>
-                                    <type>test-jar</type>
-                                    <version>${project.version}</version>
-                                </artifactItem>
-                            </artifactItems>
-                            <excludes>application-roles.properties, application-users.properties</excludes>
-                            <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-users</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.switchyard</groupId>
-                                    <artifactId>switchyard-as7-tests</artifactId>
-                                    <type>test-jar</type>
-                                    <version>${project.version}</version>
-                                </artifactItem>
-                            </artifactItems>
-                            <includes>application-roles.properties, application-users.properties</includes>
-                            <outputDirectory>${staging.jboss.dir}/standalone/configuration</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -320,76 +276,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Configure the Surefire plugin for running the tests.  Be sure to make these same setting if running in your IDE... -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>-Xms512m -Xmx512m</argLine>
-                    <forkMode>always</forkMode>
-                    <environmentVariables>
-                        <JBOSS_HOME>${wildfly.home}</JBOSS_HOME>
-                        <SWITCHYARD_VERSION>${project.version}</SWITCHYARD_VERSION>
-                    </environmentVariables>
-                    <systemPropertyVariables>
-                        <arquillian.launch>jboss</arquillian.launch>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                        <jboss.home>${wildfly.home}</jboss.home>
-                        <module.path>${wildfly.home}/modules</module.path>
-                        <jboss.options>-Xms256m -Xmx1024m -XX:MaxPermSize=512m</jboss.options>
-                    </systemPropertyVariables>
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                    <excludes>
-                        <exclude>**/*$*</exclude>
-                        <exclude>**/RemoteInvokerQuickstartTest*</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <property>
-                    <name>!wildfly.home</name>
-                </property>
-            </activation>
-            <properties>
-                <wildfly.home>${switchyard.wildfly.home}</wildfly.home>
-            </properties>
-        </profile>
-        <profile>
-            <id>manual</id>
-            <activation>
-                <property>
-                    <name>wildfly.home</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>prepare</id>
-                                <phase>process-test-resources</phase>
-                                <configuration>
-                                    <tasks>
-                                        <unzip dest="${wildfly.home}" src="${project.build.directory}/${zip.file.name}"/>
-                                        <copy file="${staging.jboss.dir}/standalone/configuration/application-users.properties" todir="${wildfly.home}/standalone/configuration"/>
-                                        <copy file="${staging.jboss.dir}/standalone/configuration/application-roles.properties" todir="${wildfly.home}/standalone/configuration"/>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
