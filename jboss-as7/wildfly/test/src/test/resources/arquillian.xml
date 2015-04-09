@@ -8,7 +8,7 @@
 
     <container qualifier="jboss" default="true">
         <configuration>
-            <property name="serverConfig">../../../../test-classes/standalone-test.xml</property>
+            <property name="serverConfig">standalone-test.xml</property>
         </configuration>
     </container>
     <!--<engine>

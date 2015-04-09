@@ -23,9 +23,11 @@
     <artifactId>switchyard-release</artifactId>
     <packaging>pom</packaging>
     <name>SwitchYard: Distribution</name>
-    <description>SwitchYard Distribution</description>
-    <properties>
+    <description>SwitchYard Distribution</description> 
+   <properties>
         <version.distro>2.0</version.distro>
+        <eap.download.url>http://porkchop.redhat.com</eap.download.url>
+	<eap.download.url.path>released/JBEAP-6/6.4.0-Beta/jboss-eap-6.4.0.Beta.zip</eap.download.url.path>
     </properties>
     <scm>
         <connection>scm:git:https://github.com/jboss-switchyard/release.git</connection>
@@ -104,7 +106,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>karaf</module>
+
             </modules>
         </profile>
       

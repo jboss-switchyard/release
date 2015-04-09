@@ -15,6 +15,7 @@
                 <include>standalone/**/standalone*.xml</include>
                 <include>domain/**/domain*.xml</include>
                 <include>modules/system/layers/soa/**</include>
+                <include>modules/system/layers/fuse/**</include>
                 <include>modules/layers.conf</include>
                 <include>quickstarts/**</include>
             </includes>
@@ -26,6 +27,17 @@
             <fileMode>644</fileMode>
             <directoryMode>755</directoryMode>
             <outputDirectory>${distro.root.dir}</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>application-users.properties</include>
+                <include>application-roles.properties</include>
+            </includes>
+
+            <fileMode>644</fileMode>
+            <directoryMode>755</directoryMode>
+            <outputDirectory>${distro.root.dir}/standalone/configuration</outputDirectory>
         </fileSet>
     </fileSets>
 </assembly>
