@@ -71,6 +71,7 @@
       <componentDescriptor>src/main/resources/external/apache/deltaspike/core-api/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/batik/assembly-component.xml</componentDescriptor>
       <componentDescriptor>src/main/resources/external/beanshell/assembly-component.xml</componentDescriptor>
+      <componentDescriptor>src/main/resources/external/spring/assembly-component.xml</componentDescriptor>
 
       <!--Camel assemblies -->
       <componentDescriptor>src/main/resources/external/camel/cdi/assembly-component.xml</componentDescriptor>
