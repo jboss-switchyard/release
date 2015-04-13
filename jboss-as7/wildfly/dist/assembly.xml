@@ -20,8 +20,10 @@
                 <include>quickstarts/**</include>
             </includes>
             <excludes>
+		<exclude>quickstarts/demos/webapp-deploy/**</exclude>
                 <exclude>quickstarts/bpel-xts-subordinate-wsba/**</exclude>
                 <exclude>quickstarts/bpel-xts-wsat/**</exclude>
+ 		<exclude>quickstarts/transform-jaxb/**</exclude>
                 <exclude>standalone/configuration/standalone_xml_history/**</exclude>
             </excludes>
             <fileMode>644</fileMode>
