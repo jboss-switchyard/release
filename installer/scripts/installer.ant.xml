@@ -187,7 +187,7 @@
          ################################################################# -->
     <target name="install-bpel-console" 
         description="Install BPEL Console to SwitchYard Runtime"
-        depends="download-overlord-commons, download-bpel-console, get-jboss-path">
+        depends="download-bpel-console, get-jboss-path">
         
         <condition property="BPELConsoleAlreadyInstalled">
             <or>
@@ -209,19 +209,10 @@
             <fileset dir="res/switchyard-tools-${tools.version}/configuration"/>
         </copy>
 
-		<ant antfile="build.xml" target="install"
-				dir="res/overlord-commons" >
-			<property name="overlord-commons.appserver.dir" value="${EAP_PATH}" />
-			<property name="overlord-commons.idp.file" value="${basedir}/res/overlord-commons/overlord-commons-idp-eap6.war" />
-			<property name="overlord-commons.services.file" value="${basedir}/res/overlord-commons/overlord-commons-services.jar" />
-			<property name="overlord-commons.auth.file" value="${basedir}/res/overlord-commons/overlord-commons-auth.jar" />
-			<property name="overlord-commons.auth.jboss7.file" value="${basedir}/res/overlord-commons/overlord-commons-auth-jboss7.jar" />
-			<property name="overlord-commons.auth.tomcat7.file" value="${basedir}/res/overlord-commons/overlord-commons-auth-tomcat7.jar" />
-		    <property name="overlord-commons.ant.jar" value="${basedir}/res/overlord-commons/overlord-commons-ant.jar" />
-			<!-- Temporary workaround - version needs to be correct in the called ant script -->
-			<property name="overlord-commons.version" value="2.0.2.Final" />
-			
-		</ant>
+        <echo/>
+        <echo>In order to use the bpel-console, please use the add-user.sh script to add an Application</echo>
+        <echo>User with membership in the following groups: user,manager,administrator</echo>
+        <echo/>
 
     </target>
     
@@ -240,31 +231,6 @@
     
     <target name="extract-sy-tools-bpel-console" depends="download-sy-tools">
         <unzip src="res/switchyard-tools.zip" dest="res/" overwrite="true"/>
-    </target>
-    
-    
-    <target name="download-overlord-commons-check">
-        <condition property="overlord-commons.not.available">
-            <not>
-                <available file="res/overlord-commons-installer.jar"/>
-            </not>
-        </condition>
-    </target>
-    
-    <target name="download-overlord-commons" depends="download-overlord-commons-check" if="overlord-commons.not.available">
-        <echo>Downloading Overlord Commons Installer ...</echo>
-        <get src="${overlord-commons-installer.url}" dest="res/overlord-commons-installer.jar"/>
-
-        <echo>Extracting Overlord Commons Installer ...</echo>
-        <unjar src="res/overlord-commons-installer.jar" dest="res/overlord-commons" overwrite="true"/>
-
-        <echo>Retrieve Overlord Commons Artifacts ...</echo>
-        <get src="${overlord-commons-idp-eap6.url}" dest="res/overlord-commons/overlord-commons-idp-eap6.war"/>
-        <get src="${overlord-commons-services.url}" dest="res/overlord-commons/overlord-commons-services.jar"/>
-        <get src="${overlord-commons-auth.url}" dest="res/overlord-commons/overlord-commons-auth.jar"/>
-        <get src="${overlord-commons-auth-jboss7.url}" dest="res/overlord-commons/overlord-commons-auth-jboss7.jar"/>
-        <get src="${overlord-commons-auth-tomcat7.url}" dest="res/overlord-commons/overlord-commons-auth-tomcat7.jar"/>
-        <get src="${overlord-commons-ant.url}" dest="res/overlord-commons/overlord-commons-ant.jar"/>
     </target>
     
 </project>
