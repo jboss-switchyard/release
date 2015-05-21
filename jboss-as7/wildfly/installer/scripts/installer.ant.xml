@@ -170,7 +170,9 @@
     <target name="install-bpel-console" 
         description="Install BPEL Console to SwitchYard Runtime"
         depends="download-bpel-console, get-jboss-path">
-        
+       
+	<fail>The bpel-console is not supported on WildFly 8.0.0.Final currently due to SWITCHYARD-2006 (https://issues.jboss.org/browse/SWITCHYARD-2006).   This will be fixed in a future release.</fail>
+	 
         <condition property="BPELConsoleAlreadyInstalled">
             <or>
                 <available file="switchyard-bpel-console.war" filepath="${WILDFLY_PATH}/standalone/deployments"/>

@@ -9,7 +9,8 @@ JBoss Enterprise Application Platform installation.
 Prerequisites:
     1.  Java Runtime
     2.  Fully installed Ant available on the command line execution PATH.
-    3.  A WildFly installation.
+    3.  A WildFly installation.  SwitchYard 2.0.0.Final has been tested against Wildfly 8.0.0.Final 
+
 
 Instructions:
     1.  Open a terminal command prompt.
@@ -20,10 +21,6 @@ This script will ask you for the path to the WildFly distribution and will
 install all the necessary files required to run SwitchYard applications on 
 WildFly including the set of quickstart example applications.
 
-Installing BPEL Console - Coming soon
+Installing BPEL Console
 -----------------------
-Instructions:
-    1. Execute command "ant install-bpel-console"
-
-The script will ask for the location of your WildFly install where the console server and webapp will be deployed.
-
+The BPEL console is not executing properly upon WildFly 8.0.0.Final due to (https://issues.jboss.org/browse/SWITCHYARD-2006).   This issue and bpel-console support will be fixed in a future release.
