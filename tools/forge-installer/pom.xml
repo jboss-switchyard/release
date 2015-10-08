@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-release</artifactId>
-        <version>1.1.1-p11</version>
+        <version>1.1.1-p12</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -28,6 +28,12 @@
         <dependency>
             <groupId>org.jboss.forge</groupId>
             <artifactId>forge-shell</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse</groupId>
+                    <artifactId>osgi</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.forge</groupId>
