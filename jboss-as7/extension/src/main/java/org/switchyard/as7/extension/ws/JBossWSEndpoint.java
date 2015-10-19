@@ -14,17 +14,29 @@
  
 package org.switchyard.as7.extension.ws;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.ws.WebServiceException;
 
 import org.jboss.as.security.plugins.SecurityDomainContext;
+import org.jboss.as.server.CurrentServiceContainer;
+import org.jboss.as.webservices.publish.EndpointPublisherImpl;
 import org.jboss.as.webservices.security.SecurityDomainContextAdaptor;
+import org.jboss.as.webservices.util.WSServices;
 import org.jboss.logging.Logger;
+import org.jboss.metadata.parser.jbossweb.JBossWebMetaDataParser;
+import org.jboss.metadata.parser.util.NoopXMLResolver;
+import org.jboss.metadata.property.PropertyReplacers;
+import org.jboss.metadata.web.jboss.JBossWebMetaData;
+import org.jboss.msc.service.ServiceContainer;
+import org.jboss.msc.service.ServiceTarget;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesFactory;
 import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
@@ -40,6 +52,7 @@ import org.switchyard.component.soap.WebServicePublishException;
 import org.switchyard.component.soap.config.model.EndpointConfigModel;
 import org.switchyard.component.soap.config.model.SOAPBindingModel;
 import org.switchyard.component.soap.endpoint.BaseWebService;
+import org.switchyard.deploy.internal.Deployment;
 
 /**
  * Wrapper for JBossWS endpoints.
@@ -77,12 +90,13 @@ public class JBossWSEndpoint implements Endpoint {
      * {@inheritDoc}
      */
     public void publish(ServiceDomain domain, String contextRoot, Map<String, String> urlPatternToClassNameMap, WebservicesMetaData wsMetadata, SOAPBindingModel bindingModel, InboundHandler handler) throws Exception {
+        ClassLoader deploymentClassLoader = (ClassLoader)domain.getProperty(Deployment.CLASSLOADER_PROPERTY);
         EndpointConfigModel epcModel = bindingModel.getEndpointConfig();
         JBossWebservicesMetaData jbwsMetadata = null;
         if (epcModel != null) {
             String configFile = epcModel.getConfigFile();
             if (configFile != null) {
-                URL jbwsURL = Classes.getResource(configFile, getClass());
+                URL jbwsURL = Classes.getResource(configFile, deploymentClassLoader, getClass().getClassLoader());
                 jbwsMetadata = new JBossWebservicesMetaData(jbwsURL);
                 jbwsMetadata.setConfigFile(configFile);
             }
@@ -95,7 +109,19 @@ public class JBossWSEndpoint implements Endpoint {
             }
         }
         ClassLoader tccl = Classes.getTCCL();
-        _context = _publisher.publish(contextRoot, tccl, urlPatternToClassNameMap, wsMetadata, jbwsMetadata);
+        if (_publisher instanceof EndpointPublisherImpl) {
+            JBossWebMetaData jbwMetadata = getJBossWebMetaData(deploymentClassLoader);
+            if (jbwMetadata != null) {
+                // cast hack
+                EndpointPublisherImpl pubImpl = (EndpointPublisherImpl)_publisher;
+                ServiceTarget baseTarget = currentServiceContainer().getService(WSServices.CONFIG_SERVICE).getServiceContainer();
+                _context = pubImpl.publish(baseTarget, contextRoot, tccl, urlPatternToClassNameMap, jbwMetadata, wsMetadata, jbwsMetadata);
+            }
+        }
+        if (_context == null) {
+            // exposed by the public API
+            _context = _publisher.publish(contextRoot, tccl, urlPatternToClassNameMap, wsMetadata, jbwsMetadata);
+        }
         for (org.jboss.wsf.spi.deployment.Endpoint ep : _context.getEndpoints()) {
             BaseWebService wsProvider = (BaseWebService)ep.getInstanceProvider().getInstance(BaseWebService.class.getName()).getValue();
             wsProvider.setInvocationClassLoader(tccl);
@@ -110,6 +136,49 @@ public class JBossWSEndpoint implements Endpoint {
         }
     }
 
+    private JBossWebMetaData getJBossWebMetaData(ClassLoader deploymentClassLoader) {
+        JBossWebMetaData jbwMetadata = null;
+        InputStream is = null;
+        try {
+            URL jbwURL = Classes.getResource("WEB-INF/jboss-web.xml", deploymentClassLoader, getClass().getClassLoader());
+            if (jbwURL == null) {
+                jbwURL = Classes.getResource("META-INF/jboss-web.xml", deploymentClassLoader, getClass().getClassLoader());
+            }
+            if (jbwURL != null) {
+                is = jbwURL.openStream();
+                XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+                inputFactory.setXMLResolver(NoopXMLResolver.create());
+                XMLStreamReader xmlReader = inputFactory.createXMLStreamReader(is);
+                jbwMetadata = JBossWebMetaDataParser.parse(xmlReader, PropertyReplacers.noop());
+            }
+        } catch (Exception e) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.error("Unable to load jboss-web metadata", e);
+            }
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Throwable t) {
+                    // keep checkstyle happy ("at least one statement")
+                    t.getMessage();
+                }
+            }
+        }
+        return jbwMetadata;
+    }
+    
+    private ServiceContainer currentServiceContainer() {
+        if(System.getSecurityManager() == null) {
+            return CurrentServiceContainer.getServiceContainer();
+        }
+        return AccessController.doPrivileged(new PrivilegedAction<ServiceContainer>() {
+            @Override
+            public ServiceContainer run() {
+                return CurrentServiceContainer.getServiceContainer();
+            }
+        });
+    }
+    
     /**
      * {@inheritDoc}
      */
