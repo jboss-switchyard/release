@@ -383,9 +383,12 @@
                 <property>
                     <name>jboss.home</name>
                 </property>
+                <!-- This condition is no longer valid as the EAP6.1.2 and 6.1.3 are now using jbossws-spi-2.1.3.
+                     I believe noone would use EAP6.1.Alpha now, so just disabled it.
                 <file>
                     <exists>${jboss.home}/modules/system/layers/base/org/jboss/ws/spi/main/jbossws-spi-2.1.2.Final-redhat-1.jar</exists>
                 </file>
+                -->
             </activation>
             <properties>
                 <zip.file.name>${distro.file.final}.zip</zip.file.name>
