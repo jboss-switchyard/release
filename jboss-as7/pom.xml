@@ -20,7 +20,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>switchyard-container-parent</artifactId>
+    <artifactId>switchyard-as7-parent</artifactId>
     <packaging>pom</packaging>
     <name>SwitchYard: Container Parent</name>
     <description>SwitchYard Container Parent</description>
