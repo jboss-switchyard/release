@@ -20,7 +20,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>switchyard-container-parent</artifactId>
+    <artifactId>switchyard-as7-parent</artifactId>
     <packaging>pom</packaging>
     <name>SwitchYard: Container Parent</name>
     <description>SwitchYard Container Parent</description>
@@ -486,7 +486,7 @@
         </dependency>
         <dependency>
             <groupId>org.switchyard.quickstarts.demos</groupId>
-            <artifactId>switchyard-quickstart-demo-policy-transaction</artifactId>
+            <artifactId>switchyard-demo-policy-transaction</artifactId>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
