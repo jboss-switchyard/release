@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.switchyard</groupId>
         <artifactId>switchyard-as7-standalone-parent</artifactId>
-        <version>1.1.1-p12</version>
+        <version>1.1.1-p13</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -413,8 +413,8 @@
                                 <configuration>
                                     <tasks>
                                         <unzip dest="${jboss.home}" src="${project.build.directory}/${zip.file.name}"/>
-                                        <copy todir="${jboss.home}/standalone/configuration" file="${staging.jboss.dir}/standalone/configuration/application-users.properties"/>
-                                        <copy todir="${jboss.home}/standalone/configuration" file="${staging.jboss.dir}/standalone/configuration/application-roles.properties"/>
+                                        <copy file="${staging.jboss.dir}/standalone/configuration/application-users.properties" todir="${jboss.home}/standalone/configuration"/>
+                                        <copy file="${staging.jboss.dir}/standalone/configuration/application-roles.properties" todir="${jboss.home}/standalone/configuration"/>
                                     </tasks>
                                 </configuration>
                                 <goals>
