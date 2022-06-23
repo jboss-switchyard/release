@@ -25,7 +25,7 @@
     <name>SwitchYard: Wildfly Standalone Parent</name>
     <description>SwitchYard Wildfly Standalone Parent</description>
     <properties>
-        <version.wildfly>8.0.0.Final</version.wildfly>
+        <version.wildfly>21.0.1.Final</version.wildfly>
         <!-- Required for the module.xml file generation. -->
         <version.io.netty>3.6.6.Final</version.io.netty>
         <!-- Overridden version settings. -->
